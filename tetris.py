@@ -72,7 +72,10 @@ class Tetromino_I(Tetromino_Parent):
 
 
         # Rotation 0:
+        #
+        #
         #   1   2   3   4
+        #
 
         # Rotation 1:
         #           1
@@ -89,12 +92,12 @@ class Tetromino_I(Tetromino_Parent):
             if (board[next_cubes[0]][0] != 5) and (board[next_cubes[1]][0] != 5) and (board[next_cubes[2]][0] != 5) and (board[next_cubes[3]][0] != 5):
 
                 if self.rotation == 0:
-                    if ((next_cubes[0] // num_cols) >= 1) and ((next_cubes[0] // num_cols) != num_rows - 1):
+                    if ((self.cubes[0] // num_cols) > 1) and ((self.cubes[0] // num_cols) != num_rows - 1):
                         self.cubes = next_cubes
                         self.rotation = 1
 
                 elif self.rotation == 1:
-                    if ((next_cubes[0] % num_cols) >= 1) and ((next_cubes[0] % num_cols) != num_cols):
+                    if ((self.cubes[0] % num_cols) > 1) and ((self.cubes[0] % num_cols) != num_cols - 1):
                         self.cubes = next_cubes
                         self.rotation = 0
 
