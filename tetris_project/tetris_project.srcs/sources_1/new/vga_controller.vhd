@@ -2,7 +2,7 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 05/17/2022 04:42:05 PM
+-- Create Date: 05/17/2022 04:51:34 PM
 -- Design Name: 
 -- Module Name: vga_controller - Behavioral
 -- Project Name: 
@@ -32,7 +32,14 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity vga_controller is
---  Port ( );
+    Port ( clk : in STD_LOGIC;
+           hsync : out STD_LOGIC;
+           vsync : out STD_LOGIC;
+           pixel_x : out STD_LOGIC_VECTOR(9 downto 0);
+           pixel_y : out STD_LOGIC_VECTOR(9 downto 0);
+           vblank : out STD_LOGIC;
+           hblank : out STD_LOGIC;
+           video_on : out STD_LOGIC);
 end vga_controller;
 
 architecture Behavioral of vga_controller is
