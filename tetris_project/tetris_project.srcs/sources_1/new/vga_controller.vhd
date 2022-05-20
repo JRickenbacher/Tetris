@@ -33,8 +33,8 @@ entity vga_controller is
     Port ( pixel_clk : in STD_LOGIC;
            hsync : out STD_LOGIC;
            vsync : out STD_LOGIC;
-           pixel_x : out STD_LOGIC_VECTOR(9 downto 0);
-           pixel_y : out STD_LOGIC_VECTOR(9 downto 0);
+           row : out STD_LOGIC_VECTOR(4 downto 0);
+           col : out STD_LOGIC_VECTOR(4 downto 0);
            vblank : out STD_LOGIC;
            hblank : out STD_LOGIC;
            video_on : out STD_LOGIC);
@@ -44,7 +44,8 @@ architecture Behavioral of vga_controller is
 
 ------------SIGNAL DECLARATIONS------------
 signal h_count, v_count : unsigned(9 downto 0) := (others => '0');
-signal h_tc, v_tc, h_video_on, v_video_on: STD_LOGIC := '0';
+signal v_block_enable, h_tc, v_tc, h_video_on, v_video_on, h_block_tc, v_block_tc: STD_LOGIC := '0';
+signal v_block_count, h_block_count, row_count, col_count : unsigned(4 downto 0) := (others => '0');
 
 begin
 
@@ -64,6 +65,38 @@ if rising_edge(pixel_clk) then
     else
         h_count <= h_count + 1; --increment h_count
     end if;  
+    
+    
+    -- BLOCK COUNT FOR ROW COUNT
+    if (v_block_enable = '1') then
+        if (v_block_tc = '1') then
+            v_block_count <= "00000";
+        else
+        v_block_count <= v_block_count + 1;
+        end if;
+    end if;
+   
+   -- BLOCK COUNT FOR COLUMN COUNT
+    if (h_block_tc = '1') then
+        h_block_count <= "00000";
+    elsif (h_video_on = '1') then
+        h_block_count <= h_block_count + 1;
+    end if;
+    
+    -- ROW COUNT
+    if ((v_count = 479 and h_count = 639) or (v_video_on = '0')) then
+        row_count <= "00000";
+    elsif (v_block_tc = '1' and v_block_enable = '1') then
+        row_count <= row_count + 1;
+    end if;
+   
+   -- COL COUNT
+    if (h_video_on = '0') then
+        col_count <= "00000";
+    elsif (h_block_tc = '1') then
+        col_count <= col_count + 1;
+    end if;
+
 end if;
 
 end process counters;
@@ -83,11 +116,14 @@ vblank <= not(v_video_on);
 --HIGH when both coordinates are on screen, otherwise LOW
 video_on <= (v_video_on and h_video_on);
 
-pixel_x <= STD_LOGIC_VECTOR(h_count);
-pixel_y <= STD_LOGIC_VECTOR(v_count);
+row <= STD_LOGIC_VECTOR(row_count);
+col <= STD_LOGIC_VECTOR(col_count);
 
 --Terminal Counts
 h_tc <= '1' when (h_count = 799) else '0';
 v_tc <= '1' when (v_count = 520) else '0';
+v_block_enable <= '1' when (h_count = 639 and v_video_on = '1') else '0';
+v_block_tc <= '1' when (v_block_count = 19) else '0';
+h_block_tc <= '1' when (h_block_count = 19) else '0';
 
 end Behavioral;

@@ -14,7 +14,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity vga_test_pattern is
-	port(	row, column			: in  std_logic_vector( 9 downto 0);
+	port(	row, column			: in  std_logic_vector( 4 downto 0);
 			color				: out std_logic_vector(11 downto 0) );
 end vga_test_pattern;
 
@@ -38,7 +38,7 @@ architecture Behavioral of vga_test_pattern is
     constant DARK_BLU   : std_logic_vector(11 downto 0) := "000001001000";
     constant DARK_PUR   : std_logic_vector(11 downto 0) := "010000001000";
 
-	signal urow, ucolumn: unsigned(9 downto 0);
+	signal urow, ucolumn: unsigned(4 downto 0);
 	
 begin
 
@@ -49,60 +49,12 @@ pixel_color: process(urow, ucolumn)
 begin	
 		-- large vertical color bands, evenly spaced horizontally, 320px vertically
 		-- Gray, yellow, cyan, green, purple, red, blue
-		if (ucolumn >= 0) and (ucolumn < 92) and (urow >= 0) and (urow < 320) then
-			color <= WHITE;
-		elsif (ucolumn >= 92) and (ucolumn < 184) and (urow >= 0) and (urow < 320) then
-			color <= YELLOW;
-		elsif (ucolumn >= 184) and (ucolumn < 276) and (urow >= 0) and (urow < 320) then
-			color <= CYAN;
-		elsif (ucolumn >= 276) and (ucolumn < 368) and (urow >= 0) and (urow < 320) then
-			color <= GREEN;
-		elsif (ucolumn >= 368) and (ucolumn < 460) and (urow >= 0) and (urow < 320) then
-			color <= MAGENTA;
-		elsif (ucolumn >= 460) and (ucolumn < 552) and (urow >= 0) and (urow < 320) then
-			color <= RED;
-		elsif (ucolumn >= 552) and (ucolumn <= 640) and (urow >= 0) and (urow < 320) then
-			color <= BLUE;
-			
-		-- small colored rectangles from 320->360 pixels, evenly spaced horizontally
-		-- blue, black, purple, black, cyan, black, gray
-		elsif (ucolumn >= 0) and (ucolumn < 92) and (urow >= 320) and (urow < 360) then
-			color <= BLUE;
-		elsif (ucolumn >= 92) and (ucolumn < 184) and (urow >= 320) and (urow < 360) then
+		if (ucolumn < 11) or (ucolumn >= 21) or (urow < 2) or (urow >= 23) then
 			color <= BLACK;
-		elsif (ucolumn >= 184) and (ucolumn < 276) and (urow >= 320) and (urow < 360) then
-			color <= MAGENTA;
-		elsif (ucolumn >= 276) and (ucolumn < 368) and (urow >= 320) and (urow < 360) then
-			color <= BLACK;
-		elsif (ucolumn >= 368) and (ucolumn < 460) and (urow >= 320) and (urow < 360) then
-			color <= CYAN;
-		elsif (ucolumn >= 460) and (ucolumn < 552) and (urow >= 320) and (urow < 360) then
-			color <= BLACK;
-		elsif (ucolumn >= 552) and (ucolumn <= 640) and (urow >= 320) and (urow < 360) then
-			color <= WHITE;
-			
-		-- bottom large blocks
-		elsif (ucolumn >= 0) and (ucolumn < 114) and (urow >= 360) and (urow <= 480) then
-			color <= DARK_BLU;
-		elsif (ucolumn >=114) and (ucolumn < 228) and (urow >= 360) and (urow <= 480) then
-			color <= WHITE100;
-		elsif (ucolumn >= 228) and (ucolumn < 342) and (urow >= 360) and (urow <= 480) then
-			color <= DARK_PUR;
-		elsif (ucolumn >= 342) and (ucolumn < 460) and (urow >= 360) and (urow <= 480) then
-			color <= BLACK75; 
-	    -- vertical pluge pattern
-		elsif (ucolumn >= 460) and (ucolumn < 491) and (urow >= 360) and (urow <= 480) then
-			color <= BLACK;
-		elsif (ucolumn >= 491) and (ucolumn < 521) and (urow >= 360) and (urow <= 480) then
-			color <= GRAY0;
-		elsif (ucolumn >= 521) and (ucolumn < 552) and (urow >= 360) and (urow <= 480) then
-			color <= GRAY1;
-		elsif (ucolumn >= 552) and (ucolumn <= 640) and (urow >= 360) and (urow <= 480) then
-			color <= BLACK75;
-					
-		-- black for any gaps, shouldn't be any
+		elsif ((ucolumn >= 15) and (ucolumn < 16)) and ((urow >= 5) and (urow < 9)) then
+		      color <= CYAN;
 		else
-			color <= BLACK;
+			color <= WHITE;
 		end if;
 end process pixel_color;
 

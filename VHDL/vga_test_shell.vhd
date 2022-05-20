@@ -5,7 +5,7 @@
 -- Create Date: 05/17/2022 06:20:28 PM
 -- Design Name: 
 -- Module Name: vga_test_shell - Behavioral
--- Project Name: VGA Test - Shell
+-- Project Name: Tetris
 -- Target Devices: Basys 3 (Artix 7)
 -- Tool Versions: 
 -- Description: A shell to test the controller for VGA outputs
@@ -58,8 +58,8 @@ component vga_controller is
     Port ( pixel_clk : in STD_LOGIC;
            hsync : out STD_LOGIC;
            vsync : out STD_LOGIC;
-           pixel_x : out STD_LOGIC_VECTOR(9 downto 0);
-           pixel_y : out STD_LOGIC_VECTOR(9 downto 0);
+           row : out STD_LOGIC_VECTOR(4 downto 0);
+           col : out STD_LOGIC_VECTOR(4 downto 0);
            vblank : out STD_LOGIC;
            hblank : out STD_LOGIC;
            video_on : out STD_LOGIC);
@@ -69,7 +69,7 @@ end component;
 --VGA Test Pattern
 --+++++++++++++++++++++++++++++++++
 component vga_test_pattern is
-	port(	row, column			: in  std_logic_vector( 9 downto 0);
+	port(	row, column			: in  std_logic_vector( 4 downto 0);
 			color				: out std_logic_vector(11 downto 0) );
 end component;
 
@@ -84,8 +84,8 @@ signal pixel_clk_signal : STD_LOGIC := '0';
 --+++++++++++++++++++++++++++++++++
 --VGA Controller
 --+++++++++++++++++++++++++++++++++
-signal pixel_x_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
-signal pixel_y_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+signal row_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
+signal col_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
 
 --signal hsynch_signal : STD_LOGIC := '0';
 --signal vsynch_signal : STD_LOGIC := '0';
@@ -110,8 +110,8 @@ controller: vga_controller port map(
     pixel_clk => pixel_clk_signal,
     hsync => hsynch_port,
     vsync => vsynch_port,
-    pixel_x => pixel_x_signal,
-    pixel_y => pixel_y_signal,
+    row => row_signal,
+    col => col_signal,
     vblank => open,
     hblank => open,
     video_on => open);
@@ -120,8 +120,8 @@ controller: vga_controller port map(
 --Wire VGA Test Block into the shell:
 --+++++++++++++++++++++++++++++++++
 test_block: vga_test_pattern port map(
-    row => pixel_y_signal,
-    column => pixel_x_signal,
+    row => row_signal,
+    column => col_signal,
     color => color_port);
 
 end Behavioral;
