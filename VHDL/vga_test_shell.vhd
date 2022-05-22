@@ -31,10 +31,10 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity vga_test_shell is
     Port ( clk_ext_port : in STD_LOGIC;
-           w_row_port : in STD_LOGIC_VECTOR(4 downto 0);
-           w_col_port : in STD_LOGIC_VECTOR(4 downto 0);
-           w_in_port : in STD_LOGIC_VECTOR(3 downto 0);
-           w_en_port : in STD_LOGIC;
+           --w_row_port : in STD_LOGIC_VECTOR(4 downto 0);
+          -- w_col_port : in STD_LOGIC_VECTOR(4 downto 0);
+           --w_in_port : in STD_LOGIC_VECTOR(3 downto 0);
+           --w_en_port : in STD_LOGIC;
            color_port : out STD_LOGIC_VECTOR (11 downto 0);
            hsynch_port : out STD_LOGIC;
            vsynch_port : out STD_LOGIC);
@@ -140,10 +140,10 @@ controller: vga_controller port map(
 --+++++++++++++++++++++++++++++++++
 memory: grid_memory port map(
            clk  => pixel_clk_signal,
-           w_row =>w_row_port,
-           w_col =>  w_col_port,
-           w_in =>w_in_port,
-           w_en => w_en_port,
+           w_row => "00000",--w_row_port,
+           w_col => "00000",--  w_col_port,
+           w_in =>  "0000",--w_in_port,
+           w_en => '0',--w_en_port,
            r_row => row_signal,
            r_col => col_signal,
            r_data => read_mem_signal

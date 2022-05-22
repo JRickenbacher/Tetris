@@ -40,10 +40,10 @@ architecture testbench of vga_test_shell_tb is
 --=============================================================================
 component vga_test_shell is
     Port ( clk_ext_port : in STD_LOGIC;
-           w_row_port : in STD_LOGIC_VECTOR(4 downto 0);
-           w_col_port : in STD_LOGIC_VECTOR(4 downto 0);
-           w_in_port : in STD_LOGIC_VECTOR(3 downto 0);
-           w_en_port : in STD_LOGIC;
+--           w_row_port : in STD_LOGIC_VECTOR(4 downto 0);
+--           w_col_port : in STD_LOGIC_VECTOR(4 downto 0);
+--           w_in_port : in STD_LOGIC_VECTOR(3 downto 0);
+--           w_en_port : in STD_LOGIC;
            color_port : out STD_LOGIC_VECTOR (11 downto 0);
            hsynch_port : out STD_LOGIC;
            vsynch_port : out STD_LOGIC);
@@ -54,10 +54,10 @@ end component;
 --=============================================================================
 CONSTANT clk_period : TIME := 10 ns;
 SIGNAL clk_signal : STD_LOGIC := '0';
-SIGNAL w_row_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
-SIGNAL w_col_signal : STD_LOGIC_VECTOR(4 downto 0):= (others => '0');
-SIGNAL w_in_signal : STD_LOGIC_VECTOR(3 downto 0):= (others => '0');
-SIGNAL w_en_signal : STD_LOGIC := '0';
+--SIGNAL w_row_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
+--SIGNAL w_col_signal : STD_LOGIC_VECTOR(4 downto 0):= (others => '0');
+--SIGNAL w_in_signal : STD_LOGIC_VECTOR(3 downto 0):= (others => '0');
+--SIGNAL w_en_signal : STD_LOGIC := '0';
 
 
 SIGNAL hsynch_signal : STD_LOGIC := '0';
@@ -68,10 +68,10 @@ begin
 shell_ut : vga_test_shell
     PORT MAP(
         clk_ext_port => clk_signal,
-        w_row_port => w_row_signal,
-        w_col_port => w_col_signal,
-        w_in_port => w_in_signal,
-        w_en_port => w_en_signal,
+--        w_row_port => w_row_signal,
+--        w_col_port => w_col_signal,
+--        w_in_port => w_in_signal,
+--        w_en_port => w_en_signal,
         color_port => color_signal,
         hsynch_port => hsynch_signal,
         vsynch_port => vsynch_signal);
