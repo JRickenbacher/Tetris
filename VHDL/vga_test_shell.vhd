@@ -31,6 +31,10 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity vga_test_shell is
     Port ( clk_ext_port : in STD_LOGIC;
+           w_row_port : in STD_LOGIC_VECTOR(4 downto 0);
+           w_col_port : in STD_LOGIC_VECTOR(4 downto 0);
+           w_in_port : in STD_LOGIC_VECTOR(3 downto 0);
+           w_en_port : in STD_LOGIC;
            color_port : out STD_LOGIC_VECTOR (11 downto 0);
            hsynch_port : out STD_LOGIC;
            vsynch_port : out STD_LOGIC);
@@ -66,13 +70,27 @@ component vga_controller is
 end component;
 
 --+++++++++++++++++++++++++++++++++
---VGA Test Pattern
+--grid memory component
 --+++++++++++++++++++++++++++++++++
-component vga_test_pattern is
-	port(	row, column			: in  std_logic_vector( 4 downto 0);
-			color				: out std_logic_vector(11 downto 0) );
+component Grid_Memory is
+  Port (   clk   : in STD_LOGIC;
+           w_row : in STD_LOGIC_VECTOR(4 downto 0);
+           w_col : in STD_LOGIC_VECTOR(4 downto 0);
+           w_in : in STD_LOGIC_VECTOR(3 downto 0);
+           w_en : in STD_LOGIC;
+           r_row : in STD_LOGIC_VECTOR(4 downto 0);
+           r_col : in STD_LOGIC_VECTOR(4 downto 0);
+           r_data : out STD_LOGIC_VECTOR(3 downto 0)
+           );
 end component;
 
+--+++++++++++++++++++++++++++++++++
+--color decoder component
+--+++++++++++++++++++++++++++++++++
+component Color_Decoder is
+    Port ( Piece : in STD_LOGIC_VECTOR (3 downto 0);
+           Color : out STD_LOGIC_VECTOR (11 downto 0));
+end component;
 --=================================
 --Sub component Declarations
 --=================================
@@ -86,6 +104,7 @@ signal pixel_clk_signal : STD_LOGIC := '0';
 --+++++++++++++++++++++++++++++++++
 signal row_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
 signal col_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
+signal read_mem_signal : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
 
 --signal hsynch_signal : STD_LOGIC := '0';
 --signal vsynch_signal : STD_LOGIC := '0';
@@ -103,9 +122,9 @@ clocking: pixel_clock_generator port map(
     input_clk_port => clk_ext_port,     -- External clock
     pixel_clk_port => pixel_clk_signal);   -- pixel clock
 
---+++++++++++++++++++++++++++++++++
+--++++++++++++++++++++++++++++++++++
 --Wire VGA Controller into the shell:
---+++++++++++++++++++++++++++++++++
+--++++++++++++++++++++++++++++++++++
 controller: vga_controller port map(
     pixel_clk => pixel_clk_signal,
     hsync => hsynch_port,
@@ -119,9 +138,27 @@ controller: vga_controller port map(
 --+++++++++++++++++++++++++++++++++
 --Wire VGA Test Block into the shell:
 --+++++++++++++++++++++++++++++++++
-test_block: vga_test_pattern port map(
-    row => row_signal,
-    column => col_signal,
-    color => color_port);
+memory: grid_memory port map(
+           clk  => pixel_clk_signal,
+           w_row =>w_row_port,
+           w_col =>  w_col_port,
+           w_in =>w_in_port,
+           w_en => w_en_port,
+           r_row => row_signal,
+           r_col => col_signal,
+           r_data => read_mem_signal
+           
+           );
+
+--+++++++++++++++++++++++++++++++++
+--Wire color decoder
+--+++++++++++++++++++++++++++++++++
+color: color_decoder port map(
+          Piece => read_mem_signal,
+          Color => color_port
+           
+           );
+
+
 
 end Behavioral;

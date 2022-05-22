@@ -40,14 +40,14 @@ architecture Behavioral of Color_Decoder is
 
 begin
 
-color <= "111111111111" when piece = "0000" else
-         "001011111111" when piece = "0001" else
-         "111111110010" when piece = "0010" else
-         "000000000010" when piece = "0011" else
-         "111110000000" when piece = "0100" else
-         "000011110000" when piece = "0101" else
-         "111100000000" when piece = "0110" else
-         "011000000110" when piece = "0111" else
-         "000000000000";
+color <= "111111111111" when piece = "0000" else --white
+         "001011111111" when piece = "0001" else --cyan
+         "111111110010" when piece = "0010" else --yellow
+         "000000000010" when piece = "0011" else --blue
+         "111110000000" when piece = "0100" else --orange
+         "000011110000" when piece = "0101" else --green
+         "111100000000" when piece = "0110" else --red
+         "011000000110" when piece = "0111" else -- purple
+         "000000000000"; --black
 
 end Behavioral;
