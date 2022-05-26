@@ -115,7 +115,7 @@ component Piece_Generator IS
         Port ( clk_port : in STD_LOGIC;
            Generate_Piece_Port : in STD_LOGIC;
            New_Piece_Port : out STD_LOGIC_VECTOR (3 downto 0);
-           New_Piece_Address_Port : out STD_LOGIC_VECTOR (9 downto 0));
+           address_1, address_2, address_3, address_4 : out STD_LOGIC_VECTOR(9 downto 0) );
 
 END component;
 
@@ -240,7 +240,10 @@ piece_generation: Piece_Generator PORT MAP(
    clk_port => pixel_clk_signal,
    Generate_Piece_Port => '0',
    New_Piece_Port => open,
-   New_Piece_Address_Port => open
+   address_1 => open, 
+   address_2 => open, 
+   address_3 => open, 
+   address_4  => open
 );
 --+++++++++++++++++++++++++++++++++
 --Wire color decoder

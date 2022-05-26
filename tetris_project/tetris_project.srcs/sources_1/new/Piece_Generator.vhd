@@ -35,14 +35,14 @@ entity Piece_Generator is
     Port ( clk_port : in STD_LOGIC;
            Generate_Piece_Port : in STD_LOGIC;
            New_Piece_Port : out STD_LOGIC_VECTOR (3 downto 0);
-           New_Piece_Address_Port : out STD_LOGIC_VECTOR (9 downto 0));
+           address_1, address_2, address_3, address_4 : out STD_LOGIC_VECTOR(9 downto 0)
+           );
 end Piece_Generator;
 
 architecture Behavioral of Piece_Generator is
 signal new_color : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
-signal address_1, address_2, address_3, address_4 : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+
 signal piece_count : unsigned(2 downto 0) := "000";
-signal address_count : unsigned(2 downto 0) := "000";
 signal piece_count_tc : STD_LOGIC := '0';
 
 begin
@@ -53,7 +53,6 @@ counter : process(clk_port)
 begin
 
     if rising_edge(clk_port) then
-        address_count <= address_count + 1;
         if piece_count_tc = '1' then
             piece_count <= "001";
         else
@@ -77,10 +76,7 @@ end process datapath;
 piece_count_tc <= '1' when (piece_count = 7) else '0';
 New_Piece_Port <= new_color;
 
-New_Piece_Address_Port <= address_1 when (address_count = 0) else
-                         address_2 when (address_count = 1) else
-                         address_3 when (address_count = 2) else
-                         address_4;
+
 
 address_1 <= "0001001110" when (new_color = "0001") else
              "0001001111" when (new_color = "0010") else
