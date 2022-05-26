@@ -64,7 +64,7 @@ signal write_new_piece_count : unsigned(1 downto 0) := "00";
 signal write_new_piece_tc : std_logic := '0';
 
 signal count_valid_move_en : std_logic := '0';
-signal valid_move_count : unsigned(1 downto 0) := "00";
+signal valid_move_count : unsigned(2 downto 0) := "000";
 signal valid_move_tc : std_logic := '0';
 
 signal count_make_move_en : std_logic := '0';
@@ -180,6 +180,7 @@ begin
     
         WHEN GenNewPiece =>
             GEN_PIECE <= '1';
+            CLR_DOWN_CNT <= '1';
             
         WHEN LoadNewPiece =>
             Load_gen_en <= '1';
@@ -258,13 +259,13 @@ begin
             valid_move_count <= valid_move_count + 1;
         end if;
         if valid_move_tc = '1' then 
-            valid_move_count <= "00";
+            valid_move_count <= "000";
         end if;
     end if;
 
 end process;
 
-valid_move_tc <= '1' when (valid_move_count = "11") else
+valid_move_tc <= '1' when (valid_move_count = "101") else
                  '0';
 
 count_make_move : process(pixel_clk)

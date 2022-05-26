@@ -36,7 +36,7 @@ entity collision_detection is
             clk : in STD_LOGIC;
             request_move : in STD_LOGIC;
             color_output : in STD_LOGIC_VECTOR(3 downto 0);
-            check_addr_1,check_addr_2,check_addr_3,check_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
+            check_addr_1, check_addr_2, check_addr_3, check_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
             collision_read_addr : out STD_LOGIC_VECTOR(9 downto 0);
             not_valid_move : out STD_LOGIC
             );
