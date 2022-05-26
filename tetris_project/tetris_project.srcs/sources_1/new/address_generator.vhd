@@ -1204,9 +1204,15 @@ next_addr_2 <= std_logic_vector(next_addr_2_row) & std_logic_vector(next_addr_2_
 next_addr_3 <= std_logic_vector(next_addr_3_row) & std_logic_vector(next_addr_3_col);
 next_addr_4 <= std_logic_vector(next_addr_4_row) & std_logic_vector(next_addr_4_col);
 
-check_addr_1 <= std_logic_vector(resize(check_1_row, 5) + top_left_addr_row) & std_logic_vector(resize(check_1_col, 5) + top_left_addr_col);
-check_addr_2 <= std_logic_vector(resize(check_2_row, 5) + top_left_addr_row) & std_logic_vector(resize(check_2_col, 5) + top_left_addr_col);
-check_addr_3 <= std_logic_vector(resize(check_3_row, 5) + top_left_addr_row) & std_logic_vector(resize(check_3_col, 5) + top_left_addr_col);
-check_addr_4 <= std_logic_vector(resize(check_4_row, 5) + top_left_addr_row) & std_logic_vector(resize(check_4_col, 5) + top_left_addr_col);
 
+
+check_addr_1 <= "0000000000" when (check_1_row = 7) else
+                std_logic_vector(resize(check_1_row, 5) + top_left_addr_row) & std_logic_vector(resize(check_1_col, 5) + top_left_addr_col);
+check_addr_2 <= "0000000000" when (check_2_row = 7) else
+                std_logic_vector(resize(check_2_row, 5) + top_left_addr_row) & std_logic_vector(resize(check_2_col, 5) + top_left_addr_col);
+check_addr_3 <= "0000000000" when (check_3_row = 7) else
+                std_logic_vector(resize(check_3_row, 5) + top_left_addr_row) & std_logic_vector(resize(check_3_col, 5) + top_left_addr_col);
+check_addr_4 <= "0000000000" when (check_4_row = 7) else
+                std_logic_vector(resize(check_4_row, 5) + top_left_addr_row) & std_logic_vector(resize(check_4_col, 5) + top_left_addr_col);
+                
 end Behavioral;
