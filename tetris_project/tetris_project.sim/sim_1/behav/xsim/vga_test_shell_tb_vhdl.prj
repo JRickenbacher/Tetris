@@ -1,6 +1,7 @@
 # compile vhdl design source files
 vhdl xil_defaultlib  \
 "../../../../tetris_project.srcs/sources_1/new/Color_Decoder.vhd" \
+"../../../../tetris_project.srcs/sources_1/new/Piece_Generator.vhd" \
 "../../../../tetris_project.srcs/sources_1/new/clock_generator.vhd" \
 "../../../../tetris_project.srcs/sources_1/new/vga_controller.vhd" \
 "../../../../../VHDL/vga_test_shell.vhd" \

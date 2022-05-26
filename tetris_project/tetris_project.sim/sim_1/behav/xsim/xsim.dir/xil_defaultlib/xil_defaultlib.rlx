@@ -2,11 +2,11 @@
 2018.3
 Mar 26 2019
 04:57:32
-O:/ENGS31/Final_Project/Tetris/VHDL/vga_test_pattern_12.vhd,1652825518,vhdl,,,,vga_test_pattern,,,,,,,,
-O:/ENGS31/Final_Project/Tetris/VHDL/vga_test_shell.vhd,1653193567,vhdl,,,,vga_test_shell,,,,,,,,
-O:/ENGS31/Final_Project/Tetris/VHDL/vga_test_shell_tb.vhd,1653184919,vhdl,,,,vga_test_shell_tb,,,,,,,,
-O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.sim/sim_1/behav/xsim/glbl.v,1544155480,verilog,,,,glbl,,,,,,,,
-O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_0/sim/blk_mem_gen_0.v,1653194199,verilog,,,,blk_mem_gen_0,,,,,,,,
-O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Color_Decoder.vhd,1653184919,vhdl,,,,color_decoder,,,,,,,,
-O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/clock_generator.vhd,1652822110,vhdl,,,,pixel_clock_generator,,,,,,,,
-O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/vga_controller.vhd,1653194886,vhdl,,,,vga_controller,,,,,,,,
+O:/ENGS31/Tetris/VHDL/vga_test_shell.vhd,1653527981,vhdl,,,,vga_test_shell,,,,,,,,
+O:/ENGS31/Tetris/VHDL/vga_test_shell_tb.vhd,1653184302,vhdl,,,,vga_test_shell_tb,,,,,,,,
+O:/ENGS31/Tetris/tetris_project/tetris_project.sim/sim_1/behav/xsim/glbl.v,1653527985,verilog,,,,glbl,,,,,,,,
+O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_0/sim/blk_mem_gen_0.v,1653528034,verilog,,,,blk_mem_gen_0,,,,,,,,
+O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Color_Decoder.vhd,1653182985,vhdl,,,,color_decoder,,,,,,,,
+O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Piece_Generator.vhd,1653527988,vhdl,,,,piece_generator,,,,,,,,
+O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/clock_generator.vhd,1652822225,vhdl,,,,pixel_clock_generator,,,,,,,,
+O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/vga_controller.vhd,1653527988,vhdl,,,,vga_controller,,,,,,,,

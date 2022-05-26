@@ -1,0 +1,1 @@
+-wto "641eb03c79334c7999e46c704b5a3f81" --incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "Grid_Memory_tb_behav" "xil_defaultlib.Grid_Memory_tb" -log "elaborate.log" 
