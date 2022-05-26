@@ -37,6 +37,7 @@ entity collision_detection is
             request_move : in STD_LOGIC;
             color_output : in STD_LOGIC_VECTOR(3 downto 0);
             check_addr_1,check_addr_2,check_addr_3,check_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
+            collision_read_addr : out STD_LOGIC_VECTOR(9 downto 0);
             not_valid_move : out STD_LOGIC
             );
 end collision_detection;
@@ -91,5 +92,7 @@ not_valid_move  <=  not_valid_signal;
 valid_address   <=  '0' when (read_address = "0000000000") else '1'; 
 valid_count     <=  '1' when (read_count > 1) else '0';
 valid_output    <=  '1' when (valid_address = '1' and valid_count = '1') else '1';
+
+collision_read_addr <= read_address;
 
 end Behavioral;

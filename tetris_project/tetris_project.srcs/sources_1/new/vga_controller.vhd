@@ -33,8 +33,7 @@ entity vga_controller is
     Port ( pixel_clk : in STD_LOGIC;
            hsync : out STD_LOGIC;
            vsync : out STD_LOGIC;
-           row : out STD_LOGIC_VECTOR(4 downto 0);
-           col : out STD_LOGIC_VECTOR(4 downto 0);
+           vga_read_addr : out STD_LOGIC_VECTOR(9 downto 0);
            vblank : out STD_LOGIC;
            hblank : out STD_LOGIC;
            video_on : out STD_LOGIC;
@@ -124,8 +123,7 @@ vblank <= not(v_video_on);
 --HIGH when both coordinates are on screen, otherwise LOW
 video_on <= (v_video_on and h_video_on);
 
-row <= STD_LOGIC_VECTOR(row_count);
-col <= STD_LOGIC_VECTOR(col_count);
+vga_read_addr <= STD_LOGIC_VECTOR(row_count) & STD_LOGIC_VECTOR(col_count);
 
 --Terminal Counts
 h_tc <= '1' when (h_count = 799) else '0';
