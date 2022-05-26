@@ -37,15 +37,17 @@ entity vga_controller is
            col : out STD_LOGIC_VECTOR(4 downto 0);
            vblank : out STD_LOGIC;
            hblank : out STD_LOGIC;
-           video_on : out STD_LOGIC);
+           video_on : out STD_LOGIC;
+           memory_update : out STD_LOGIC);
 end vga_controller;
 
 architecture Behavioral of vga_controller is
 
 ------------SIGNAL DECLARATIONS------------
 signal h_count, v_count : unsigned(9 downto 0) := (others => '0');
-signal v_block_enable, h_tc, v_tc, h_video_on, v_video_on, h_block_tc, v_block_tc: STD_LOGIC := '0';
+signal v_block_enable, h_tc, v_tc, h_video_on, v_video_on, h_block_tc, v_block_tc, col_count_en: STD_LOGIC := '0';
 signal v_block_count, h_block_count, row_count, col_count : unsigned(4 downto 0) := (others => '0');
+signal prev_v_video_on : std_logic := '0';
 
 begin
 
@@ -80,6 +82,7 @@ if rising_edge(pixel_clk) then
     if (h_block_tc = '1') then
         h_block_count <= "00000";
     elsif (h_video_on = '1') then
+--    elsif (col_count_en = '1') then
         h_block_count <= h_block_count + 1;
     end if;
     
@@ -96,10 +99,15 @@ if rising_edge(pixel_clk) then
     elsif (h_block_tc = '1') then
         col_count <= col_count + 1;
     end if;
+    
+    -- Previous v_video_on
+    prev_v_video_on <= v_video_on;
 
 end if;
 
 end process counters;
+
+--col_count_en <= '1' when ((h_count < 640) or (h_count >= 798)) else '0';
 
 --LOW during retrace, otherwise HIGH
 hsync <= '1' when ((h_count < 656) or (h_count > 751)) else '0';
@@ -125,5 +133,7 @@ v_tc <= '1' when (v_count = 520) else '0';
 v_block_enable <= '1' when (h_count = 639 and v_video_on = '1') else '0';
 v_block_tc <= '1' when (v_block_count = 19) else '0';
 h_block_tc <= '1' when (h_block_count = 19) else '0';
+
+memory_update <= '1' when (prev_v_video_on = '1') and (v_video_on = '0') else '0';
 
 end Behavioral;

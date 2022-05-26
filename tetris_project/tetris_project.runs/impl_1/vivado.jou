@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2018.3.1 (64-bit)
+# SW Build 2489853 on Tue Mar 26 04:20:25 MDT 2019
+# IP Build 2486929 on Tue Mar 26 06:44:21 MDT 2019
+# Start of session at: Sun May 22 20:05:12 2022
+# Process ID: 2076
+# Current directory: O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.runs/impl_1
+# Command line: vivado.exe -log vga_test_shell.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source vga_test_shell.tcl -notrace
+# Log file: O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.runs/impl_1/vga_test_shell.vdi
+# Journal file: O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source vga_test_shell.tcl -notrace

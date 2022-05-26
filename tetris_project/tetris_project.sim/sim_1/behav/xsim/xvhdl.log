@@ -1,0 +1,8 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Color_Decoder.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'Color_Decoder'
+INFO: [VRFC 10-163] Analyzing VHDL file "O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/vga_controller.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'vga_controller'
+INFO: [VRFC 10-163] Analyzing VHDL file "O:/ENGS31/Final_Project/Tetris/VHDL/vga_test_shell.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'vga_test_shell'
+INFO: [VRFC 10-163] Analyzing VHDL file "O:/ENGS31/Final_Project/Tetris/VHDL/vga_test_shell_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'vga_test_shell_tb'

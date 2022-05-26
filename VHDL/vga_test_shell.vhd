@@ -66,23 +66,31 @@ component vga_controller is
            col : out STD_LOGIC_VECTOR(4 downto 0);
            vblank : out STD_LOGIC;
            hblank : out STD_LOGIC;
-           video_on : out STD_LOGIC);
+           video_on : out STD_LOGIC;
+           memory_update : out STD_LOGIC);
 end component;
 
 --+++++++++++++++++++++++++++++++++
---grid memory component
+--IP Core memory component
 --+++++++++++++++++++++++++++++++++
-component Grid_Memory is
-  Port (   clk   : in STD_LOGIC;
-           w_row : in STD_LOGIC_VECTOR(4 downto 0);
-           w_col : in STD_LOGIC_VECTOR(4 downto 0);
-           w_in : in STD_LOGIC_VECTOR(3 downto 0);
-           w_en : in STD_LOGIC;
-           r_row : in STD_LOGIC_VECTOR(4 downto 0);
-           r_col : in STD_LOGIC_VECTOR(4 downto 0);
-           r_data : out STD_LOGIC_VECTOR(3 downto 0)
-           );
+component blk_mem_gen_0 IS
+  PORT (
+    clka : IN STD_LOGIC;
+    ena : IN STD_LOGIC;
+    wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+    addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    dina : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+    douta : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+  );
 end component;
+  
+component Piece_Generator IS
+        Port ( clk_port : in STD_LOGIC;
+           Generate_Piece_Port : in STD_LOGIC;
+           New_Piece_Port : out STD_LOGIC_VECTOR (3 downto 0);
+           New_Piece_Address_Port : out STD_LOGIC_VECTOR (9 downto 0));
+
+END component;
 
 --+++++++++++++++++++++++++++++++++
 --color decoder component
@@ -105,6 +113,7 @@ signal pixel_clk_signal : STD_LOGIC := '0';
 signal row_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
 signal col_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
 signal read_mem_signal : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
+signal address : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
 
 --signal hsynch_signal : STD_LOGIC := '0';
 --signal vsynch_signal : STD_LOGIC := '0';
@@ -133,23 +142,27 @@ controller: vga_controller port map(
     col => col_signal,
     vblank => open,
     hblank => open,
-    video_on => open);
+    video_on => open,
+    memory_update => open);
 
 --+++++++++++++++++++++++++++++++++
 --Wire VGA Test Block into the shell:
 --+++++++++++++++++++++++++++++++++
-memory: grid_memory port map(
-           clk  => pixel_clk_signal,
-           w_row => "00000",--w_row_port,
-           w_col => "00000",--  w_col_port,
-           w_in =>  "0000",--w_in_port,
-           w_en => '0',--w_en_port,
-           r_row => row_signal,
-           r_col => col_signal,
-           r_data => read_mem_signal
-           
-           );
+memory: blk_mem_gen_0 PORT map(
+    clka => pixel_clk_signal,
+    ena => '1',
+    wea => "0",
+    addra => address,
+    dina => "0000",
+    douta => read_mem_signal
+  );
 
+piece_generation: Piece_Generator PORT MAP(
+   clk_port => pixel_clk_signal,
+   Generate_Piece_Port => '0',
+   New_Piece_Port => open,
+   New_Piece_Address_Port => open
+);
 --+++++++++++++++++++++++++++++++++
 --Wire color decoder
 --+++++++++++++++++++++++++++++++++
@@ -159,6 +172,6 @@ color: color_decoder port map(
            
            );
 
-
+address <= row_signal & col_signal;
 
 end Behavioral;
