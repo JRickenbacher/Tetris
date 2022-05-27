@@ -2,11 +2,11 @@
 # Vivado v2018.3.1 (64-bit)
 # SW Build 2489853 on Tue Mar 26 04:20:25 MDT 2019
 # IP Build 2486929 on Tue Mar 26 06:44:21 MDT 2019
-# Start of session at: Fri May 27 14:28:44 2022
-# Process ID: 4864
-# Current directory: O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.runs/synth_1
+# Start of session at: Fri May 27 18:50:15 2022
+# Process ID: 11584
+# Current directory: O:/ENGS31/Tetris/tetris_project/tetris_project.runs/synth_1
 # Command line: vivado.exe -log tetris_shell.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source tetris_shell.tcl
-# Log file: O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.runs/synth_1/tetris_shell.vds
-# Journal file: O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.runs/synth_1\vivado.jou
+# Log file: O:/ENGS31/Tetris/tetris_project/tetris_project.runs/synth_1/tetris_shell.vds
+# Journal file: O:/ENGS31/Tetris/tetris_project/tetris_project.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
 source tetris_shell.tcl -notrace

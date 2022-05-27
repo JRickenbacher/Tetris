@@ -37,7 +37,9 @@ entity vga_controller is
            vblank : out STD_LOGIC;
            hblank : out STD_LOGIC;
            video_on : out STD_LOGIC;
-           memory_update : out STD_LOGIC);
+           memory_update : out STD_LOGIC;
+           h_count_port : out STD_LOGIC_VECTOR(9 downto 0);
+           v_count_port : out STD_LOGIC_VECTOR(9 downto 0) );
 end vga_controller;
 
 architecture Behavioral of vga_controller is
@@ -47,7 +49,7 @@ signal h_count, v_count : unsigned(9 downto 0) := (others => '0');
 signal v_block_enable, h_tc, v_tc, h_video_on, v_video_on, h_block_tc, v_block_tc, col_count_en: STD_LOGIC := '0';
 signal v_block_count, h_block_count, row_count, col_count : unsigned(4 downto 0) := (others => '0');
 signal prev_v_video_on : std_logic := '0';
-
+signal hsync_direct, vsync_direct, vsync_next, hsync_next : STD_LOGIC := '0';
 begin
 
 counters : process(pixel_clk)
@@ -101,7 +103,10 @@ if rising_edge(pixel_clk) then
     
     -- Previous v_video_on
     prev_v_video_on <= v_video_on;
-
+    hsync_next <= hsync_direct;
+    vsync_next <= vsync_direct;
+    hsync <= hsync_next;
+    vsync <= vsync_next;
 end if;
 
 end process counters;
@@ -109,8 +114,9 @@ end process counters;
 --col_count_en <= '1' when ((h_count < 640) or (h_count >= 798)) else '0';
 
 --LOW during retrace, otherwise HIGH
-hsync <= '1' when ((h_count < 656) or (h_count > 751)) else '0';
-vsync <= '1' when ((v_count < 490) or (v_count > 491)) else '0';
+hsync_direct <= '1' when ((h_count < 656) or (h_count > 751)) else '0';
+vsync_direct <= '1' when ((v_count < 490) or (v_count > 491)) else '0';
+
 
 --HIGH when on screen, LOW when off screen in given coordinate direction
 h_video_on <= '1' when (h_count < 640) else '0';
@@ -134,4 +140,7 @@ h_block_tc <= '1' when (h_block_count = 19) else '0';
 
 memory_update <= '1' when (prev_v_video_on = '1') and (v_video_on = '0') else '0';
 
+h_count_port <= STD_LOGIC_VECTOR(h_count);
+v_count_port <= STD_LOGIC_VECTOR(v_count);
+           
 end Behavioral;

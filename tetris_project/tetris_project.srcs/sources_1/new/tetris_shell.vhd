@@ -104,7 +104,9 @@ component vga_controller is
            vblank : out STD_LOGIC;
            hblank : out STD_LOGIC;
            video_on : out STD_LOGIC;
-           memory_update : out STD_LOGIC);
+           memory_update : out STD_LOGIC;
+           h_count_port : out STD_LOGIC_VECTOR(9 downto 0);
+           v_count_port : out STD_LOGIC_VECTOR(9 downto 0));
 end component;
 
 --+++++++++++++++++++++++++++++++++
@@ -133,6 +135,9 @@ END component;
 --+++++++++++++++++++++++++++++++++
 component Color_Decoder is
     Port ( Piece : in STD_LOGIC_VECTOR (3 downto 0);
+           h_count_port : in STD_LOGIC_VECTOR(9 downto 0);
+           v_count_port : in STD_LOGIC_VECTOR(9 downto 0);
+           video_on_port : in STD_LOGIC;
            Color : out STD_LOGIC_VECTOR (11 downto 0));
 end component;
 
@@ -234,6 +239,9 @@ signal row_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
 signal col_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
 signal read_mem_signal : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
 signal address : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+
+signal v_count_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+signal h_count_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
 
 signal up_key_signal, down_key_signal, left_key_signal, right_key_signal : STD_LOGIC := '0';
 
@@ -349,6 +357,8 @@ vga_controller_block: vga_controller port map(
     vga_read_addr => vga_read_addr_signal,
     vblank => open,
     hblank => open,
+    v_count_port => v_count_signal,
+    h_count_port => h_count_signal,
     video_on => video_on_signal,
     memory_update => memory_update_signal);
 
@@ -378,6 +388,9 @@ piece_generation: Piece_Generator PORT MAP(
 --+++++++++++++++++++++++++++++++++
 color: color_decoder port map(
           Piece => read_mem_signal,
+          v_count_port => v_count_signal,
+          h_count_port => h_count_signal,
+          video_on_port => VIDEO_ON_SIGNAL,
           Color => color_port
           );
 

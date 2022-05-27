@@ -41,7 +41,7 @@ end down_counter;
 
 architecture Behavioral of down_counter is
 
-signal down_count, compare_count : unsigned(7 downto 0) := (others => '0');
+signal down_count, compare_count : unsigned(5 downto 0) := (others => '0');
 signal down_tc : std_logic := '0';
 
 begin
@@ -62,11 +62,11 @@ begin
 
 end process;
 
---compare_count <= "11111100" when down_pressed = '0' else
---                 "11001111";
+compare_count <= "111100" when down_pressed = '0' else
+                 "001000";
 
-compare_count <= "00000010" when down_pressed = '0' else
-                 "00000010";
+--compare_count <= "00000010" when down_pressed = '0' else
+--                 "00000010";
                  
 down_tc <= '1' when down_count >= compare_count else
            '0';

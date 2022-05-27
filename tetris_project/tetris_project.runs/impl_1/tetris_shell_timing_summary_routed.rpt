@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2018.3.1 (win64) Build 2489853 Tue Mar 26 04:20:25 MDT 2019
-| Date         : Fri May 27 14:30:32 2022
+| Date         : Fri May 27 18:52:09 2022
 | Host         : mecha-7 running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -max_paths 10 -file tetris_shell_timing_summary_routed.rpt -pb tetris_shell_timing_summary_routed.pb -rpx tetris_shell_timing_summary_routed.rpx -warn_on_violation
 | Design       : tetris_shell
@@ -52,15 +52,7 @@ Table of Contents
 
 1. checking no_clock
 --------------------
- There are 182 register/latch pins with no clock driven by root clock pin: clocking/pixel_clk_tog_reg/Q (HIGH)
-
- There are 3 register/latch pins with no clock driven by root clock pin: game_controller/FSM_sequential_CS_reg[0]/Q (HIGH)
-
- There are 3 register/latch pins with no clock driven by root clock pin: game_controller/FSM_sequential_CS_reg[1]/Q (HIGH)
-
- There are 3 register/latch pins with no clock driven by root clock pin: game_controller/FSM_sequential_CS_reg[2]/Q (HIGH)
-
- There are 3 register/latch pins with no clock driven by root clock pin: game_controller/FSM_sequential_CS_reg[3]/Q (HIGH)
+ There are 196 register/latch pins with no clock driven by root clock pin: clocking/pixel_clk_tog_reg/Q (HIGH)
 
 
 2. checking constant_clock
@@ -75,14 +67,14 @@ Table of Contents
 
 4. checking unconstrained_internal_endpoints
 --------------------------------------------
- There are 328 pins that are not constrained for maximum delay. (HIGH)
+ There are 358 pins that are not constrained for maximum delay. (HIGH)
 
  There are 0 pins that are not constrained for maximum delay due to constant clock.
 
 
 5. checking no_input_delay
 --------------------------
- There are 3 input ports with no input delay specified. (HIGH)
+ There are 4 input ports with no input delay specified. (HIGH)
 
  There are 0 input ports with no input delay but user has a false path constraint.
 
@@ -231,7 +223,7 @@ Slack (MET) :             8.157ns  (required time - arrival time)
     SLICE_X36Y46         FDRE (Prop_fdre_C_Q)         0.456     5.542 f  clocking/pixel_clk_divider_counter_reg[0]/Q
                          net (fo=2, routed)           1.256     6.799    clocking/pixel_clk_divider_counter
     SLICE_X36Y46         LUT1 (Prop_lut1_I0_O)        0.124     6.923 r  clocking/pixel_clk_divider_counter[0]_i_1/O
-                         net (fo=1, routed)           0.000     6.923    clocking/pixel_clk_divider_counter[0]_i_1_n_0
+                         net (fo=1, routed)           0.000     6.923    clocking/p_0_in
     SLICE_X36Y46         FDRE                                         r  clocking/pixel_clk_divider_counter_reg[0]/D
   -------------------------------------------------------------------    -------------------
 
@@ -397,7 +389,7 @@ Slack (MET) :             0.553ns  (arrival time - required time)
     SLICE_X36Y46         FDRE (Prop_fdre_C_Q)         0.141     1.587 f  clocking/pixel_clk_divider_counter_reg[0]/Q
                          net (fo=2, routed)           0.458     2.046    clocking/pixel_clk_divider_counter
     SLICE_X36Y46         LUT1 (Prop_lut1_I0_O)        0.045     2.091 r  clocking/pixel_clk_divider_counter[0]_i_1/O
-                         net (fo=1, routed)           0.000     2.091    clocking/pixel_clk_divider_counter[0]_i_1_n_0
+                         net (fo=1, routed)           0.000     2.091    clocking/p_0_in
     SLICE_X36Y46         FDRE                                         r  clocking/pixel_clk_divider_counter_reg[0]/D
   -------------------------------------------------------------------    -------------------
 

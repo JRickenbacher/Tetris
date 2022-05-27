@@ -110,7 +110,7 @@ begin
             if (Key_Up = '1') then
                 NS <= StoreUp;
             end if;
-            if (DOWN_TC = '1') then
+            if (memory_update = '1' and DOWN_TC = '1') then
                 NS <= StoreDown;
             end if;
         
@@ -130,10 +130,8 @@ begin
             end if;
         
         WHEN StoreDown =>
-            if memory_update = '1' then
-                NS <= CheckValidMove;
-            end if;
-        
+            NS <= CheckValidMove;
+            
         WHEN CheckValidMove =>
             NS <= WaitValidMove;
         
@@ -181,7 +179,9 @@ begin
     NEXT_ACTION <= "00";
     READ_COLLISION <= '0';
     MAKE_MOVE_EN <= '0';
-
+    count_make_move_en <= '0';
+    count_write_new_piece_en <= '0';
+    count_valid_move_en <= '0';
     case(CS) is
     
         WHEN GenNewPiece =>

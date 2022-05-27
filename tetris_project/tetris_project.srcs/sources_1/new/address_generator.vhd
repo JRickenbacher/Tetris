@@ -213,7 +213,7 @@ if (action_number = "10") then
 --==========================================================================================
 ----L PIECE----
 --==========================================================================================
-    if (piece_number = "0011") then
+    if (piece_number = "0100") then
         ----ROTATION 0----
         if (rotation_number = "00") then
             next_addr_1_row <= unsigned(curr_addr_1(9 downto 5)) + 1;
@@ -261,8 +261,8 @@ if (action_number = "10") then
             next_addr_3_row <= unsigned(curr_addr_3(9 downto 5)) - 1;
             next_addr_3_col <= unsigned(curr_addr_3(4 downto 0)) - 1;
             
-            next_addr_4_row <= unsigned(curr_addr_4(9 downto 5)) - 2;
-            next_addr_4_col <= unsigned(curr_addr_4(4 downto 0));
+            next_addr_4_row <= unsigned(curr_addr_4(9 downto 5));
+            next_addr_4_col <= unsigned(curr_addr_4(4 downto 0)) - 2;
             
             next_rotation <= "00";
         end if;
@@ -271,7 +271,7 @@ if (action_number = "10") then
 --==========================================================================================
 ----S PIECE----
 --==========================================================================================
-    if (piece_number = "0011") then
+    if (piece_number = "0101") then
         ----ROTATION 0----
         if (rotation_number = "00") then
             next_addr_1_row <= unsigned(curr_addr_1(9 downto 5));
@@ -287,8 +287,8 @@ if (action_number = "10") then
             
         ----ROTATION 1----
         else
-            next_addr_1_row <= unsigned(curr_addr_1(9 downto 5)) - 2;
-            next_addr_1_col <= unsigned(curr_addr_1(4 downto 0));
+            next_addr_1_row <= unsigned(curr_addr_1(9 downto 5));
+            next_addr_1_col <= unsigned(curr_addr_1(4 downto 0)) - 2;
             
             next_addr_2_row <= unsigned(curr_addr_2(9 downto 5)) + 1;
             next_addr_2_col <= unsigned(curr_addr_2(4 downto 0)) - 1;
@@ -304,7 +304,7 @@ if (action_number = "10") then
 --==========================================================================================
 ----Z PIECE----
 --==========================================================================================
-    if (piece_number = "0011") then
+    if (piece_number = "0110") then
         ----ROTATION 0----
         if (rotation_number = "00") then
             next_addr_1_row <= unsigned(curr_addr_1(9 downto 5)) - 2;
@@ -337,7 +337,7 @@ if (action_number = "10") then
 --==========================================================================================
 ----T PIECE----
 --==========================================================================================
-    if (piece_number = "0011") then
+    if (piece_number = "0111") then
         ----ROTATION 0----
         if (rotation_number = "00") then
             next_addr_1_row <= unsigned(curr_addr_1(9 downto 5)) - 1;
