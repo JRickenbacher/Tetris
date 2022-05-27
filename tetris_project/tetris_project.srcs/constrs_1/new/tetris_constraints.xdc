@@ -206,17 +206,17 @@ set_property PACKAGE_PIN W5 [get_ports clk_ext_port]
 ## Pmod Header JB
 ##====================================================================
 ##Sch name = JB1
-#set_property PACKAGE_PIN A14 [get_ports {JB_ext_port[0]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[0]}]
-##Sch name = JB2
-#set_property PACKAGE_PIN A16 [get_ports {JB_ext_port[1]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[1]}]
-##Sch name = JB3
-#set_property PACKAGE_PIN B15 [get_ports {JB_ext_port[2]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[2]}]
-##Sch name = JB4
-#set_property PACKAGE_PIN B16 [get_ports {JB_ext_port[3]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[3]}]
+set_property PACKAGE_PIN A14 [get_ports {KEY_UP_PORT}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {KEY_UP_PORT}]
+#Sch name = JB2
+set_property PACKAGE_PIN A16 [get_ports {KEY_RIGHT_PORT}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {KEY_RIGHT_PORT}]
+#Sch name = JB3
+set_property PACKAGE_PIN B15 [get_ports {KEY_LEFT_PORT}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {KEY_LEFT_PORT}]
+#Sch name = JB4
+set_property PACKAGE_PIN B16 [get_ports {KEY_DOWN_PORT}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {KEY_DOWN_PORT}]
 ##Sch name = JB7
 #set_property PACKAGE_PIN A15 [get_ports {JB_ext_port[4]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[4]}]

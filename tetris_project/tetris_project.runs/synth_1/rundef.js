@@ -23,7 +23,7 @@ eval( EAInclude(ISEJScriptLib) );
 
 
 ISEStep( "vivado",
-         "-log vga_test_shell.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source vga_test_shell.tcl" );
+         "-log tetris_shell.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source tetris_shell.tcl" );
 
 
 

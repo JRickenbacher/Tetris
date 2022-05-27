@@ -172,7 +172,7 @@ end component;
 component address_generator is
     Port (
         curr_addr_1, curr_addr_2, curr_addr_3, curr_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
-        rotation_number, action_number : in STD_LOGIC_VECTOR(2 downto 0);
+        rotation_number, action_number : in STD_LOGIC_VECTOR(1 downto 0);
         piece_number : in STD_LOGIC_VECTOR(3 downto 0);
         check_addr_1, check_addr_2, check_addr_3, check_addr_4 : out STD_LOGIC_VECTOR(9 downto 0);
         next_addr_1, next_addr_2, next_addr_3, next_addr_4 : out STD_LOGIC_VECTOR(9 downto 0);
@@ -197,7 +197,10 @@ component collision_detection is
             clk : in STD_LOGIC;
             request_move : in STD_LOGIC;
             color_output : in STD_LOGIC_VECTOR(3 downto 0);
-            check_addr_1, check_addr_2, check_addr_3, check_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
+            check_addr_1 : in STD_LOGIC_VECTOR(9 downto 0);
+            check_addr_2 : in STD_LOGIC_VECTOR(9 downto 0);
+            check_addr_3 : in STD_LOGIC_VECTOR(9 downto 0);
+            check_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
             collision_read_addr : out STD_LOGIC_VECTOR(9 downto 0);
             not_valid_move : out STD_LOGIC
             );
@@ -229,6 +232,39 @@ signal col_signal : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');
 signal read_mem_signal : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
 signal address : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
 
+signal up_key_signal, down_key_signal, left_key_signal, right_key_signal : STD_LOGIC := '0';
+
+signal memory_update_signal : std_logic := '0';
+signal video_on_signal : std_logic := '0';
+
+signal new_addr_1_signal, new_addr_2_signal, new_addr_3_signal, new_addr_4_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+
+signal curr_addr_1_signal, curr_addr_2_signal, curr_addr_3_signal, curr_addr_4_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+
+signal next_move_addr_1_signal, next_move_addr_2_signal, next_move_addr_3_signal, next_move_addr_4_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+
+signal check_addr_1_signal, check_addr_2_signal, check_addr_3_signal, check_addr_4_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+
+signal make_move_addr_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+signal make_move_data_signal : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
+
+signal mem_interface_addr_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+signal mem_interface_data_signal : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
+
+
+
+signal down_tc_signal, not_valid_signal, clr_down_cnt_signal, req_move_signal, load_next_move_en_signal, load_gen_en_signal, load_new_action_en_signal : std_logic := '0'; 
+signal gen_piece_signal, write_new_piece_en_signal, READ_COLLISION_signal, make_move_en_signal : std_logic := '0'; 
+
+signal WRITE_EN_signal : std_logic_vector(0 downto 0) := "0";
+
+signal current_action_signal, next_action_signal : std_logic_vector(1 downto 0) := "00";
+
+signal vga_read_addr_signal, write_new_piece_addr_signal, collision_read_addr_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+
+signal current_piece_number_signal, new_piece_number_signal : std_logic_vector(3 downto 0) := "0000";
+signal current_rotation_number_signal, next_rotation_number_signal : std_logic_vector(1 downto 0) := "00";
+
 begin
 --+++++++++++++++++++++++++++++++++
 --Wire pixel clock generator into the shell:
@@ -243,24 +279,24 @@ clocking: pixel_clock_generator port map(
 game_controller : tetris_game_controller 
     Port Map
      ( PIXEL_CLK => pixel_clk_signal,
-       MEMORY_UPDATE => ,
-       KEY_UP => ,
-       KEY_LEFT => ,
-       KEY_RIGHT => ,
-       DOWN_TC => ,
-       NOT_VALID => ,
-       CURRENT_ACTION => ,        
-       CLR_DOWN_CNT => ,
-       REQ_MOVE => ,
-       LOAD_NEXT_MOVE_EN => ,
-       LOAD_GEN_EN => ,
-       LOAD_NEW_ACTION_EN => ,
-       GEN_PIECE => ,
-       WRITE_NEW_PIECE_EN => ,
-       WRITE_EN => ,
-       NEXT_ACTION => ,
-       READ_COLLISION => ,
-       MAKE_MOVE_EN => 
+       MEMORY_UPDATE => memory_update_signal,
+       KEY_UP => up_key_signal,
+       KEY_LEFT => left_key_signal,
+       KEY_RIGHT => right_key_signal,
+       DOWN_TC => down_tc_signal,
+       NOT_VALID => not_valid_signal,
+       CURRENT_ACTION => current_action_signal,        
+       CLR_DOWN_CNT => clr_down_cnt_signal,
+       REQ_MOVE => req_move_signal,
+       LOAD_NEXT_MOVE_EN => load_next_move_en_signal,
+       LOAD_GEN_EN => load_gen_en_signal,
+       LOAD_NEW_ACTION_EN => load_new_action_en_signal,
+       GEN_PIECE => gen_piece_signal,
+       WRITE_NEW_PIECE_EN => write_new_piece_en_signal,
+       WRITE_EN => WRITE_EN_signal,
+       NEXT_ACTION => next_action_signal,
+       READ_COLLISION => READ_COLLISION_signal,
+       MAKE_MOVE_EN => make_move_en_signal
 );	
 
 --+++++++++++++++++++++++++++++++++
@@ -270,7 +306,7 @@ input_conditioning_up : button_interface port map(
           clk_port          => pixel_clk_signal,
 		  button_port       => KEY_UP_PORT,
 		  button_db_port    => open,
-		  button_mp_port    => open
+		  button_mp_port    => up_key_signal
 		  );	
 --+++++++++++++++++++++++++++++++++
 -- Wire DOWN Button to Input Conditioning
@@ -278,7 +314,7 @@ input_conditioning_up : button_interface port map(
 input_conditioning_down : button_interface port map(
           clk_port          => pixel_clk_signal,
 		  button_port       => KEY_DOWN_PORT,
-		  button_db_port    => open,
+		  button_db_port    => down_key_signal,
 		  button_mp_port    => open
 		  );	
 --+++++++++++++++++++++++++++++++++
@@ -288,7 +324,7 @@ input_conditioning_left : button_interface port map(
           clk_port          => pixel_clk_signal,
 		  button_port       => KEY_LEFT_PORT,
 		  button_db_port    => open,
-		  button_mp_port    => open
+		  button_mp_port    => left_key_signal
 		  );	
 --+++++++++++++++++++++++++++++++++
 -- Wire RIGHT Button to Input Conditioning
@@ -297,7 +333,7 @@ input_conditioning_right : button_interface port map(
           clk_port          => pixel_clk_signal,
 		  button_port       => KEY_RIGHT_PORT,
 		  button_db_port    => open,
-		  button_mp_port    => open
+		  button_mp_port    => right_key_signal
 		  );	
 
 --++++++++++++++++++++++++++++++++++
@@ -307,11 +343,11 @@ vga_controller_block: vga_controller port map(
     pixel_clk => pixel_clk_signal,
     hsync => hsynch_port,
     vsync => vsynch_port,
-    vga_read_addr => ,
+    vga_read_addr => vga_read_addr_signal,
     vblank => open,
     hblank => open,
-    video_on => open,
-    memory_update => open);
+    video_on => video_on_signal,
+    memory_update => memory_update_signal);
 
 --+++++++++++++++++++++++++++++++++
 --Wire VGA Test Block into the shell:
@@ -319,20 +355,20 @@ vga_controller_block: vga_controller port map(
 memory: blk_mem_gen_0 PORT map(
     clka => pixel_clk_signal,
     ena => '1',
-    wea => "0",
-    addra => address,
-    dina => "0000",
+    wea => WRITE_EN_signal,
+    addra => mem_interface_addr_signal,
+    dina => mem_interface_data_signal,
     douta => read_mem_signal
   );
 
 piece_generation: Piece_Generator PORT MAP(
    clk_port => pixel_clk_signal,
-   Generate_Piece_Port => '0',
-   New_Piece_Port => open,
-   address_1 => open, 
-   address_2 => open, 
-   address_3 => open, 
-   address_4  => open
+   Generate_Piece_Port => gen_piece_signal,
+   New_Piece_Port => new_piece_number_signal,
+   address_1 => new_addr_1_signal, 
+   address_2 => new_addr_2_signal, 
+   address_3 => new_addr_3_signal, 
+   address_4  => new_addr_4_signal
 );
 --+++++++++++++++++++++++++++++++++
 --Wire color decoder
@@ -343,109 +379,109 @@ color: color_decoder port map(
           );
 
 address_generator_block: Address_Generator PORT MAP(
-    curr_addr_1 => ,
-    curr_addr_2 => ,
-    curr_addr_3 => ,
-    curr_addr_4 => ,
-    rotation_number => ,
-    action_number => ,
-    piece_number => ,
-    check_addr_1 => ,
-    check_addr_2 => ,
-    check_addr_3 => ,
-    check_addr_4 => ,
-    next_addr_1 => ,
-    next_addr_2 => ,
-    next_addr_3 => ,
-    next_addr_4 => ,
-    next_rotation => 
+    curr_addr_1 => curr_addr_1_signal,
+    curr_addr_2 => curr_addr_2_signal,
+    curr_addr_3 => curr_addr_3_signal,
+    curr_addr_4 => curr_addr_4_signal,
+    rotation_number => current_rotation_number_signal,
+    action_number => current_action_signal,
+    piece_number => current_piece_number_signal,
+    check_addr_1 => check_addr_1_signal,
+    check_addr_2 => check_addr_2_signal,
+    check_addr_3 => check_addr_3_signal,
+    check_addr_4 => check_addr_4_signal,
+    next_addr_1 => next_move_addr_1_signal,
+    next_addr_2 => next_move_addr_2_signal,
+    next_addr_3 => next_move_addr_3_signal,
+    next_addr_4 => next_move_addr_4_signal,
+    next_rotation => next_rotation_number_signal
     );
 
 collision_detector: Collision_detection PORT MAP(
     clk => pixel_clk_signal,
-    request_move => ,
-    color_output => ,
-    check_addr_1 => ,
-    check_addr_2 => ,
-    check_addr_3, => ,
-    check_addr_4 => ,
-    collision_read_addr => ,
-    not_valid_move => 
+    request_move => req_move_signal,
+    color_output => read_mem_signal,
+    check_addr_1 => check_addr_1_signal,
+    check_addr_2 => check_addr_2_signal,
+    check_addr_3 => check_addr_3_signal,
+    check_addr_4 => check_addr_4_signal,
+    collision_read_addr => collision_read_addr_signal,
+    not_valid_move => not_valid_signal
     );
 
 down_counter_block : down_counter PORT MAP(
-        clk => ,
-        down_count_clr => ,
-        down_count_en => ,
-        down_pressed => ,
-        down_triggered => 
+        clk => pixel_clk_signal,
+        down_count_clr => clr_down_cnt_signal,
+        down_count_en => memory_update_signal,
+        down_pressed => down_key_signal,
+        down_triggered => down_tc_signal
   );
 
 make_move_block : make_move PORT MAP(
         clk => pixel_clk_signal,
-        curr_addr_1 => ,
-        curr_addr_2 => ,
-        curr_addr_3 => ,
-        curr_addr_4 => ,
-        next_addr_1 => ,
-        next_addr_2 => ,
-        next_addr_3 => ,
-        next_addr_4 => ,
-        make_move_en => ,
-        curr_piece => ,
-        update_data => ,
-        update_addr => 
+        curr_addr_1 => curr_addr_1_signal,
+        curr_addr_2 => curr_addr_2_signal,
+        curr_addr_3 => curr_addr_3_signal,
+        curr_addr_4 => curr_addr_4_signal,
+        next_addr_1 => next_move_addr_1_signal,
+        next_addr_2 => next_move_addr_2_signal,
+        next_addr_3 => next_move_addr_3_signal,
+        next_addr_4 => next_move_addr_4_signal,
+        make_move_en => make_move_en_signal,
+        curr_piece => current_piece_number_signal,
+        update_data => make_move_data_signal,
+        update_addr => make_move_addr_signal
   );
   
 memory_interface_block : memory_interface PORT MAP(
-        collision_addr => ,
-        move_addr => ,
-        VGA_addr => ,
-        gen_piece_addr => ,
-        move_data => ,
-        gen_piece_data => ,
-        write_piece_en => ,
-        make_move_en => ,
-        read_collision => ,
-        video_on => ,
-        addr_out => ,
-        data_out => 
+        collision_addr => collision_read_addr_signal,
+        move_addr => make_move_addr_signal,
+        VGA_addr => vga_read_addr_signal,
+        gen_piece_addr => write_new_piece_addr_signal,
+        move_data => make_move_data_signal,
+        gen_piece_data => current_piece_number_signal,
+        write_piece_en => write_new_piece_en_signal,
+        make_move_en => make_move_en_signal,
+        read_collision => READ_COLLISION_signal,
+        video_on => video_on_signal,
+        addr_out => mem_interface_addr_signal,
+        data_out => mem_interface_data_signal
    );
    
 piece_memory_block : piece_memory PORT MAP(
         clk => pixel_clk_signal,
-        next_move_addr_1 => ,
-        next_move_addr_2 => ,
-        next_move_addr_3 => ,
-        next_move_addr_4 => ,
-        next_gen_addr_1 => ,
-        next_gen_addr_2 => ,
-        next_gen_addr_3 => ,
-        next_gen_addr_4 => ,
-        next_rotation => ,
-        next_piece_number => ,
-        next_action => ,
-        load_next_move_en => ,
-        load_next_gen_en => ,
-        load_new_action_en => ,
-        curr_addr_1 => ,
-        curr_addr_2 => ,
-        curr_addr_3 => ,
-        curr_addr_4 => ,
-        curr_rotation => ,
-        curr_piece_number => ,
-        curr_action => 
+        next_move_addr_1 => next_move_addr_1_signal,
+        next_move_addr_2 => next_move_addr_2_signal,
+        next_move_addr_3 => next_move_addr_3_signal,
+        next_move_addr_4 => next_move_addr_4_signal,
+        next_gen_addr_1 => new_addr_1_signal,
+        next_gen_addr_2 => new_addr_2_signal,
+        next_gen_addr_3 => new_addr_3_signal,
+        next_gen_addr_4 => new_addr_4_signal,
+        next_rotation => next_rotation_number_signal,
+        next_piece_number => new_piece_number_signal,
+        next_action => next_action_signal,
+        load_next_move_en => load_next_move_en_signal,
+        load_next_gen_en => load_gen_en_signal,
+        load_new_action_en => load_new_action_en_signal,
+        curr_addr_1 => curr_addr_1_signal,
+        curr_addr_2 => curr_addr_2_signal,
+        curr_addr_3 => curr_addr_3_signal,
+        curr_addr_4 => curr_addr_4_signal,
+        curr_rotation => current_rotation_number_signal,
+        curr_piece_number => current_piece_number_signal,
+        curr_action => current_action_signal
    );
 
 write_new_piece_block : write_new_piece
   PORT MAP (
         clk => pixel_clk_signal,
-        curr_addr_1 => ,
-        curr_addr_2 => ,
-        curr_addr_3 => ,
-        curr_addr_4 => ,
-        write_new_piece_en => ,
-        write_new_piece_address => ,
+        curr_addr_1 => curr_addr_1_signal,
+        curr_addr_2 => curr_addr_2_signal,
+        curr_addr_3 => curr_addr_3_signal,
+        curr_addr_4 => curr_addr_4_signal,
+        write_new_piece_en => write_new_piece_en_signal,
+        write_new_piece_address => write_new_piece_addr_signal
   );
 
 address <= row_signal & col_signal;

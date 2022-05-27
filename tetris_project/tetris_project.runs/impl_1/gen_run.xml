@@ -1,58 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1653264265">
-  <File Type="ROUTE-PWR" Name="vga_test_shell_power_routed.rpt"/>
-  <File Type="PA-TCL" Name="vga_test_shell.tcl"/>
-  <File Type="BITSTR-BMM" Name="vga_test_shell_bd.bmm"/>
-  <File Type="ROUTE-PWR-SUM" Name="vga_test_shell_power_summary_routed.pb"/>
-  <File Type="REPORTS-TCL" Name="vga_test_shell_reports.tcl"/>
-  <File Type="OPT-DCP" Name="vga_test_shell_opt.dcp"/>
-  <File Type="OPT-DRC" Name="vga_test_shell_drc_opted.rpt"/>
-  <File Type="OPT-HWDEF" Name="vga_test_shell.hwdef"/>
-  <File Type="PWROPT-DCP" Name="vga_test_shell_pwropt.dcp"/>
-  <File Type="PLACE-DCP" Name="vga_test_shell_placed.dcp"/>
-  <File Type="PLACE-IO" Name="vga_test_shell_io_placed.rpt"/>
-  <File Type="PLACE-UTIL" Name="vga_test_shell_utilization_placed.rpt"/>
-  <File Type="PLACE-UTIL-PB" Name="vga_test_shell_utilization_placed.pb"/>
-  <File Type="PLACE-CTRL" Name="vga_test_shell_control_sets_placed.rpt"/>
-  <File Type="PLACE-PRE-SIMILARITY" Name="vga_test_shell_incremental_reuse_pre_placed.rpt"/>
-  <File Type="BG-BGN" Name="vga_test_shell.bgn"/>
-  <File Type="POSTPLACE-PWROPT-DCP" Name="vga_test_shell_postplace_pwropt.dcp"/>
-  <File Type="BG-BIN" Name="vga_test_shell.bin"/>
-  <File Type="PHYSOPT-DCP" Name="vga_test_shell_physopt.dcp"/>
-  <File Type="BITSTR-MSK" Name="vga_test_shell.msk"/>
-  <File Type="ROUTE-ERROR-DCP" Name="vga_test_shell_routed_error.dcp"/>
-  <File Type="ROUTE-DCP" Name="vga_test_shell_routed.dcp"/>
-  <File Type="ROUTE-BLACKBOX-DCP" Name="vga_test_shell_routed_bb.dcp"/>
-  <File Type="ROUTE-DRC" Name="vga_test_shell_drc_routed.rpt"/>
-  <File Type="ROUTE-DRC-PB" Name="vga_test_shell_drc_routed.pb"/>
-  <File Type="ROUTE-DRC-RPX" Name="vga_test_shell_drc_routed.rpx"/>
-  <File Type="BITSTR-LTX" Name="vga_test_shell.ltx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC" Name="vga_test_shell_methodology_drc_routed.rpt"/>
-  <File Type="BITSTR-MMI" Name="vga_test_shell.mmi"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="vga_test_shell_methodology_drc_routed.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="vga_test_shell_methodology_drc_routed.pb"/>
-  <File Type="BITSTR-SYSDEF" Name="vga_test_shell.sysdef"/>
-  <File Type="ROUTE-PWR-RPX" Name="vga_test_shell_power_routed.rpx"/>
-  <File Type="ROUTE-STATUS" Name="vga_test_shell_route_status.rpt"/>
-  <File Type="ROUTE-STATUS-PB" Name="vga_test_shell_route_status.pb"/>
-  <File Type="ROUTE-TIMINGSUMMARY" Name="vga_test_shell_timing_summary_routed.rpt"/>
-  <File Type="ROUTE-TIMING-PB" Name="vga_test_shell_timing_summary_routed.pb"/>
-  <File Type="ROUTE-TIMING-RPX" Name="vga_test_shell_timing_summary_routed.rpx"/>
-  <File Type="ROUTE-CLK" Name="vga_test_shell_clock_utilization_routed.rpt"/>
-  <File Type="ROUTE-BUS-SKEW" Name="vga_test_shell_bus_skew_routed.rpt"/>
-  <File Type="ROUTE-BUS-SKEW-PB" Name="vga_test_shell_bus_skew_routed.pb"/>
-  <File Type="ROUTE-BUS-SKEW-RPX" Name="vga_test_shell_bus_skew_routed.rpx"/>
-  <File Type="POSTROUTE-PHYSOPT-DCP" Name="vga_test_shell_postroute_physopt.dcp"/>
-  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="vga_test_shell_postroute_physopt_bb.dcp"/>
-  <File Type="BG-BIT" Name="vga_test_shell.bit"/>
-  <File Type="BITSTR-RBT" Name="vga_test_shell.rbt"/>
-  <File Type="BITSTR-NKY" Name="vga_test_shell.nky"/>
-  <File Type="BG-DRC" Name="vga_test_shell.drc"/>
-  <File Type="RDI-RDI" Name="vga_test_shell.vdi"/>
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1653615517">
+  <File Type="BITSTR-BMM" Name="tetris_shell_bd.bmm"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="tetris_shell_methodology_drc_opted.rpt"/>
+  <File Type="INIT-TIMING" Name="tetris_shell_timing_summary_init.rpt"/>
+  <File Type="ROUTE-PWR" Name="tetris_shell_power_routed.rpt"/>
+  <File Type="PA-TCL" Name="tetris_shell.tcl"/>
+  <File Type="OPT-TIMING" Name="tetris_shell_timing_summary_opted.rpt"/>
+  <File Type="OPT-DCP" Name="tetris_shell_opt.dcp"/>
+  <File Type="ROUTE-PWR-SUM" Name="tetris_shell_power_summary_routed.pb"/>
+  <File Type="REPORTS-TCL" Name="tetris_shell_reports.tcl"/>
+  <File Type="OPT-DRC" Name="tetris_shell_drc_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="tetris_shell.hwdef"/>
+  <File Type="PWROPT-DCP" Name="tetris_shell_pwropt.dcp"/>
+  <File Type="PWROPT-DRC" Name="tetris_shell_drc_pwropted.rpt"/>
+  <File Type="PWROPT-TIMING" Name="tetris_shell_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="tetris_shell_placed.dcp"/>
+  <File Type="PLACE-IO" Name="tetris_shell_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="tetris_shell_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL" Name="tetris_shell_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="tetris_shell_utilization_placed.pb"/>
+  <File Type="PLACE-CTRL" Name="tetris_shell_control_sets_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="tetris_shell_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="tetris_shell_incremental_reuse_pre_placed.rpt"/>
+  <File Type="BG-BGN" Name="tetris_shell.bgn"/>
+  <File Type="PLACE-TIMING" Name="tetris_shell_timing_summary_placed.rpt"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="tetris_shell_postplace_pwropt.dcp"/>
+  <File Type="BG-BIN" Name="tetris_shell.bin"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="tetris_shell_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="tetris_shell_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="tetris_shell_drc_physopted.rpt"/>
+  <File Type="BITSTR-MSK" Name="tetris_shell.msk"/>
+  <File Type="PHYSOPT-TIMING" Name="tetris_shell_timing_summary_physopted.rpt"/>
+  <File Type="ROUTE-ERROR-DCP" Name="tetris_shell_routed_error.dcp"/>
+  <File Type="ROUTE-DCP" Name="tetris_shell_routed.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="tetris_shell_routed_bb.dcp"/>
+  <File Type="ROUTE-DRC" Name="tetris_shell_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="tetris_shell_drc_routed.pb"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="tetris_shell.ltx"/>
+  <File Type="ROUTE-DRC-RPX" Name="tetris_shell_drc_routed.rpx"/>
+  <File Type="BITSTR-MMI" Name="tetris_shell.mmi"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="tetris_shell_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="tetris_shell_methodology_drc_routed.rpx"/>
+  <File Type="BITSTR-SYSDEF" Name="tetris_shell.sysdef"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="tetris_shell_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-PWR-RPX" Name="tetris_shell_power_routed.rpx"/>
+  <File Type="ROUTE-STATUS" Name="tetris_shell_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="tetris_shell_route_status.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="tetris_shell_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-TIMING-PB" Name="tetris_shell_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="tetris_shell_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="tetris_shell_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="tetris_shell_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW" Name="tetris_shell_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="tetris_shell_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="tetris_shell_bus_skew_routed.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="tetris_shell_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="tetris_shell_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="tetris_shell_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="tetris_shell_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="tetris_shell_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="tetris_shell_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="tetris_shell_bus_skew_postroute_physopted.pb"/>
+  <File Type="BG-BIT" Name="tetris_shell.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="tetris_shell_bus_skew_postroute_physopted.rpx"/>
+  <File Type="BITSTR-RBT" Name="tetris_shell.rbt"/>
+  <File Type="BITSTR-NKY" Name="tetris_shell.nky"/>
+  <File Type="BG-DRC" Name="tetris_shell.drc"/>
+  <File Type="RDI-RDI" Name="tetris_shell.vdi"/>
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/Color_Decoder.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/Piece_Generator.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/address_generator.vhd">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -64,26 +95,67 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/sources_1/new/collision_detection.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/down_counter.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/input_conditioning.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/make_move.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/memory_interface.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/piece_memory.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/tetris_game_controller.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/new/vga_controller.vhd">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/sources_1/new/write_new_piece.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/tetris_shell.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PPRDIR/../VHDL/vga_test_shell.vhd">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/new/Grid_Memory.vhd">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PPRDIR/../VHDL/vga_test_pattern_12.vhd">
       <FileInfo>
         <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -98,8 +170,7 @@
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="vga_test_shell"/>
-      <Option Name="TopAutoSet" Val="TRUE"/>
+      <Option Name="TopModule" Val="tetris_shell"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">

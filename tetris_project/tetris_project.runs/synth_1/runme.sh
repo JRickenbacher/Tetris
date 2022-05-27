@@ -40,4 +40,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log vga_test_shell.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source vga_test_shell.tcl
+EAStep vivado -log tetris_shell.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source tetris_shell.tcl

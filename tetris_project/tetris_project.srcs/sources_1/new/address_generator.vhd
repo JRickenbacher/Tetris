@@ -34,7 +34,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity address_generator is
   Port (
         curr_addr_1, curr_addr_2, curr_addr_3, curr_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
-        rotation_number, action_number : in STD_LOGIC_VECTOR(2 downto 0);
+        rotation_number, action_number : in STD_LOGIC_VECTOR(1 downto 0);
         piece_number : in STD_LOGIC_VECTOR(3 downto 0);
         check_addr_1, check_addr_2, check_addr_3, check_addr_4 : out STD_LOGIC_VECTOR(9 downto 0);
         next_addr_1, next_addr_2, next_addr_3, next_addr_4 : out STD_LOGIC_VECTOR(9 downto 0);
