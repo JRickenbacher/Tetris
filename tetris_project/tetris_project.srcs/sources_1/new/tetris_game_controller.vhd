@@ -56,7 +56,7 @@ end tetris_game_controller;
 
 architecture Behavioral of tetris_game_controller is
 
-type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, MainWait, StoreUp, StoreLeft, StoreRight, StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove);
+type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, MainWait, StoreUp, StoreLeft, StoreRight, StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove, InterpretValidMove);
 signal CS, NS : state_type := GenNewPiece;
 
 signal count_write_new_piece_en : std_logic := '0';
@@ -139,14 +139,17 @@ begin
         
         WHEN WaitValidMove =>
             if (valid_move_tc = '1') then
-                if (NOT_VALID = '0') then
-                    NS <= MakeMove;
+                NS <= InterpretValidMove;
+            end if;
+            
+        WHEN InterpretValidMove =>
+            if (NOT_VALID = '0') then
+                NS <= MakeMove;
+            else
+                if (CURRENT_ACTION = "11") then
+                    NS <= GenNewPiece;
                 else
-                    if (CURRENT_ACTION = "11") then
-                        NS <= GenNewPiece;
-                    else
-                        NS <= MainWait;
-                    end if;
+                    NS <= MainWait;
                 end if;
             end if;
         
@@ -215,11 +218,14 @@ begin
         WHEN WaitValidMove =>
             count_valid_move_en <= '1';
             READ_COLLISION <= '1';
-        
+                   
         WHEN MakeMove =>
             count_make_move_en <= '1';
             MAKE_MOVE_EN <= '1';
             WRITE_EN <= "1";
+            if (CURRENT_ACTION = "11") then
+                CLR_DOWN_CNT <= '1';
+            end if;
             
         WHEN LoadNewMove =>
             LOAD_NEXT_MOVE_EN <= '1';

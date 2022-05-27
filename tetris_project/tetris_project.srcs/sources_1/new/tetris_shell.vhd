@@ -174,7 +174,6 @@ component address_generator is
         curr_addr_1, curr_addr_2, curr_addr_3, curr_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
         rotation_number, action_number : in STD_LOGIC_VECTOR(1 downto 0);
         piece_number : in STD_LOGIC_VECTOR(3 downto 0);
-        check_addr_1, check_addr_2, check_addr_3, check_addr_4 : out STD_LOGIC_VECTOR(9 downto 0);
         next_addr_1, next_addr_2, next_addr_3, next_addr_4 : out STD_LOGIC_VECTOR(9 downto 0);
         next_rotation : out STD_LOGIC_VECTOR(1 downto 0)
   );
@@ -197,10 +196,14 @@ component collision_detection is
             clk : in STD_LOGIC;
             request_move : in STD_LOGIC;
             color_output : in STD_LOGIC_VECTOR(3 downto 0);
-            check_addr_1 : in STD_LOGIC_VECTOR(9 downto 0);
-            check_addr_2 : in STD_LOGIC_VECTOR(9 downto 0);
-            check_addr_3 : in STD_LOGIC_VECTOR(9 downto 0);
-            check_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
+            curr_addr_1 : in STD_LOGIC_VECTOR(9 downto 0);
+            curr_addr_2 : in STD_LOGIC_VECTOR(9 downto 0);
+            curr_addr_3 : in STD_LOGIC_VECTOR(9 downto 0);
+            curr_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
+            next_addr_1 : in STD_LOGIC_VECTOR(9 downto 0);
+            next_addr_2 : in STD_LOGIC_VECTOR(9 downto 0);
+            next_addr_3 : in STD_LOGIC_VECTOR(9 downto 0);
+            next_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
             collision_read_addr : out STD_LOGIC_VECTOR(9 downto 0);
             not_valid_move : out STD_LOGIC
             );
@@ -386,10 +389,6 @@ address_generator_block: Address_Generator PORT MAP(
     rotation_number => current_rotation_number_signal,
     action_number => current_action_signal,
     piece_number => current_piece_number_signal,
-    check_addr_1 => check_addr_1_signal,
-    check_addr_2 => check_addr_2_signal,
-    check_addr_3 => check_addr_3_signal,
-    check_addr_4 => check_addr_4_signal,
     next_addr_1 => next_move_addr_1_signal,
     next_addr_2 => next_move_addr_2_signal,
     next_addr_3 => next_move_addr_3_signal,
@@ -401,10 +400,14 @@ collision_detector: Collision_detection PORT MAP(
     clk => pixel_clk_signal,
     request_move => req_move_signal,
     color_output => read_mem_signal,
-    check_addr_1 => check_addr_1_signal,
-    check_addr_2 => check_addr_2_signal,
-    check_addr_3 => check_addr_3_signal,
-    check_addr_4 => check_addr_4_signal,
+    curr_addr_1 => curr_addr_1_signal,
+    curr_addr_2 => curr_addr_2_signal,
+    curr_addr_3 => curr_addr_3_signal,
+    curr_addr_4 => curr_addr_4_signal,
+    next_addr_1 => next_move_addr_1_signal,
+    next_addr_2 => next_move_addr_2_signal,
+    next_addr_3 => next_move_addr_3_signal,
+    next_addr_4 => next_move_addr_4_signal,
     collision_read_addr => collision_read_addr_signal,
     not_valid_move => not_valid_signal
     );

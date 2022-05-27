@@ -36,7 +36,8 @@ entity collision_detection is
             clk : in STD_LOGIC;
             request_move : in STD_LOGIC;
             color_output : in STD_LOGIC_VECTOR(3 downto 0);
-            check_addr_1, check_addr_2, check_addr_3, check_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
+            curr_addr_1, curr_addr_2, curr_addr_3, curr_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
+            next_addr_1, next_addr_2, next_addr_3, next_addr_4 : in STD_LOGIC_VECTOR(9 downto 0);
             collision_read_addr : out STD_LOGIC_VECTOR(9 downto 0);
             not_valid_move : out STD_LOGIC
             );
@@ -54,7 +55,6 @@ counter : process(clk)
 begin
 
 if rising_edge(clk) then
-
     if request_move = '1' then
         read_count <= "00";
     elsif read_count < 3 then
@@ -82,14 +82,14 @@ if rising_edge(clk) then
 end if;
 end process datapath;
 
-read_address    <=  check_addr_1 when (read_count = 0) else
-                    check_addr_2 when (read_count = 1) else
-                    check_addr_3 when (read_count = 2) else
-                    check_addr_4;
+read_address    <=  next_addr_1 when (read_count = 0) else
+                    next_addr_2 when (read_count = 1) else
+                    next_addr_3 when (read_count = 2) else
+                    next_addr_4;
 
 open_square     <=  '1' when (color_output = "0000") else '0';
 not_valid_move  <=  not_valid_signal;
-valid_address   <=  '0' when (read_address = "0000000000") else '1'; 
+valid_address   <=  '0' when ((current_read_address = curr_addr_1) or (current_read_address = curr_addr_2) or (current_read_address = curr_addr_3) or (current_read_address = curr_addr_4)) else '1'; 
 valid_count     <=  '1' when (read_count > 1) else '0';
 valid_output    <=  '1' when (valid_address = '1' and valid_count = '1') else '0';
 
