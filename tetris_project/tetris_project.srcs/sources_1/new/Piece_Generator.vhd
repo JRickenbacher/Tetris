@@ -42,7 +42,7 @@ end Piece_Generator;
 architecture Behavioral of Piece_Generator is
 signal new_color : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
 
-signal piece_count : unsigned(2 downto 0) := "000";
+signal piece_count : unsigned(2 downto 0) := "001";
 signal piece_count_tc : STD_LOGIC := '0';
 
 begin

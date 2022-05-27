@@ -42,7 +42,7 @@ end write_new_piece;
 
 architecture Behavioral of write_new_piece is
 
-signal addr_count : unsigned(1 downto 0);
+signal addr_count : unsigned(1 downto 0) := "00";
 
 begin
 

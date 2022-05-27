@@ -91,7 +91,7 @@ open_square     <=  '1' when (color_output = "0000") else '0';
 not_valid_move  <=  not_valid_signal;
 valid_address   <=  '0' when (read_address = "0000000000") else '1'; 
 valid_count     <=  '1' when (read_count > 1) else '0';
-valid_output    <=  '1' when (valid_address = '1' and valid_count = '1') else '1';
+valid_output    <=  '1' when (valid_address = '1' and valid_count = '1') else '0';
 
 collision_read_addr <= read_address;
 

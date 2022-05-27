@@ -68,12 +68,14 @@ begin
         end if;
         
         if load_next_gen_en = '1' then
+            curr_rotation <= "00";
             curr_addr_1 <= next_gen_addr_1;
             curr_addr_2 <= next_gen_addr_2;
             curr_addr_3 <= next_gen_addr_3;
             curr_addr_4 <= next_gen_addr_4;
             
             curr_piece_number <= next_piece_number;
+            curr_action <= "11";
         end if;
         
         if load_new_action_en = '1' then

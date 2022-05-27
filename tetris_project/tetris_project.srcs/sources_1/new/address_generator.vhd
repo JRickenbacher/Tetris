@@ -115,26 +115,14 @@ check_3_col <= "111";
 check_4_row <= "111";
 check_4_col <= "111";
 
-next_addr_1_row <= unsigned(curr_addr_1(9 downto 5));
-next_addr_1_col <= unsigned(curr_addr_1(4 downto 0));
-
-next_addr_2_row <= unsigned(curr_addr_2(9 downto 5));
-next_addr_2_col <= unsigned(curr_addr_2(4 downto 0));
-
-next_addr_3_row <= unsigned(curr_addr_3(9 downto 5));
-next_addr_3_col <= unsigned(curr_addr_3(4 downto 0));
-
-next_addr_4_row <= unsigned(curr_addr_4(9 downto 5));
-next_addr_4_col <= unsigned(curr_addr_4(4 downto 0));
-
 next_rotation <= rotation_number;
 
 --==========================================================================================
 ----I PIECE----
 --==========================================================================================
     if (piece_number = "0001") then
-        ----ROTATION 0----
-        if (rotation_number = "00") then
+        ----ROTATION 1----
+        if (rotation_number = "01") then
             top_left_addr_row <= unsigned(curr_addr_1(9 downto 5));
             top_left_addr_col <= unsigned(curr_addr_1(4 downto 0)) - 3;
             ----LEFT MOVEMENT----
@@ -191,7 +179,7 @@ next_rotation <= rotation_number;
                 next_addr_4_row <= unsigned(curr_addr_4(9 downto 5)) - 1;
                 next_addr_4_col <= unsigned(curr_addr_4(4 downto 0)) + 1;
                 
-                next_rotation <= "01";
+                next_rotation <= "00";
             
             ----DOWN MOVEMENT----
             else
@@ -209,7 +197,7 @@ next_rotation <= rotation_number;
                 
             end if;
         
-        ----ROTATION 1----
+        ----ROTATION 0----
         else
             top_left_addr_row <= unsigned(curr_addr_1(9 downto 5)) - 2;
             top_left_addr_col <= unsigned(curr_addr_1(4 downto 0)) - 1;
@@ -243,7 +231,7 @@ next_rotation <= rotation_number;
                 next_addr_4_row <= unsigned(curr_addr_4(9 downto 5)) + 1;
                 next_addr_4_col <= unsigned(curr_addr_4(4 downto 0)) - 1;
                 
-                next_rotation <= "00";
+                next_rotation <= "01";
             
             ----DOWN MOVEMENT----
             else

@@ -1,0 +1,4 @@
+Running: xsim.dir/tetris_shell_tb_behav/xsimk.exe -simmode gui -wdb tetris_shell_tb_behav.wdb -simrunnum 0 -socket 59631
+Design successfully loaded
+Design Loading Memory Usage: 6528 KB (Peak: 6528 KB)
+Design Loading CPU Usage: 78 ms

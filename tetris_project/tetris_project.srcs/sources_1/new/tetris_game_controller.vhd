@@ -56,7 +56,7 @@ end tetris_game_controller;
 
 architecture Behavioral of tetris_game_controller is
 
-type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, MainWait, StoreUp, StoreLeft, StoreRight, StoreDown, CheckValidMove, WaitValidMove, MakeMove);
+type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, MainWait, StoreUp, StoreLeft, StoreRight, StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove);
 signal CS, NS : state_type := GenNewPiece;
 
 signal count_write_new_piece_en : std_logic := '0';
@@ -80,7 +80,7 @@ begin
     end if;
 end process state_update;
 
-next_state_logic : process(CS, KEY_UP, KEY_LEFT, KEY_RIGHT, MEMORY_UPDATE, NOT_VALID, DOWN_TC, CURRENT_ACTION)
+next_state_logic : process(CS, KEY_UP, KEY_LEFT, KEY_RIGHT, MEMORY_UPDATE, NOT_VALID, DOWN_TC, CURRENT_ACTION, write_new_piece_tc, valid_move_tc, make_move_tc)
 begin
     
     NS <= CS;
@@ -152,8 +152,11 @@ begin
         
         WHEN MakeMove =>
             if (make_move_tc = '1') then
-                NS <= MainWait;
+                NS <= LoadNewMove;
             end if;
+            
+        WHEN LoadNewMove =>
+            NS <= MainWait;
         
         WHEN others =>
             NS <= GenNewPiece;
@@ -191,19 +194,19 @@ begin
             write_en <= "1";
         
         WHEN StoreUp =>
-            LOAD_NEXT_MOVE_EN <= '1';
+            LOAD_NEW_ACTION_EN <= '1';
             NEXT_ACTION <= "10";
         
         WHEN StoreLeft =>
-            LOAD_NEXT_MOVE_EN <= '1';
+            LOAD_NEW_ACTION_EN <= '1';
             NEXT_ACTION <= "00";
         
         WHEN StoreRight =>
-            LOAD_NEXT_MOVE_EN <= '1';
+            LOAD_NEW_ACTION_EN <= '1';
             NEXT_ACTION <= "01";
             
         WHEN StoreDown =>
-            LOAD_NEXT_MOVE_EN <= '1';
+            LOAD_NEW_ACTION_EN <= '1';
             NEXT_ACTION <= "11";
         
         WHEN CheckValidMove =>
@@ -217,6 +220,9 @@ begin
             count_make_move_en <= '1';
             MAKE_MOVE_EN <= '1';
             WRITE_EN <= "1";
+            
+        WHEN LoadNewMove =>
+            LOAD_NEXT_MOVE_EN <= '1';
 
         WHEN others =>
             CLR_DOWN_CNT <= '0';
