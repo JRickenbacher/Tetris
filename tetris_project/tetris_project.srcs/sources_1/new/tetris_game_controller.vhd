@@ -39,7 +39,8 @@ entity tetris_game_controller is
            KEY_RIGHT : IN STD_LOGIC;
            DOWN_TC : IN STD_LOGIC;
            NOT_VALID : IN STD_LOGIC;
-           CURRENT_ACTION : IN STD_LOGIC_VECTOR(1 downto 0);        
+           CURRENT_ACTION : IN STD_LOGIC_VECTOR(1 downto 0);
+           CLEAR_LINES  : IN STD_LOGIC;        
            CLR_DOWN_CNT: OUT STD_LOGIC;
            REQ_MOVE : OUT STD_LOGIC;
            LOAD_NEXT_MOVE_EN : OUT STD_LOGIC;
@@ -50,13 +51,17 @@ entity tetris_game_controller is
            WRITE_EN : OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
            NEXT_ACTION : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
            READ_COLLISION : OUT STD_LOGIC;
-           MAKE_MOVE_EN : OUT STD_LOGIC
+           MAKE_MOVE_EN : OUT STD_LOGIC;
+           CHECK_LINES : OUT STD_LOGIC;
+           CLEAR_LINES_EN : OUT STD_LOGIC;
+           GAME_GRID_MEM_WRITE_EN : OUT STD_LOGIC_VECTOR(0 DOWNTO 0)
+           
 );
 end tetris_game_controller;
 
 architecture Behavioral of tetris_game_controller is
 
-type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, MainWait, StoreUp, StoreLeft, StoreRight, StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove, InterpretValidMove);
+type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, CheckLines, ClearLines, MainWait, StoreUp, StoreLeft, StoreRight, StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove, InterpretValidMove);
 signal CS, NS : state_type := GenNewPiece;
 
 signal count_write_new_piece_en : std_logic := '0';
@@ -71,6 +76,14 @@ signal count_make_move_en : std_logic := '0';
 signal make_move_count : unsigned(2 downto 0) := "000";
 signal make_move_tc : std_logic := '0';
 
+signal check_lines_count_en : std_logic := '0';
+signal check_lines_count : unsigned(7 downto 0) := "00000000";
+signal check_lines_tc : std_logic := '0';
+
+signal clear_lines_count_en : std_logic := '0';
+signal clear_lines_count : unsigned(7 downto 0) := "00000000";
+signal clear_lines_tc : std_logic := '0';
+
 begin
 
 state_update : process(PIXEL_CLK)
@@ -80,7 +93,7 @@ begin
     end if;
 end process state_update;
 
-next_state_logic : process(CS, KEY_UP, KEY_LEFT, KEY_RIGHT, MEMORY_UPDATE, NOT_VALID, DOWN_TC, CURRENT_ACTION, write_new_piece_tc, valid_move_tc, make_move_tc)
+next_state_logic : process(CS, KEY_UP, KEY_LEFT, KEY_RIGHT, MEMORY_UPDATE, NOT_VALID, DOWN_TC, CURRENT_ACTION, write_new_piece_tc, valid_move_tc, make_move_tc, clear_lines, check_lines_tc, clear_lines_tc)
 begin
     
     NS <= CS;
@@ -145,7 +158,7 @@ begin
                 NS <= MakeMove;
             else
                 if (CURRENT_ACTION = "11") then
-                    NS <= GenNewPiece;
+                    NS <= CheckLines;
                 else
                     NS <= MainWait;
                 end if;
@@ -157,8 +170,23 @@ begin
             end if;
             
         WHEN LoadNewMove =>
+--            NS <= CheckLines;
             NS <= MainWait;
         
+        WHEN CheckLines => 
+            if check_lines_tc = '1' then
+                if clear_lines = '1' then
+                    NS <= ClearLines;
+                else
+                  NS <= GenNewPiece;
+                end if;
+             end if;
+        
+        WHEN ClearLines => 
+            if clear_lines_tc = '1' then
+                NS <= GenNewPiece;
+            end if;
+                     
         WHEN others =>
             NS <= GenNewPiece;
         
@@ -182,6 +210,12 @@ begin
     count_make_move_en <= '0';
     count_write_new_piece_en <= '0';
     count_valid_move_en <= '0';
+    CHECK_LINES <= '0';
+    check_lines_count_en <= '0';
+    CLEAR_LINES_EN <= '0';
+    clear_lines_count_en <= '0';
+    GAME_GRID_MEM_WRITE_EN <= "1";
+    
     case(CS) is
     
         WHEN GenNewPiece =>
@@ -230,6 +264,16 @@ begin
         WHEN LoadNewMove =>
             LOAD_NEXT_MOVE_EN <= '1';
 
+        WHEN CheckLines =>
+            CHECK_LINES <= '1';
+            check_lines_count_en <= '1';
+       
+        WHEN ClearLines =>
+            CLEAR_LINES_EN <= '1';
+            clear_lines_count_en <= '1';
+            GAME_GRID_MEM_WRITE_EN <= "0";
+            WRITE_EN <= "1";
+            
         WHEN others =>
             CLR_DOWN_CNT <= '0';
             REQ_MOVE <= '0';
@@ -294,8 +338,43 @@ begin
 
 end process;
 
+
+
 make_move_tc <= '1' when (make_move_count = "111") else
                  '0';
 
+count_check_lines : process(pixel_clk)
+begin
+
+    if rising_edge(pixel_clk) then
+        if check_lines_count_en = '1' then
+            check_lines_count <= check_lines_count + 1;
+        end if;
+        if check_lines_tc = '1' then 
+            check_lines_count <= "00000000";
+        end if;
+    end if;
+
+end process;
+
+check_lines_tc <= '1' when (check_lines_count = 210) else '0';
+
+
+
+count_clear_lines : process(pixel_clk)
+begin
+
+    if rising_edge(pixel_clk) then
+        if clear_lines_count_en = '1' then
+            clear_lines_count <= clear_lines_count + 1;
+        end if;
+        if clear_lines_tc = '1' then 
+            clear_lines_count <= "00000000";
+        end if;
+    end if;
+
+end process;
+
+clear_lines_tc <= '1' when (clear_lines_count = 211) else '0';
 
 end Behavioral;

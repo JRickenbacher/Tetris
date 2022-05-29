@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tetris_shell_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tetris_shell_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="32049589300000fs"></ZoomStartTime>
+      <ZoomEndTime time="32049943800001fs"></ZoomEndTime>
+      <Cursor1Time time="32049854300000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="208"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="34" />
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/color_signal" type="array">
+      <obj_property name="ElementShortName">color_signal[11:0]</obj_property>
+      <obj_property name="ObjectShortName">color_signal[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/MEM_ADDRESS" type="array">
+      <obj_property name="ElementShortName">MEM_ADDRESS[9:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_ADDRESS[9:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/GRID_ADDRESS" type="array">
+      <obj_property name="ElementShortName">GRID_ADDRESS[7:0]</obj_property>
+      <obj_property name="ObjectShortName">GRID_ADDRESS[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/CLEAR_LINES" type="logic">
+      <obj_property name="ElementShortName">CLEAR_LINES</obj_property>
+      <obj_property name="ObjectShortName">CLEAR_LINES</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/GAME_GRID_IN" type="array">
+      <obj_property name="ElementShortName">GAME_GRID_IN[3:0]</obj_property>
+      <obj_property name="ObjectShortName">GAME_GRID_IN[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/clear_lines_en" type="logic">
+      <obj_property name="ElementShortName">clear_lines_en</obj_property>
+      <obj_property name="ObjectShortName">clear_lines_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/CHECK_LINES" type="logic">
+      <obj_property name="ElementShortName">CHECK_LINES</obj_property>
+      <obj_property name="ObjectShortName">CHECK_LINES</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/MEM_DATA" type="array">
+      <obj_property name="ElementShortName">MEM_DATA[3:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_DATA[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/col_count" type="array">
+      <obj_property name="ElementShortName">col_count[4:0]</obj_property>
+      <obj_property name="ObjectShortName">col_count[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/row_count" type="array">
+      <obj_property name="ElementShortName">row_count[4:0]</obj_property>
+      <obj_property name="ObjectShortName">row_count[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/current_row" type="array">
+      <obj_property name="ElementShortName">current_row[9:0]</obj_property>
+      <obj_property name="ObjectShortName">current_row[9:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/game_grid_count" type="array">
+      <obj_property name="ElementShortName">game_grid_count[7:0]</obj_property>
+      <obj_property name="ObjectShortName">game_grid_count[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/grid_memory/ena" type="logic">
+      <obj_property name="ElementShortName">ena</obj_property>
+      <obj_property name="ObjectShortName">ena</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/grid_memory/wea" type="array">
+      <obj_property name="ElementShortName">wea[0:0]</obj_property>
+      <obj_property name="ObjectShortName">wea[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/grid_memory/addra" type="array">
+      <obj_property name="ElementShortName">addra[7:0]</obj_property>
+      <obj_property name="ObjectShortName">addra[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/grid_memory/dina" type="array">
+      <obj_property name="ElementShortName">dina[3:0]</obj_property>
+      <obj_property name="ObjectShortName">dina[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/grid_memory/douta" type="array">
+      <obj_property name="ElementShortName">douta[3:0]</obj_property>
+      <obj_property name="ObjectShortName">douta[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/game_controller/CS" type="other">
+      <obj_property name="ElementShortName">CS</obj_property>
+      <obj_property name="ObjectShortName">CS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/game_controller/GAME_GRID_MEM_WRITE_EN" type="array">
+      <obj_property name="ElementShortName">GAME_GRID_MEM_WRITE_EN[0:0]</obj_property>
+      <obj_property name="ObjectShortName">GAME_GRID_MEM_WRITE_EN[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/game_controller/CHECK_LINES" type="logic">
+      <obj_property name="ElementShortName">CHECK_LINES</obj_property>
+      <obj_property name="ObjectShortName">CHECK_LINES</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/col_count_tc" type="logic">
+      <obj_property name="ElementShortName">col_count_tc</obj_property>
+      <obj_property name="ObjectShortName">col_count_tc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/delayed_shift_en" type="logic">
+      <obj_property name="ElementShortName">delayed_shift_en</obj_property>
+      <obj_property name="ObjectShortName">delayed_shift_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/delayed_col_count_tc" type="logic">
+      <obj_property name="ElementShortName">delayed_col_count_tc</obj_property>
+      <obj_property name="ObjectShortName">delayed_col_count_tc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/is_empty" type="logic">
+      <obj_property name="ElementShortName">is_empty</obj_property>
+      <obj_property name="ObjectShortName">is_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/full_row" type="logic">
+      <obj_property name="ElementShortName">full_row</obj_property>
+      <obj_property name="ObjectShortName">full_row</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/clear_line" type="logic">
+      <obj_property name="ElementShortName">clear_line</obj_property>
+      <obj_property name="ObjectShortName">clear_line</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/game_grid_count_tc" type="logic">
+      <obj_property name="ElementShortName">game_grid_count_tc</obj_property>
+      <obj_property name="ObjectShortName">game_grid_count_tc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/check_line_reg" type="logic">
+      <obj_property name="ElementShortName">check_line_reg</obj_property>
+      <obj_property name="ObjectShortName">check_line_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/clear_lines_en_reg" type="logic">
+      <obj_property name="ElementShortName">clear_lines_en_reg</obj_property>
+      <obj_property name="ObjectShortName">clear_lines_en_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/CLR_CHECK_CNTS" type="logic">
+      <obj_property name="ElementShortName">CLR_CHECK_CNTS</obj_property>
+      <obj_property name="ObjectShortName">CLR_CHECK_CNTS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/CURR_GRID_ADDRESS" type="array">
+      <obj_property name="ElementShortName">CURR_GRID_ADDRESS[7:0]</obj_property>
+      <obj_property name="ObjectShortName">CURR_GRID_ADDRESS[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/CURR_MEM_ADDRESS" type="array">
+      <obj_property name="ElementShortName">CURR_MEM_ADDRESS[9:0]</obj_property>
+      <obj_property name="ObjectShortName">CURR_MEM_ADDRESS[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/clear_lines_signal" type="logic">
+      <obj_property name="ElementShortName">clear_lines_signal</obj_property>
+      <obj_property name="ObjectShortName">clear_lines_signal</obj_property>
+   </wvobject>
+</wave_config>

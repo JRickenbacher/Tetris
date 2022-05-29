@@ -71,25 +71,29 @@ end component;
 -- Tetris Game Controller
 --+++++++++++++++++++++++++++++++++
 component tetris_game_controller is
-    Port ( PIXEL_CLK        : in STD_LOGIC;
-           MEMORY_UPDATE    : in STD_LOGIC;
-           KEY_UP           : in STD_LOGIC;
-           KEY_LEFT         : in STD_LOGIC;
-           KEY_RIGHT        : IN STD_LOGIC;
-           DOWN_TC          : IN STD_LOGIC;
-           NOT_VALID        : IN STD_LOGIC;
-           CURRENT_ACTION   : IN STD_LOGIC_VECTOR(1 downto 0);        
-           CLR_DOWN_CNT     : OUT STD_LOGIC;
-           REQ_MOVE         : OUT STD_LOGIC;
-           LOAD_NEXT_MOVE_EN: OUT STD_LOGIC;
-           LOAD_GEN_EN      : OUT STD_LOGIC;
+    Port ( PIXEL_CLK : in STD_LOGIC;
+           MEMORY_UPDATE : in STD_LOGIC;
+           KEY_UP : IN STD_LOGIC;
+           KEY_LEFT : IN STD_LOGIC;
+           KEY_RIGHT : IN STD_LOGIC;
+           DOWN_TC : IN STD_LOGIC;
+           NOT_VALID : IN STD_LOGIC;
+           CURRENT_ACTION : IN STD_LOGIC_VECTOR(1 downto 0);
+           CLEAR_LINES  : IN STD_LOGIC;        
+           CLR_DOWN_CNT: OUT STD_LOGIC;
+           REQ_MOVE : OUT STD_LOGIC;
+           LOAD_NEXT_MOVE_EN : OUT STD_LOGIC;
+           LOAD_GEN_EN : OUT STD_LOGIC;
            LOAD_NEW_ACTION_EN : OUT STD_LOGIC;
            GEN_PIECE : OUT STD_LOGIC;
            WRITE_NEW_PIECE_EN : OUT STD_LOGIC;
            WRITE_EN : OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
            NEXT_ACTION : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
            READ_COLLISION : OUT STD_LOGIC;
-           MAKE_MOVE_EN : OUT STD_LOGIC
+           MAKE_MOVE_EN : OUT STD_LOGIC;
+           CHECK_LINES : OUT STD_LOGIC;
+           CLEAR_LINES_EN : OUT STD_LOGIC;
+           GAME_GRID_MEM_WRITE_EN : OUT STD_LOGIC_VECTOR(0 DOWNTO 0)
 );
 end component;
 
@@ -122,7 +126,22 @@ component blk_mem_gen_0 IS
     douta : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
   );
 end component;
-  
+
+
+--+++++++++++++++++++++++++++++++++
+--IP Core memory component
+--+++++++++++++++++++++++++++++++++
+component blk_mem_gen_1 IS
+  PORT (
+    clka : IN STD_LOGIC;
+    ena : IN STD_LOGIC;
+    wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+    addra : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    dina : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+    douta : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+  );
+end component;
+
 component Piece_Generator IS
         Port ( clk_port : in STD_LOGIC;
            Generate_Piece_Port : in STD_LOGIC;
@@ -216,12 +235,26 @@ end component;
 
 component memory_interface is
     Port (
-        collision_addr, move_addr, VGA_addr, gen_piece_addr : in std_logic_vector(9 downto 0);
-        move_data, gen_piece_data : in std_logic_vector(3 downto 0);
+        collision_addr, move_addr, VGA_addr, gen_piece_addr, lines_addr : in std_logic_vector(9 downto 0);
+        move_data, gen_piece_data, lines_data : in std_logic_vector(3 downto 0);
+        check_lines, clear_lines_en : in std_logic;
         write_piece_en, make_move_en, read_collision, video_on : in std_logic;
         addr_out : out std_logic_vector(9 downto 0);
         data_out : out std_logic_vector(3 downto 0)
    );
+end component;
+
+
+component check_lines is
+  Port ( clk         : in STD_LOGIC;
+         MEM_DATA    : in STD_LOGIC_VECTOR(3 downto 0);
+         CHECK_LINES : in STD_LOGIC;
+         clear_lines_en : in STD_LOGIC;       
+         MEM_ADDRESS : out STD_LOGIC_VECTOR(9 downto 0);
+         GRID_ADDRESS : out STD_LOGIC_VECTOR(7 downto 0);
+         CLEAR_LINES : out STD_LOGIC;
+         GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0)
+         );
 end component;
 
 --=================================
@@ -267,7 +300,7 @@ signal mem_interface_data_signal : STD_LOGIC_VECTOR(3 downto 0) := (others => '0
 signal down_tc_signal, not_valid_signal, clr_down_cnt_signal, req_move_signal, load_next_move_en_signal, load_gen_en_signal, load_new_action_en_signal : std_logic := '0'; 
 signal gen_piece_signal, write_new_piece_en_signal, READ_COLLISION_signal, make_move_en_signal : std_logic := '0'; 
 
-signal WRITE_EN_signal : std_logic_vector(0 downto 0) := "0";
+signal WRITE_EN_signal, game_grid_write_en_signal : std_logic_vector(0 downto 0) := "0";
 
 signal current_action_signal, next_action_signal : std_logic_vector(1 downto 0) := "00";
 
@@ -275,6 +308,12 @@ signal vga_read_addr_signal, write_new_piece_addr_signal, collision_read_addr_si
 
 signal current_piece_number_signal, new_piece_number_signal : std_logic_vector(3 downto 0) := "0000";
 signal current_rotation_number_signal, next_rotation_number_signal : std_logic_vector(1 downto 0) := "00";
+
+--check lines signals
+signal check_lines_signal, clear_lines_signal, clear_lines_en_signal : STD_LOGIC := '0';
+signal game_grid_output_signal, game_grid_input_signal : std_logic_vector(3 downto 0) := "0000";
+signal game_grid_address_signal : std_logic_vector(7 downto 0) := "00000000";
+signal check_lines_address_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
 
 begin
 --+++++++++++++++++++++++++++++++++
@@ -296,7 +335,8 @@ game_controller : tetris_game_controller
        KEY_RIGHT => right_key_signal,
        DOWN_TC => down_tc_signal,
        NOT_VALID => not_valid_signal,
-       CURRENT_ACTION => current_action_signal,        
+       CURRENT_ACTION => current_action_signal,
+       CLEAR_LINES => clear_lines_signal,        
        CLR_DOWN_CNT => clr_down_cnt_signal,
        REQ_MOVE => req_move_signal,
        LOAD_NEXT_MOVE_EN => load_next_move_en_signal,
@@ -307,8 +347,25 @@ game_controller : tetris_game_controller
        WRITE_EN => WRITE_EN_signal,
        NEXT_ACTION => next_action_signal,
        READ_COLLISION => READ_COLLISION_signal,
-       MAKE_MOVE_EN => make_move_en_signal
+       MAKE_MOVE_EN => make_move_en_signal,
+       CHECK_LINES => check_lines_signal,
+       CLEAR_LINES_EN => clear_lines_en_signal,
+       GAME_GRID_MEM_WRITE_EN => game_grid_write_en_signal
 );	
+--+++++++++++++++++++++++++++++++++
+-- Wire check lines
+--+++++++++++++++++++++++++++++++++
+check_lines_block : check_lines port map(
+         clk         => pixel_clk_signal,
+         MEM_DATA    => read_mem_signal,
+         CHECK_LINES => check_lines_signal,
+         clear_lines_en => clear_lines_en_signal,
+         MEM_ADDRESS => check_lines_address_signal,
+         GRID_ADDRESS => game_grid_address_signal,
+         CLEAR_LINES => clear_lines_signal, 
+         GAME_GRID_IN => game_grid_input_signal
+         );
+
 
 --+++++++++++++++++++++++++++++++++
 -- Wire UP Button to Input Conditioning
@@ -374,6 +431,18 @@ memory: blk_mem_gen_0 PORT map(
     douta => read_mem_signal
   );
 
+--+++++++++++++++++++++++++++++++++
+--Game Grid Memory:
+--+++++++++++++++++++++++++++++++++
+grid_memory: blk_mem_gen_1 PORT map(
+    clka => pixel_clk_signal,
+    ena => '1',
+    wea => game_grid_write_en_signal,
+    addra => game_grid_address_signal,
+    dina => game_grid_input_signal,
+    douta => game_grid_output_signal
+  );
+  
 piece_generation: Piece_Generator PORT MAP(
    clk_port => pixel_clk_signal,
    Generate_Piece_Port => gen_piece_signal,
@@ -455,6 +524,10 @@ memory_interface_block : memory_interface PORT MAP(
         VGA_addr => vga_read_addr_signal,
         gen_piece_addr => write_new_piece_addr_signal,
         move_data => make_move_data_signal,
+        lines_addr => check_lines_address_signal,
+        lines_data => game_grid_output_signal,
+        check_lines => check_lines_signal,
+        clear_lines_en => clear_lines_en_signal,
         gen_piece_data => current_piece_number_signal,
         write_piece_en => write_new_piece_en_signal,
         make_move_en => make_move_en_signal,
@@ -501,5 +574,6 @@ write_new_piece_block : write_new_piece
   );
 
 address <= row_signal & col_signal;
+
 
 end Behavioral;

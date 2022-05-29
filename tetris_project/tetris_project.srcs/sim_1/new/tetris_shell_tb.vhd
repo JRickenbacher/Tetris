@@ -83,19 +83,19 @@ BEGIN
 END PROCESS clkgen_proc;
 
 
-test : process
-begin
+--test : process
+--begin
 
-wait for 50ms;
-KEY_LEFT_SIGNAL <= '1';
-wait for 1ms;
-KEY_LEFT_SIGNAL <= '0';
-wait for 20ms;
-KEY_RIGHT_SIGNAL <= '1';
-wait for 1ms;
-KEY_RIGHT_SIGNAL <= '0';
-wait;
-end process test;
+--wait for 50ms;
+--KEY_LEFT_SIGNAL <= '1';
+--wait for 1ms;
+--KEY_LEFT_SIGNAL <= '0';
+--wait for 20ms;
+--KEY_RIGHT_SIGNAL <= '1';
+--wait for 1ms;
+--KEY_RIGHT_SIGNAL <= '0';
+--wait;
+--end process test;
 
 
 end testbench;

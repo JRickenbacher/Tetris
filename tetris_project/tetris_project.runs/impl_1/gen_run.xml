@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1653691812">
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1653855427">
   <File Type="BITSTR-BMM" Name="tetris_shell_bd.bmm"/>
   <File Type="OPT-METHODOLOGY-DRC" Name="tetris_shell_methodology_drc_opted.rpt"/>
   <File Type="INIT-TIMING" Name="tetris_shell_timing_summary_init.rpt"/>
@@ -84,6 +84,12 @@
       </FileInfo>
     </File>
     <File Path="$PSRCDIR/sources_1/new/address_generator.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/check_lines.vhd">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -204,4 +210,5 @@
     <Step Id="write_bitstream"/>
   </Strategy>
   <BlockFileSet Type="BlockSrcs" Name="blk_mem_gen_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="blk_mem_gen_1"/>
 </GenRun>

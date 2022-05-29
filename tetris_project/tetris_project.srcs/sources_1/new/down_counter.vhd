@@ -65,8 +65,8 @@ end process;
 compare_count <= "111100" when down_pressed = '0' else
                  "001000";
 
---compare_count <= "00000010" when down_pressed = '0' else
---                 "00000010";
+--compare_count <= "000001" when down_pressed = '0' else
+--                 "000001";
                  
 down_tc <= '1' when down_count >= compare_count else
            '0';

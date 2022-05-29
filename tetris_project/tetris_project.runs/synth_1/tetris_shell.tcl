@@ -17,10 +17,7 @@ proc create_report { reportName command } {
     send_msg_id runtcl-5 warning "$msg"
   }
 }
-set_param synth.incrementalSynthesisCache C:/Users/f005fnt/AppData/Local/Temp/.Xil_f005fnt/Vivado-12396-mecha-7/incrSyn
 set_param xicom.use_bs_reader 1
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
 create_project -in_memory -part xc7a35tcpg236-1
 
 set_param project.singleFileAddWarning.threshold 0
@@ -40,6 +37,7 @@ read_vhdl -library xil_defaultlib {
   O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Color_Decoder.vhd
   O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Piece_Generator.vhd
   O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/address_generator.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/check_lines.vhd
   O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/clock_generator.vhd
   O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/collision_detection.vhd
   O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/down_counter.vhd
@@ -54,6 +52,9 @@ read_vhdl -library xil_defaultlib {
 }
 read_ip -quiet O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci
 set_property used_in_implementation false [get_files -all o:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0_ooc.xdc]
+
+read_ip -quiet O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1.xci
+set_property used_in_implementation false [get_files -all o:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_ooc.xdc]
 
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the

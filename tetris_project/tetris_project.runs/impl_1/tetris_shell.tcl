@@ -60,14 +60,11 @@ proc step_failed { step } {
   close $ch
 }
 
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
 
 start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
-  set_param synth.incrementalSynthesisCache C:/Users/f005fnt/AppData/Local/Temp/.Xil_f005fnt/Vivado-12396-mecha-7/incrSyn
   set_param xicom.use_bs_reader 1
   create_project -in_memory -part xc7a35tcpg236-1
   set_property board_part digilentinc.com:basys3:part0:1.1 [current_project]
@@ -80,6 +77,7 @@ set rc [catch {
   set_property XPM_LIBRARIES XPM_MEMORY [current_project]
   add_files -quiet O:/ENGS31/Tetris/tetris_project/tetris_project.runs/synth_1/tetris_shell.dcp
   read_ip -quiet O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci
+  read_ip -quiet O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1.xci
   read_xdc O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/constrs_1/new/tetris_constraints.xdc
   link_design -top tetris_shell -part xc7a35tcpg236-1
   close_msg_db -file init_design.pb
