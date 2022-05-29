@@ -1,8 +1,8 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2018.3.1 (win64) Build 2489853 Tue Mar 26 04:20:25 MDT 2019
-| Date         : Sun May 29 16:18:38 2022
-| Host         : mecha-8 running 64-bit major release  (build 9200)
+| Date         : Sun May 29 19:16:19 2022
+| Host         : mecha-7 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file tetris_shell_control_sets_placed.rpt
 | Design       : tetris_shell
 | Device       : xc7a35t
@@ -23,8 +23,8 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Number of unique control sets                            |    20 |
-| Unused register locations in slices containing registers |    45 |
+| Number of unique control sets                            |    22 |
+| Unused register locations in slices containing registers |    49 |
 +----------------------------------------------------------+-------+
 
 
@@ -35,11 +35,11 @@ Table of Contents
 | Fanout | Control Sets |
 +--------+--------------+
 |      2 |            1 |
-|      5 |            6 |
+|      5 |            8 |
 |      6 |            1 |
 |      8 |            7 |
 |     10 |            1 |
-|     12 |            1 |
+|     15 |            1 |
 |    16+ |            3 |
 +--------+--------------+
 
@@ -50,41 +50,43 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |             126 |           51 |
+| No           | No                    | No                     |             144 |           51 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |              40 |           14 |
-| Yes          | No                    | No                     |              79 |           34 |
+| No           | Yes                   | No                     |              37 |           13 |
+| Yes          | No                    | No                     |              84 |           35 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |              38 |           19 |
+| Yes          | Yes                   | No                     |              54 |           18 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+--------------------------+------------------------------------------------+----------------------------------------------+------------------+----------------+
-|       Clock Signal       |                  Enable Signal                 |               Set/Reset Signal               | Slice Load Count | Bel Load Count |
-+--------------------------+------------------------------------------------+----------------------------------------------+------------------+----------------+
-|  clk_ext_port_IBUF_BUFG  |                                                |                                              |                1 |              2 |
-|  clocking/pixel_clk_port | check_lines_block/row_count0                   | check_lines_block/CLR_CHECK_CNTS1_out        |                1 |              5 |
-|  clocking/pixel_clk_port | game_controller/E[0]                           | check_lines_block/col_count0                 |                2 |              5 |
-|  clocking/pixel_clk_port | vga_controller_block/h_block_count[4]_i_1_n_0  |                                              |                1 |              5 |
-|  clocking/pixel_clk_port | vga_controller_block/v_block_count[4]_i_1_n_0  |                                              |                1 |              5 |
-|  clocking/pixel_clk_port | vga_controller_block/h_block_tc                | vga_controller_block/col_count[4]_i_1__0_n_0 |                2 |              5 |
-|  clocking/pixel_clk_port | vga_controller_block/row_count0                | vga_controller_block/row_count[4]_i_1__0_n_0 |                2 |              5 |
-|  clocking/pixel_clk_port | down_counter_block/down_count[5]_i_2_n_0       | game_controller/SR[0]                        |                2 |              6 |
-|  clocking/pixel_clk_port |                                                | input_conditioning_down/next_state[0]        |                3 |              8 |
-|  clocking/pixel_clk_port |                                                | input_conditioning_left/next_state[0]        |                3 |              8 |
-|  clocking/pixel_clk_port |                                                | input_conditioning_right/next_state[0]       |                3 |              8 |
-|  clocking/pixel_clk_port |                                                | input_conditioning_up/next_state[0]          |                3 |              8 |
-|  clocking/pixel_clk_port |                                                | check_lines_block/game_grid_count0           |                2 |              8 |
-|  clocking/pixel_clk_port | game_controller/check_lines_count[7]_i_1_n_0   |                                              |                2 |              8 |
-|  clocking/pixel_clk_port | game_controller/clear_lines_count[7]_i_1_n_0   |                                              |                3 |              8 |
-|  clocking/pixel_clk_port | vga_controller_block/h_tc                      |                                              |                5 |             10 |
-|  clocking/pixel_clk_port | game_controller/Q[7]                           | game_controller/Q[1]                         |               10 |             12 |
-|  clocking/pixel_clk_port | input_conditioning_right/mp_delay_reg_reg_0[0] |                                              |                6 |             16 |
-|  clocking/pixel_clk_port | game_controller/FSM_onehot_CS_reg[1]_4[0]      |                                              |               16 |             27 |
-|  clocking/pixel_clk_port |                                                |                                              |               50 |            134 |
-+--------------------------+------------------------------------------------+----------------------------------------------+------------------+----------------+
++--------------------------+-----------------------------------------------+----------------------------------------------+------------------+----------------+
+|       Clock Signal       |                 Enable Signal                 |               Set/Reset Signal               | Slice Load Count | Bel Load Count |
++--------------------------+-----------------------------------------------+----------------------------------------------+------------------+----------------+
+|  clk_ext_port_IBUF_BUFG  |                                               |                                              |                1 |              2 |
+|  clocking/pixel_clk_port |                                               | game_controller/SR[0]                        |                3 |              5 |
+|  clocking/pixel_clk_port | draw_counter_block/col_tc                     | game_controller/SR[0]                        |                2 |              5 |
+|  clocking/pixel_clk_port | check_lines_block/row_count0                  | check_lines_block/CLR_CHECK_CNTS1_out        |                2 |              5 |
+|  clocking/pixel_clk_port | game_controller/E[0]                          | check_lines_block/col_count0                 |                2 |              5 |
+|  clocking/pixel_clk_port | vga_controller_block/row_count0               | vga_controller_block/row_count[4]_i_1__1_n_0 |                1 |              5 |
+|  clocking/pixel_clk_port | vga_controller_block/v_block_count[4]_i_1_n_0 |                                              |                1 |              5 |
+|  clocking/pixel_clk_port | vga_controller_block/h_block_tc               | vga_controller_block/col_count[4]_i_1__0_n_0 |                1 |              5 |
+|  clocking/pixel_clk_port | vga_controller_block/h_block_count[4]_i_1_n_0 |                                              |                2 |              5 |
+|  clocking/pixel_clk_port | down_counter_block/down_count[5]_i_2_n_0      | game_controller/FSM_onehot_CS_reg[5]_0[0]    |                1 |              6 |
+|  clocking/pixel_clk_port |                                               | input_conditioning_down/next_state[0]        |                3 |              8 |
+|  clocking/pixel_clk_port |                                               | input_conditioning_left/next_state[0]        |                3 |              8 |
+|  clocking/pixel_clk_port |                                               | input_conditioning_right/next_state[0]       |                2 |              8 |
+|  clocking/pixel_clk_port |                                               | input_conditioning_up/next_state[0]          |                2 |              8 |
+|  clocking/pixel_clk_port | game_controller/clear_lines_count[7]_i_1_n_0  |                                              |                3 |              8 |
+|  clocking/pixel_clk_port | game_controller/check_lines_count[7]_i_1_n_0  |                                              |                2 |              8 |
+|  clocking/pixel_clk_port | game_controller/E[0]                          | check_lines_block/game_grid_count0           |                2 |              8 |
+|  clocking/pixel_clk_port | vga_controller_block/h_tc                     |                                              |                5 |             10 |
+|  clocking/pixel_clk_port | game_controller/Q[11]                         | game_controller/Q[4]                         |                7 |             15 |
+|  clocking/pixel_clk_port | game_controller/FSM_onehot_CS[22]_i_1_n_0     |                                              |                9 |             23 |
+|  clocking/pixel_clk_port | game_controller/FSM_onehot_CS_reg[20]_0[0]    |                                              |               13 |             25 |
+|  clocking/pixel_clk_port |                                               |                                              |               50 |            142 |
++--------------------------+-----------------------------------------------+----------------------------------------------+------------------+----------------+
 
 

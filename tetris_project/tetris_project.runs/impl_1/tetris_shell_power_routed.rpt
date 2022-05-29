@@ -1,8 +1,8 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2018.3.1 (win64) Build 2489853 Tue Mar 26 04:20:25 MDT 2019
-| Date             : Sun May 29 16:19:04 2022
-| Host             : mecha-8 running 64-bit major release  (build 9200)
+| Date             : Sun May 29 19:16:45 2022
+| Host             : mecha-7 running 64-bit major release  (build 9200)
 | Command          : report_power -file tetris_shell_power_routed.rpt -pb tetris_shell_power_summary_routed.pb -rpx tetris_shell_power_routed.rpx
 | Design           : tetris_shell
 | Device           : xc7a35tcpg236-1
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.089        |
+| Total On-Chip Power (W)  | 0.088        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.017        |
+| Dynamic (W)              | 0.016        |
 | Device Static (W)        | 0.072        |
 | Effective TJA (C/W)      | 5.0          |
 | Max Ambient (C)          | 84.6         |
@@ -49,24 +49,23 @@ Table of Contents
 1.1 On-Chip Components
 ----------------------
 
-+-------------------------+-----------+----------+-----------+-----------------+
-| On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
-+-------------------------+-----------+----------+-----------+-----------------+
-| Clocks                  |    <0.001 |        3 |       --- |             --- |
-| Slice Logic             |     0.003 |     1031 |       --- |             --- |
-|   LUT as Logic          |     0.003 |      554 |     20800 |            2.66 |
-|   Register              |    <0.001 |      283 |     41600 |            0.68 |
-|   BUFG                  |    <0.001 |        1 |        32 |            3.13 |
-|   CARRY4                |    <0.001 |        6 |      8150 |            0.07 |
-|   F7/F8 Muxes           |    <0.001 |        5 |     32600 |            0.02 |
-|   LUT as Shift Register |    <0.001 |        6 |      9600 |            0.06 |
-|   Others                |     0.000 |       30 |       --- |             --- |
-| Signals                 |     0.003 |      789 |       --- |             --- |
-| Block RAM               |    <0.001 |        1 |        50 |            2.00 |
-| I/O                     |     0.009 |       19 |       106 |           17.92 |
-| Static Power            |     0.072 |          |           |                 |
-| Total                   |     0.089 |          |           |                 |
-+-------------------------+-----------+----------+-----------+-----------------+
++----------------+-----------+----------+-----------+-----------------+
+| On-Chip        | Power (W) | Used     | Available | Utilization (%) |
++----------------+-----------+----------+-----------+-----------------+
+| Clocks         |    <0.001 |        3 |       --- |             --- |
+| Slice Logic    |     0.003 |     1147 |       --- |             --- |
+|   LUT as Logic |     0.003 |      615 |     20800 |            2.96 |
+|   Register     |    <0.001 |      319 |     41600 |            0.77 |
+|   BUFG         |    <0.001 |        1 |        32 |            3.13 |
+|   CARRY4       |    <0.001 |        6 |      8150 |            0.07 |
+|   F7/F8 Muxes  |    <0.001 |        5 |     32600 |            0.02 |
+|   Others       |     0.000 |       33 |       --- |             --- |
+| Signals        |     0.003 |      911 |       --- |             --- |
+| Block RAM      |    <0.001 |        1 |        50 |            2.00 |
+| I/O            |     0.009 |       19 |       106 |           17.92 |
+| Static Power   |     0.072 |          |           |                 |
+| Total          |     0.088 |          |           |                 |
++----------------+-----------+----------+-----------+-----------------+
 
 
 1.2 Power Supply Summary
@@ -75,7 +74,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.017 |       0.008 |      0.010 |
+| Vccint    |       1.000 |     0.017 |       0.007 |      0.010 |
 | Vccaux    |       1.800 |     0.013 |       0.000 |      0.013 |
 | Vcco33    |       3.300 |     0.004 |       0.003 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
@@ -144,7 +143,7 @@ Table of Contents
 +----------------------+-----------+
 | Name                 | Power (W) |
 +----------------------+-----------+
-| tetris_shell         |     0.017 |
+| tetris_shell         |     0.016 |
 |   piece_memory_block |     0.002 |
 +----------------------+-----------+
 

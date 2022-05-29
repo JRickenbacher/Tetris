@@ -76,11 +76,14 @@ component tetris_game_controller is
            KEY_UP : IN STD_LOGIC;
            KEY_LEFT : IN STD_LOGIC;
            KEY_RIGHT : IN STD_LOGIC;
+           KEY_DOWN : IN STD_LOGIC;
            DOWN_TC : IN STD_LOGIC;
            NOT_VALID : IN STD_LOGIC;
            CURRENT_ACTION : IN STD_LOGIC_VECTOR(1 downto 0);
            CLEAR_LINES  : IN STD_LOGIC;        
+           done_drawing : IN STD_LOGIC;
            CLR_DOWN_CNT: OUT STD_LOGIC;
+           gameover : IN STD_LOGIC;
            REQ_MOVE : OUT STD_LOGIC;
            LOAD_NEXT_MOVE_EN : OUT STD_LOGIC;
            LOAD_GEN_EN : OUT STD_LOGIC;
@@ -93,7 +96,11 @@ component tetris_game_controller is
            MAKE_MOVE_EN : OUT STD_LOGIC;
            CHECK_LINES : OUT STD_LOGIC;
            CLEAR_LINES_EN : OUT STD_LOGIC;
-           GAME_GRID_MEM_WRITE_EN : OUT STD_LOGIC_VECTOR(0 DOWNTO 0)
+           GAME_GRID_MEM_WRITE_EN : OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
+           clear_draw_count : OUT STD_LOGIC;
+           drawing_number : OUT STD_LOGIC_VECTOR(1 downto 0);
+           currently_playing : OUT STD_LOGIC;
+           CHECK_GAMEOVER_EN : OUT STD_LOGIC
 );
 end component;
 
@@ -156,7 +163,7 @@ component Color_Decoder is
     Port ( Piece : in STD_LOGIC_VECTOR (3 downto 0);
            h_count_port : in STD_LOGIC_VECTOR(9 downto 0);
            v_count_port : in STD_LOGIC_VECTOR(9 downto 0);
-           video_on_port : in STD_LOGIC;
+           video_on_port, currently_playing : in STD_LOGIC;
            Color : out STD_LOGIC_VECTOR (11 downto 0));
 end component;
 
@@ -235,10 +242,10 @@ end component;
 
 component memory_interface is
     Port (
-        collision_addr, move_addr, VGA_addr, gen_piece_addr, lines_addr : in std_logic_vector(9 downto 0);
-        move_data, gen_piece_data, lines_data : in std_logic_vector(3 downto 0);
-        check_lines, clear_lines_en : in std_logic;
-        write_piece_en, make_move_en, read_collision, video_on : in std_logic;
+        collision_addr, move_addr, VGA_addr, gen_piece_addr, lines_addr, Drawing_Addr_Port, GAMEOVER_ADDR : in std_logic_vector(9 downto 0);
+        move_data, gen_piece_data, lines_data, Drawing_Color_Port : in std_logic_vector(3 downto 0);
+        check_lines, clear_lines_en: in std_logic;
+        write_piece_en, make_move_en, read_collision, video_on, DRAW_EN, CHECK_GAMEOVER_EN : in std_logic;
         addr_out : out std_logic_vector(9 downto 0);
         data_out : out std_logic_vector(3 downto 0)
    );
@@ -255,6 +262,32 @@ component check_lines is
          CLEAR_LINES : out STD_LOGIC;
          GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0)
          );
+end component;
+
+component draw_counter is
+  Port ( clk_port : in std_logic;
+        clear_draw_count_port : in std_logic;
+        drawing_addr_port : out std_logic_vector(9 downto 0);
+        done_drawing_port : out std_logic
+         );
+end component;
+
+component Get_Drawing_Color is
+  Port ( drawing_addr_port : in std_logic_vector(9 downto 0);
+        drawing_number_port : in std_logic_vector(1 downto 0);
+        color_port : out std_logic_vector(3 downto 0)
+         );
+end component;
+
+component checking_gameover is
+  Port (
+        clk : in STD_LOGIC;
+        check_gameover_en : in STD_LOGIC;
+        read_data : in STD_LOGIC_VECTOR(3 downto 0);
+        address_1, address_2, address_3, address_4 : in STD_LOGIC_VECTOR(9 downto 0);
+        gameover_addr : out STD_LOGIC_VECTOR(9 downto 0);
+        gameover : out STD_LOGIC
+   );
 end component;
 
 --=================================
@@ -276,7 +309,7 @@ signal address : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
 signal v_count_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
 signal h_count_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
 
-signal up_key_signal, down_key_signal, left_key_signal, right_key_signal : STD_LOGIC := '0';
+signal up_key_signal, down_key_signal, left_key_signal, right_key_signal, down_key_signal_mp : STD_LOGIC := '0';
 
 signal memory_update_signal : std_logic := '0';
 signal video_on_signal : std_logic := '0';
@@ -315,6 +348,20 @@ signal game_grid_output_signal, game_grid_input_signal : std_logic_vector(3 down
 signal game_grid_address_signal : std_logic_vector(7 downto 0) := "00000000";
 signal check_lines_address_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
 
+--drawing signals
+signal clear_draw_count_signal : STD_LOGIC := '0';
+signal Drawing_Addr_Signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+signal Drawing_Color_Signal : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
+signal done_drawing_signal : STD_LOGIC := '0';
+signal drawing_number_signal : STD_LOGIC_VECTOR(1 downto 0) := (others => '0');
+signal draw_en_signal : std_logic := '0';
+signal currently_playing_signal : STD_LOGIC := '0';
+
+--check gameover signals
+signal CHECK_GAMEOVER_EN_signal : STD_LOGIC := '0';
+signal GAMEOVER_ADDR_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+signal gameover_signal : std_logic := '0';
+
 begin
 --+++++++++++++++++++++++++++++++++
 --Wire pixel clock generator into the shell:
@@ -333,11 +380,14 @@ game_controller : tetris_game_controller
        KEY_UP => up_key_signal,
        KEY_LEFT => left_key_signal,
        KEY_RIGHT => right_key_signal,
+       KEY_DOWN => down_key_signal_mp,
        DOWN_TC => down_tc_signal,
        NOT_VALID => not_valid_signal,
        CURRENT_ACTION => current_action_signal,
        CLEAR_LINES => clear_lines_signal,        
        CLR_DOWN_CNT => clr_down_cnt_signal,
+       done_drawing => done_drawing_signal,
+       gameover => gameover_signal,
        REQ_MOVE => req_move_signal,
        LOAD_NEXT_MOVE_EN => load_next_move_en_signal,
        LOAD_GEN_EN => load_gen_en_signal,
@@ -350,7 +400,11 @@ game_controller : tetris_game_controller
        MAKE_MOVE_EN => make_move_en_signal,
        CHECK_LINES => check_lines_signal,
        CLEAR_LINES_EN => clear_lines_en_signal,
-       GAME_GRID_MEM_WRITE_EN => game_grid_write_en_signal
+       GAME_GRID_MEM_WRITE_EN => game_grid_write_en_signal,
+       clear_draw_count => clear_draw_count_signal,
+       drawing_number => drawing_number_signal,
+       currently_playing => currently_playing_signal,
+       CHECK_GAMEOVER_EN => CHECK_GAMEOVER_EN_signal
 );	
 --+++++++++++++++++++++++++++++++++
 -- Wire check lines
@@ -383,7 +437,7 @@ input_conditioning_down : button_interface port map(
           clk_port          => pixel_clk_signal,
 		  button_port       => KEY_DOWN_PORT,
 		  button_db_port    => down_key_signal,
-		  button_mp_port    => open
+		  button_mp_port    => down_key_signal_mp
 		  );	
 --+++++++++++++++++++++++++++++++++
 -- Wire LEFT Button to Input Conditioning
@@ -460,7 +514,8 @@ color: color_decoder port map(
           v_count_port => v_count_signal,
           h_count_port => h_count_signal,
           video_on_port => VIDEO_ON_SIGNAL,
-          Color => color_port
+          Color => color_port,
+          currently_playing => currently_playing_signal
           );
 
 address_generator_block: Address_Generator PORT MAP(
@@ -534,7 +589,12 @@ memory_interface_block : memory_interface PORT MAP(
         read_collision => READ_COLLISION_signal,
         video_on => video_on_signal,
         addr_out => mem_interface_addr_signal,
-        data_out => mem_interface_data_signal
+        data_out => mem_interface_data_signal,
+        Drawing_Addr_Port => Drawing_Addr_Signal,
+        Drawing_Color_Port => Drawing_Color_Signal,
+        DRAW_EN => DRAW_EN_SIGNAL,
+        GAMEOVER_ADDR => GAMEOVER_ADDR_signal,
+        CHECK_GAMEOVER_EN => CHECK_GAMEOVER_EN_signal
    );
    
 piece_memory_block : piece_memory PORT MAP(
@@ -572,8 +632,36 @@ write_new_piece_block : write_new_piece
         write_new_piece_en => write_new_piece_en_signal,
         write_new_piece_address => write_new_piece_addr_signal
   );
+  
+draw_counter_block : Draw_Counter
+  Port MAP ( 
+        clk_port => pixel_clk_signal,
+        clear_draw_count_port => clear_draw_count_signal,
+        drawing_addr_port => Drawing_Addr_Signal,
+        done_drawing_port => done_drawing_signal
+   );
+
+Get_Drawing_Color_block : Get_Drawing_Color
+  Port MAP ( 
+        drawing_addr_port => Drawing_Addr_Signal,
+        drawing_number_port => drawing_number_signal,
+        color_port => Drawing_Color_Signal
+  );
+  
+checking_gameover_block : checking_gameover
+  Port MAP (
+        clk => pixel_clk_signal,
+        check_gameover_en => CHECK_GAMEOVER_EN_signal,
+        read_data => read_mem_signal,
+        address_1 => new_addr_1_signal, 
+        address_2 => new_addr_2_signal,
+        address_3 => new_addr_3_signal,
+        address_4 => new_addr_4_signal,
+        gameover_addr => GAMEOVER_ADDR_signal,
+        gameover => gameover_signal
+   );
 
 address <= row_signal & col_signal;
-
+draw_en_signal <= NOT(clear_draw_count_signal);
 
 end Behavioral;

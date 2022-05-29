@@ -37,10 +37,13 @@ entity tetris_game_controller is
            KEY_UP : IN STD_LOGIC;
            KEY_LEFT : IN STD_LOGIC;
            KEY_RIGHT : IN STD_LOGIC;
+           KEY_DOWN : IN STD_LOGIC;
            DOWN_TC : IN STD_LOGIC;
            NOT_VALID : IN STD_LOGIC;
            CURRENT_ACTION : IN STD_LOGIC_VECTOR(1 downto 0);
            CLEAR_LINES  : IN STD_LOGIC;        
+           done_drawing : IN STD_LOGIC;
+           gameover : IN STD_LOGIC;
            CLR_DOWN_CNT: OUT STD_LOGIC;
            REQ_MOVE : OUT STD_LOGIC;
            LOAD_NEXT_MOVE_EN : OUT STD_LOGIC;
@@ -54,15 +57,20 @@ entity tetris_game_controller is
            MAKE_MOVE_EN : OUT STD_LOGIC;
            CHECK_LINES : OUT STD_LOGIC;
            CLEAR_LINES_EN : OUT STD_LOGIC;
-           GAME_GRID_MEM_WRITE_EN : OUT STD_LOGIC_VECTOR(0 DOWNTO 0)
-           
+           GAME_GRID_MEM_WRITE_EN : OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
+           clear_draw_count : OUT STD_LOGIC;
+           drawing_number : OUT STD_LOGIC_VECTOR(1 downto 0);
+           currently_playing : OUT STD_LOGIC;
+           CHECK_GAMEOVER_EN : OUT STD_LOGIC
 );
 end tetris_game_controller;
 
 architecture Behavioral of tetris_game_controller is
 
-type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, CheckLines, ClearLines, MainWait, StoreUp, StoreLeft, StoreRight, StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove, InterpretValidMove);
-signal CS, NS : state_type := GenNewPiece;
+type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, CheckLines, ClearLines, MainWait, StoreUp, StoreLeft, StoreRight, 
+                    StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove, InterpretValidMove, 
+                    StartWait, DrawTetris, WaitTetris, PrepDrawGameBoard, DrawGameBoard, CheckGameOver, DrawGameOver, WaitGameOver);
+signal CS, NS : state_type := StartWait;
 
 signal count_write_new_piece_en : std_logic := '0';
 signal write_new_piece_count : unsigned(1 downto 0) := "00";
@@ -84,6 +92,10 @@ signal clear_lines_count_en : std_logic := '0';
 signal clear_lines_count : unsigned(7 downto 0) := "00000000";
 signal clear_lines_tc : std_logic := '0';
 
+SIGNAL CHECK_GAMEOVER_EN_SIGNAL : STD_LOGIC := '0';
+SIGNAL CHECK_GAMEOVER_COUNT : UNSIGNED(2 DOWNTO 0) := (OTHERS => '0');
+SIGNAL CHECK_GAMEOVER_TC : STD_LOGIC := '0';
+
 begin
 
 state_update : process(PIXEL_CLK)
@@ -93,15 +105,62 @@ begin
     end if;
 end process state_update;
 
-next_state_logic : process(CS, KEY_UP, KEY_LEFT, KEY_RIGHT, MEMORY_UPDATE, NOT_VALID, DOWN_TC, CURRENT_ACTION, write_new_piece_tc, valid_move_tc, make_move_tc, clear_lines, check_lines_tc, clear_lines_tc)
+next_state_logic : process(CS, KEY_UP, KEY_LEFT, KEY_RIGHT, KEY_DOWN, MEMORY_UPDATE, NOT_VALID, DOWN_TC, 
+                            CURRENT_ACTION, write_new_piece_tc, valid_move_tc, make_move_tc, 
+                            clear_lines, check_lines_tc, clear_lines_tc,
+                            Done_drawing, gameover)
 begin
     
     NS <= CS;
 
     case(CS) is
+    
+        WHEN StartWait =>
+            if (memory_update = '1') then
+                NS <= DrawTetris;
+            end if;
+        
+        WHEN DrawTetris =>
+            if (done_drawing = '1') then
+                NS <= WaitTetris;
+            end if;
+        
+        WHEN WaitTetris =>
+            if ((KEY_UP = '1') OR (KEY_LEFT = '1') OR (KEY_RIGHT = '1') OR (KEY_DOWN = '1')) then
+                NS <= PrepDrawGameBoard;
+            end if;
+        
+        WHEN PrepDrawGameBoard =>
+            if (memory_update = '1') then
+                NS <= DrawGameBoard;
+            end if;
+        
+        WHEN DrawGameBoard =>
+            if (done_drawing = '1') then
+                NS <= GenNewPiece;
+            end if;
         
         WHEN GenNewPiece =>
-            NS <= LoadNewPiece;
+            NS <= CheckGameOver;
+            
+        WHEN CheckGameOver =>
+            if (check_gameover_tc = '1') then
+                if (gameover = '1') then
+                    NS <= DrawGameOver;
+                else
+                    NS <= LoadNewPiece;
+                end if;
+            end if;
+        
+        WHEN DrawGameOver =>
+            if (done_drawing = '1') then
+                NS <= WaitGameOver;
+            end if;
+        
+        WHEN WaitGameOver =>
+            if ((KEY_UP = '1') OR (KEY_LEFT = '1') OR (KEY_RIGHT = '1') OR (KEY_DOWN = '1')) then
+                NS <= StartWait;
+            end if;
             
         WHEN LoadNewPiece =>
             if memory_update = '1' then
@@ -215,12 +274,50 @@ begin
     CLEAR_LINES_EN <= '0';
     clear_lines_count_en <= '0';
     GAME_GRID_MEM_WRITE_EN <= "1";
+    clear_draw_count <= '1';
+    drawing_number <= "00";
+    currently_playing <= '1';
+    CHECK_GAMEOVER_EN_SIGNAL <= '0';
     
     case(CS) is
+    
+        WHEN StartWait =>
+            currently_playing <= '0';
+        
+        WHEN DrawTetris =>
+            drawing_number <= "00";
+            clear_draw_count <= '0';
+            WRITE_EN <= "1";
+            currently_playing <= '0';
+            
+        WHEN WaitTetris =>
+            currently_playing <= '0';
+            
+        WHEN PrepDrawGameBoard =>
+            currently_playing <= '0';
+        
+        WHEN DrawGameBoard =>
+            drawing_number <= "01";
+            clear_draw_count <= '0';
+            WRITE_EN <= "1";
+            currently_playing <= '0';
     
         WHEN GenNewPiece =>
             GEN_PIECE <= '1';
             CLR_DOWN_CNT <= '1';
+            currently_playing <= '0';
+            
+        WHEN CheckGameOver =>
+            CHECK_GAMEOVER_EN_SIGNAL <= '1';            
+        
+        WHEN DrawGameOver =>
+            drawing_number <= "10";
+            clear_draw_count <= '0';
+            WRITE_EN <= "1";
+            currently_playing <= '0';
+            
+        WHEN WaitGameOver =>
+            currently_playing <= '0';
             
         WHEN LoadNewPiece =>
             Load_gen_en <= '1';
@@ -376,5 +473,22 @@ begin
 end process;
 
 clear_lines_tc <= '1' when (clear_lines_count = 211) else '0';
+
+COUNT_CHECK_GAMEOVER : process(pixel_clk)
+begin
+
+    if rising_edge(pixel_clk) then
+        if (CHECK_GAMEOVER_EN_SIGNAL = '1') then
+            CHECK_GAMEOVER_COUNT <= CHECK_GAMEOVER_COUNT + 1;
+        end if;
+        if CHECK_GAMEOVER_TC = '1' then 
+            CHECK_GAMEOVER_COUNT <= (OTHERS => '0');
+        end if;
+    end if;
+
+end process;
+
+CHECK_GAMEOVER_TC <= '1' when (CHECK_GAMEOVER_COUNT = 6) else '0';
+CHECK_GAMEOVER_EN <= CHECK_GAMEOVER_EN_SIGNAL;
 
 end Behavioral;

@@ -33,10 +33,10 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity memory_interface is
   Port (
-        collision_addr, move_addr, VGA_addr, gen_piece_addr, lines_addr : in std_logic_vector(9 downto 0);
-        move_data, gen_piece_data, lines_data : in std_logic_vector(3 downto 0);
-        check_lines, clear_lines_en : in std_logic;
-        write_piece_en, make_move_en, read_collision, video_on : in std_logic;
+        collision_addr, move_addr, VGA_addr, gen_piece_addr, lines_addr, Drawing_Addr_Port, GAMEOVER_ADDR : in std_logic_vector(9 downto 0);
+        move_data, gen_piece_data, lines_data, Drawing_Color_Port : in std_logic_vector(3 downto 0);
+        check_lines, clear_lines_en: in std_logic;
+        write_piece_en, make_move_en, read_collision, video_on, DRAW_EN, CHECK_GAMEOVER_EN : in std_logic;
         addr_out : out std_logic_vector(9 downto 0);
         data_out : out std_logic_vector(3 downto 0)
    );
@@ -51,11 +51,14 @@ addr_out <= VGA_addr when (video_on = '1') else
             collision_addr when (read_collision = '1') else
             gen_piece_addr when (write_piece_en = '1') else
             lines_addr when (check_lines = '1' or clear_lines_en = '1') else
+            Drawing_Addr_Port when (DRAW_EN = '1') else
+            GAMEOVER_ADDR WHEN (CHECK_GAMEOVER_EN = '1') ELSE
             (others => '0');
             
 data_out <= move_data when (make_move_en = '1') else
             gen_piece_data when (write_piece_en = '1') else
             lines_data when (check_lines = '1' or clear_lines_en = '1') else
+            Drawing_Color_Port when (DRAW_EN = '1') else
             (others => '0');
 
 end Behavioral;
