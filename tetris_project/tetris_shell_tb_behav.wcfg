@@ -11,18 +11,18 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="32049589300000fs"></ZoomStartTime>
-      <ZoomEndTime time="32049943800001fs"></ZoomEndTime>
-      <Cursor1Time time="32049854300000fs"></Cursor1Time>
+      <ZoomStartTime time="405833333fs"></ZoomStartTime>
+      <ZoomEndTime time="1118833334fs"></ZoomEndTime>
+      <Cursor1Time time="1000000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="208"></NameColumnWidth>
+      <NameColumnWidth column_width="204"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="34" />
-   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/clk" type="logic">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
+   <WVObjectSize size="32" />
+   <wvobject fp_name="/tetris_shell_tb/shell_ut/clocking/pixel_clk_port" type="logic">
+      <obj_property name="ElementShortName">pixel_clk_port</obj_property>
+      <obj_property name="ObjectShortName">pixel_clk_port</obj_property>
    </wvobject>
    <wvobject fp_name="/tetris_shell_tb/color_signal" type="array">
       <obj_property name="ElementShortName">color_signal[11:0]</obj_property>
@@ -76,6 +76,7 @@
    <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/game_grid_count" type="array">
       <obj_property name="ElementShortName">game_grid_count[7:0]</obj_property>
       <obj_property name="ObjectShortName">game_grid_count[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tetris_shell_tb/shell_ut/grid_memory/ena" type="logic">
       <obj_property name="ElementShortName">ena</obj_property>
@@ -114,14 +115,6 @@
       <obj_property name="ElementShortName">col_count_tc</obj_property>
       <obj_property name="ObjectShortName">col_count_tc</obj_property>
    </wvobject>
-   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/delayed_shift_en" type="logic">
-      <obj_property name="ElementShortName">delayed_shift_en</obj_property>
-      <obj_property name="ObjectShortName">delayed_shift_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/delayed_col_count_tc" type="logic">
-      <obj_property name="ElementShortName">delayed_col_count_tc</obj_property>
-      <obj_property name="ObjectShortName">delayed_col_count_tc</obj_property>
-   </wvobject>
    <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/is_empty" type="logic">
       <obj_property name="ElementShortName">is_empty</obj_property>
       <obj_property name="ObjectShortName">is_empty</obj_property>
@@ -157,6 +150,7 @@
    <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/CURR_MEM_ADDRESS" type="array">
       <obj_property name="ElementShortName">CURR_MEM_ADDRESS[9:0]</obj_property>
       <obj_property name="ObjectShortName">CURR_MEM_ADDRESS[9:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tetris_shell_tb/shell_ut/check_lines_block/clear_lines_signal" type="logic">
       <obj_property name="ElementShortName">clear_lines_signal</obj_property>

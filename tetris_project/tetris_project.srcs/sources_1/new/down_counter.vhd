@@ -62,8 +62,8 @@ begin
 
 end process;
 
-compare_count <= "111100" when down_pressed = '0' else
-                 "001000";
+compare_count <= "110000" when down_pressed = '0' else
+                 "000100";
 
 --compare_count <= "000001" when down_pressed = '0' else
 --                 "000001";

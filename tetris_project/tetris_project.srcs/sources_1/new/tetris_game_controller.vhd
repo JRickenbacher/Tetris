@@ -41,7 +41,9 @@ entity tetris_game_controller is
            DOWN_TC : IN STD_LOGIC;
            NOT_VALID : IN STD_LOGIC;
            CURRENT_ACTION : IN STD_LOGIC_VECTOR(1 downto 0);
-           CLEAR_LINES  : IN STD_LOGIC;        
+           CLEAR_LINES  : IN STD_LOGIC; 
+           check_lines_tc : IN STD_LOGIC;    
+           clear_lines_tc : IN STD_LOGIC;   
            done_drawing : IN STD_LOGIC;
            gameover : IN STD_LOGIC;
            CLR_DOWN_CNT: OUT STD_LOGIC;
@@ -84,13 +86,13 @@ signal count_make_move_en : std_logic := '0';
 signal make_move_count : unsigned(2 downto 0) := "000";
 signal make_move_tc : std_logic := '0';
 
-signal check_lines_count_en : std_logic := '0';
-signal check_lines_count : unsigned(7 downto 0) := "00000000";
-signal check_lines_tc : std_logic := '0';
+--signal check_lines_count_en : std_logic := '0';
+--signal check_lines_count : unsigned(7 downto 0) := "00000000";
+--signal check_lines_tc : std_logic := '0';
 
-signal clear_lines_count_en : std_logic := '0';
-signal clear_lines_count : unsigned(7 downto 0) := "00000000";
-signal clear_lines_tc : std_logic := '0';
+--signal clear_lines_count_en : std_logic := '0';
+--signal clear_lines_count : unsigned(7 downto 0) := "00000000";
+--signal clear_lines_tc : std_logic := '0';
 
 
 signal wait_lines_en : std_logic := '0';
@@ -112,8 +114,8 @@ end process state_update;
 
 next_state_logic : process(CS, KEY_UP, KEY_LEFT, KEY_RIGHT, KEY_DOWN, MEMORY_UPDATE, NOT_VALID, DOWN_TC, 
                             CURRENT_ACTION, write_new_piece_tc, valid_move_tc, make_move_tc, 
-                            clear_lines, check_lines_tc, clear_lines_tc, wait_lines_tc,
-                            Done_drawing, gameover)
+                            clear_lines, check_lines_tc, wait_lines_tc,
+                            Done_drawing, gameover, clear_lines_tc)
 begin
     
     NS <= CS;
@@ -239,13 +241,14 @@ begin
             NS <= MainWait;
         
         WHEN CheckLines => 
-            if check_lines_tc = '1' then
+            if clear_lines_tc = '1' then
                 if clear_lines = '1' then
                     NS <= WaitLines;
                 else
                   NS <= GenNewPiece;
                 end if;
              end if;
+             
        WHEN WaitLines =>
             if wait_lines_tc = '1' then
                 NS <= ClearLines;
@@ -281,15 +284,16 @@ begin
     count_write_new_piece_en <= '0';
     count_valid_move_en <= '0';
     CHECK_LINES <= '0';
-    check_lines_count_en <= '0';
+--    check_lines_count_en <= '0';
     CLEAR_LINES_EN <= '0';
-    clear_lines_count_en <= '0';
+--    clear_lines_count_en <= '0';
     GAME_GRID_MEM_WRITE_EN <= "1";
     clear_draw_count <= '1';
     drawing_number <= "00";
     currently_playing <= '1';
     CHECK_GAMEOVER_EN_SIGNAL <= '0';
     wait_lines_en <= '0';
+    
     case(CS) is
     
         WHEN StartWait =>
@@ -374,15 +378,17 @@ begin
 
         WHEN CheckLines =>
             CHECK_LINES <= '1';
-            check_lines_count_en <= '1';
+--            check_lines_count_en <= '1';
        
         WHEN ClearLines =>
             CLEAR_LINES_EN <= '1';
-            clear_lines_count_en <= '1';
+--            clear_lines_count_en <= '1';
             GAME_GRID_MEM_WRITE_EN <= "0";
             WRITE_EN <= "1";
+            
         WHEN WaitLines =>
              wait_lines_en <= '1';
+             GAME_GRID_MEM_WRITE_EN <= "0";
 
         WHEN others =>
             CLR_DOWN_CNT <= '0';
@@ -453,21 +459,21 @@ end process;
 make_move_tc <= '1' when (make_move_count = "111") else
                  '0';
 
-count_check_lines : process(pixel_clk)
-begin
+--count_check_lines : process(pixel_clk)
+--begin
 
-    if rising_edge(pixel_clk) then
-        if check_lines_count_en = '1' then
-            check_lines_count <= check_lines_count + 1;
-        end if;
-        if check_lines_tc = '1' then 
-            check_lines_count <= "00000000";
-        end if;
-    end if;
+--    if rising_edge(pixel_clk) then
+--        if check_lines_count_en = '1' then
+--            check_lines_count <= check_lines_count + 1;
+--        end if;
+--        if check_lines_tc = '1' then 
+--            check_lines_count <= "00000000";
+--        end if;
+--    end if;
 
-end process;
+--end process;
 
-check_lines_tc <= '1' when (check_lines_count = 210) else '0';
+--check_lines_tc <= '1' when (check_lines_count = 210) else '0';
 
 
 
@@ -485,27 +491,25 @@ begin
 
 end process;
 
-
-
 wait_lines_tc <= '1' when (wait_lines_count = "111") else
                  '0';
                  
                  
-count_clear_lines : process(pixel_clk)
-begin
+--count_clear_lines : process(pixel_clk)
+--begin
 
-    if rising_edge(pixel_clk) then
-        if clear_lines_count_en = '1' then
-            clear_lines_count <= clear_lines_count + 1;
-        end if;
-        if clear_lines_tc = '1' then 
-            clear_lines_count <= "00000000";
-        end if;
-    end if;
+--    if rising_edge(pixel_clk) then
+--        if clear_lines_count_en = '1' then
+--            clear_lines_count <= clear_lines_count + 1;
+--        end if;
+--        if clear_lines_tc = '1' then 
+--            clear_lines_count <= "00000000";
+--        end if;
+--    end if;
 
-end process;
+--end process;
 
-clear_lines_tc <= '1' when (clear_lines_count = 211) else '0';
+--clear_lines_tc <= '1' when (clear_lines_count = 211) else '0';
 
 COUNT_CHECK_GAMEOVER : process(pixel_clk)
 begin

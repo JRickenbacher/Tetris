@@ -40,13 +40,14 @@ entity Color_Decoder is
 end Color_Decoder;
 
 architecture Behavioral of Color_Decoder is
-signal power_twenty : STD_LOGIC := '0';
+signal power_twenty_grid, power_twenty_text : STD_LOGIC := '0';
 signal h_count, v_count : unsigned(9 downto 0) := (others => '0');
 
 begin
 
 color <= "000000000000" WHEN video_on_port = '0' ELSE
-         "101110111011" when (power_twenty = '1' AND currently_playing = '1') else
+         "101110111011" when (power_twenty_grid = '1' AND currently_playing = '1') else
+         "000000000000" when (power_twenty_text = '1' AND currently_playing = '0') else
          "111111111111" when piece = "0000" else --white
          "001011111111" when piece = "0001" else --cyan
          "111111110010" when piece = "0010" else --yellow
@@ -60,10 +61,21 @@ color <= "000000000000" WHEN video_on_port = '0' ELSE
 h_count <= unsigned(h_count_port);
 v_count <= unsigned(v_count_port);
 
-power_twenty <= '1' when ( ( h_count = 242 or h_count = 262 or h_count = 282 or h_count = 302 or h_count = 322 or h_count = 342 or h_count = 362 or
+power_twenty_grid <= '1' when ( ( h_count = 242 or h_count = 262 or h_count = 282 or h_count = 302 or h_count = 322 or h_count = 342 or h_count = 362 or
                              h_count = 382 or h_count = 402 or v_count = 60 or v_count = 80 or v_count = 100 or v_count = 120 or v_count = 140 or
                              v_count = 160 or v_count = 180 or v_count = 200 or v_count = 220 or v_count = 240 or v_count = 260 or v_count = 280 or v_count = 300 or
                              v_count = 320 or v_count = 340 or v_count = 360 or v_count = 380 or v_count = 400 or v_count = 420 or v_count = 440) and 
                             (h_count > 221 and h_count < 422 and v_count > 39 and v_count < 460)) else '0';
+                            
+power_twenty_text <= '1' when (
+                               h_count = 22 or h_count = 42 or h_count = 62 or
+                               h_count = 82 or h_count = 102 or h_count = 122 or h_count = 142 or h_count = 162 or
+                               h_count = 182 or h_count = 202 or h_count = 222 or h_count = 242 or h_count = 262 or
+                               h_count = 282 or h_count = 302 or h_count = 322 or h_count = 342 or h_count = 362 or
+                               h_count = 382 or h_count = 402 or h_count = 422 or h_count = 442 or h_count = 462 or 
+                               h_count = 482 or h_count = 502 or h_count = 522 or h_count = 542 or h_count = 562 or 
+                               v_count = 20 or v_count = 40 or v_count = 60 or v_count = 80 or v_count = 100 or v_count = 120 or v_count = 140 or
+                               v_count = 160 or v_count = 180 or v_count = 200 or v_count = 220 or v_count = 240 or v_count = 260 or v_count = 280 or v_count = 300 or
+                               v_count = 320 or v_count = 340 or v_count = 360 or v_count = 380 or v_count = 400 or v_count = 420 or v_count = 440) else '0';
 
 end Behavioral;

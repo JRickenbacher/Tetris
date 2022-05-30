@@ -1,8 +1,8 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2018.3.1 (win64) Build 2489853 Tue Mar 26 04:20:25 MDT 2019
-| Date             : Sun May 29 23:27:35 2022
-| Host             : mecha-8 running 64-bit major release  (build 9200)
+| Date             : Mon May 30 05:23:17 2022
+| Host             : mecha-7 running 64-bit major release  (build 9200)
 | Command          : report_power -file tetris_shell_power_routed.rpt -pb tetris_shell_power_summary_routed.pb -rpx tetris_shell_power_routed.rpx
 | Design           : tetris_shell
 | Device           : xc7a35tcpg236-1
@@ -54,13 +54,13 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |    <0.001 |        3 |       --- |             --- |
 | Slice Logic    |     0.004 |     1227 |       --- |             --- |
-|   LUT as Logic |     0.003 |      655 |     20800 |            3.15 |
-|   Register     |    <0.001 |      331 |     41600 |            0.80 |
+|   LUT as Logic |     0.003 |      670 |     20800 |            3.22 |
+|   Register     |    <0.001 |      317 |     41600 |            0.76 |
 |   BUFG         |    <0.001 |        1 |        32 |            3.13 |
 |   CARRY4       |    <0.001 |        6 |      8150 |            0.07 |
-|   F7/F8 Muxes  |    <0.001 |       10 |     32600 |            0.03 |
+|   F7/F8 Muxes  |    <0.001 |        7 |     32600 |            0.02 |
 |   Others       |     0.000 |       33 |       --- |             --- |
-| Signals        |     0.003 |      965 |       --- |             --- |
+| Signals        |     0.003 |      982 |       --- |             --- |
 | Block RAM      |    <0.001 |        1 |        50 |            2.00 |
 | I/O            |     0.009 |       19 |       106 |           17.92 |
 | Static Power   |     0.072 |          |           |                 |
@@ -74,9 +74,9 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.017 |       0.008 |      0.010 |
+| Vccint    |       1.000 |     0.018 |       0.008 |      0.010 |
 | Vccaux    |       1.800 |     0.013 |       0.000 |      0.013 |
-| Vcco33    |       3.300 |     0.003 |       0.002 |      0.001 |
+| Vcco33    |       3.300 |     0.004 |       0.003 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |

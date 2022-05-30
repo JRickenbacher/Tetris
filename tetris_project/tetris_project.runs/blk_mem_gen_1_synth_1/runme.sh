@@ -24,7 +24,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='O:/ENGS31/Tetris/tetris_project/tetris_project.runs/blk_mem_gen_1_synth_1'
+HD_PWD='O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.runs/blk_mem_gen_1_synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

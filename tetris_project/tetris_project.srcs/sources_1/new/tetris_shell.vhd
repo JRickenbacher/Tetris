@@ -80,7 +80,9 @@ component tetris_game_controller is
            DOWN_TC : IN STD_LOGIC;
            NOT_VALID : IN STD_LOGIC;
            CURRENT_ACTION : IN STD_LOGIC_VECTOR(1 downto 0);
-           CLEAR_LINES  : IN STD_LOGIC;        
+           CLEAR_LINES  : IN STD_LOGIC;
+           check_lines_tc : in STD_LOGIC;
+           clear_lines_tc : in STD_LOGIC;        
            done_drawing : IN STD_LOGIC;
            CLR_DOWN_CNT: OUT STD_LOGIC;
            gameover : IN STD_LOGIC;
@@ -260,7 +262,8 @@ component check_lines is
          MEM_ADDRESS : out STD_LOGIC_VECTOR(9 downto 0);
          GRID_ADDRESS : out STD_LOGIC_VECTOR(7 downto 0);
          CLEAR_LINES : out STD_LOGIC;
-         GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0)
+         GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0);
+         check_lines_tc, clear_lines_tc : out STD_LOGIC
          );
 end component;
 
@@ -347,6 +350,8 @@ signal check_lines_signal, clear_lines_signal, clear_lines_en_signal : STD_LOGIC
 signal game_grid_output_signal, game_grid_input_signal : std_logic_vector(3 downto 0) := "0000";
 signal game_grid_address_signal : std_logic_vector(7 downto 0) := "00000000";
 signal check_lines_address_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
+signal check_lines_tc_signal : std_logic := '0';
+signal clear_lines_tc_signal : std_logic := '0';
 
 --drawing signals
 signal clear_draw_count_signal : STD_LOGIC := '0';
@@ -385,6 +390,7 @@ game_controller : tetris_game_controller
        NOT_VALID => not_valid_signal,
        CURRENT_ACTION => current_action_signal,
        CLEAR_LINES => clear_lines_signal,        
+       clear_lines_tc => clear_lines_tc_signal,
        CLR_DOWN_CNT => clr_down_cnt_signal,
        done_drawing => done_drawing_signal,
        gameover => gameover_signal,
@@ -404,7 +410,8 @@ game_controller : tetris_game_controller
        clear_draw_count => clear_draw_count_signal,
        drawing_number => drawing_number_signal,
        currently_playing => currently_playing_signal,
-       CHECK_GAMEOVER_EN => CHECK_GAMEOVER_EN_signal
+       CHECK_GAMEOVER_EN => CHECK_GAMEOVER_EN_signal,
+       check_lines_tc => check_lines_tc_signal
 );	
 --+++++++++++++++++++++++++++++++++
 -- Wire check lines
@@ -417,7 +424,9 @@ check_lines_block : check_lines port map(
          MEM_ADDRESS => check_lines_address_signal,
          GRID_ADDRESS => game_grid_address_signal,
          CLEAR_LINES => clear_lines_signal, 
-         GAME_GRID_IN => game_grid_input_signal
+         GAME_GRID_IN => game_grid_input_signal,
+         check_lines_tc => check_lines_tc_signal,
+         clear_lines_tc => clear_lines_tc_signal
          );
 
 

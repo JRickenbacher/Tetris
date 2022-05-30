@@ -1,10 +1,10 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2018.3.1 (win64) Build 2489853 Tue Mar 26 04:20:25 MDT 2019
-// Date        : Sun May 29 22:59:27 2022
-// Host        : mecha-8 running 64-bit major release  (build 9200)
+// Date        : Mon May 30 02:24:07 2022
+// Host        : mecha-7 running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
-//               O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_sim_netlist.v
+//               O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_sim_netlist.v
 // Design      : blk_mem_gen_1
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -117,7 +117,7 @@ module blk_mem_gen_1
   (* C_USE_BRAM_BLOCK = "0" *) 
   (* C_USE_BYTE_WEA = "0" *) 
   (* C_USE_BYTE_WEB = "0" *) 
-  (* C_USE_DEFAULT_DATA = "0" *) 
+  (* C_USE_DEFAULT_DATA = "1" *) 
   (* C_USE_ECC = "0" *) 
   (* C_USE_SOFTECC = "0" *) 
   (* C_USE_URAM = "0" *) 
@@ -250,7 +250,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_width
   wire ena;
   wire [0:0]wea;
 
-  blk_mem_gen_1_blk_mem_gen_prim_wrapper \prim_noinit.ram 
+  blk_mem_gen_1_blk_mem_gen_prim_wrapper_init \prim_init.ram 
        (.addra(addra),
         .clka(clka),
         .dina(dina),
@@ -259,8 +259,8 @@ module blk_mem_gen_1_blk_mem_gen_prim_width
         .wea(wea));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_prim_wrapper" *) 
-module blk_mem_gen_1_blk_mem_gen_prim_wrapper
+(* ORIG_REF_NAME = "blk_mem_gen_prim_wrapper_init" *) 
+module blk_mem_gen_1_blk_mem_gen_prim_wrapper_init
    (douta,
     clka,
     ena,
@@ -401,7 +401,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_wrapper
     .IS_RSTREGARSTREG_INVERTED(1'b0),
     .IS_RSTREGB_INVERTED(1'b0),
     .RAM_MODE("TDP"),
-    .RDADDR_COLLISION_HWCONFIG("DELAYED_WRITE"),
+    .RDADDR_COLLISION_HWCONFIG("PERFORMANCE"),
     .READ_WIDTH_A(18),
     .READ_WIDTH_B(18),
     .RSTREG_PRIORITY_A("REGCE"),
@@ -490,7 +490,7 @@ endmodule
 (* C_READ_LATENCY_B = "1" *) (* C_READ_WIDTH_A = "4" *) (* C_READ_WIDTH_B = "4" *) 
 (* C_RSTRAM_A = "0" *) (* C_RSTRAM_B = "0" *) (* C_RST_PRIORITY_A = "CE" *) 
 (* C_RST_PRIORITY_B = "CE" *) (* C_SIM_COLLISION_CHECK = "ALL" *) (* C_USE_BRAM_BLOCK = "0" *) 
-(* C_USE_BYTE_WEA = "0" *) (* C_USE_BYTE_WEB = "0" *) (* C_USE_DEFAULT_DATA = "0" *) 
+(* C_USE_BYTE_WEA = "0" *) (* C_USE_BYTE_WEB = "0" *) (* C_USE_DEFAULT_DATA = "1" *) 
 (* C_USE_ECC = "0" *) (* C_USE_SOFTECC = "0" *) (* C_USE_URAM = "0" *) 
 (* C_WEA_WIDTH = "1" *) (* C_WEB_WIDTH = "1" *) (* C_WRITE_DEPTH_A = "256" *) 
 (* C_WRITE_DEPTH_B = "256" *) (* C_WRITE_MODE_A = "NO_CHANGE" *) (* C_WRITE_MODE_B = "WRITE_FIRST" *) 
