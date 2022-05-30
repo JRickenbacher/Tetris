@@ -115,44 +115,35 @@ set_property PACKAGE_PIN W5 [get_ports clk_ext_port]
 ## LED 15 (LEFT MOST LED)
 #set_property PACKAGE_PIN L1 [get_ports {LED_ext_port[15]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {LED_ext_port[15]}]
-	
 ##====================================================================	
 ## 7 segment display
 ##====================================================================
-##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-## Segments
-##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#set_property PACKAGE_PIN W7 [get_ports {seg_ext_port[0]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[0]}]
-#set_property PACKAGE_PIN W6 [get_ports {seg_ext_port[1]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[1]}]
-#set_property PACKAGE_PIN U8 [get_ports {seg_ext_port[2]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[2]}]
-#set_property PACKAGE_PIN V8 [get_ports {seg_ext_port[3]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[3]}]
-#set_property PACKAGE_PIN U5 [get_ports {seg_ext_port[4]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[4]}]
-#set_property PACKAGE_PIN V5 [get_ports {seg_ext_port[5]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[5]}]
-#set_property PACKAGE_PIN U7 [get_ports {seg_ext_port[6]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[6]}]
-##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-## Decimal Point
-##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#set_property PACKAGE_PIN V7 [get_ports dp_ext_port]							
-	#set_property IOSTANDARD LVCMOS33 [get_ports dp_ext_port]
-##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-## Anodes
-##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#set_property PACKAGE_PIN U2 [get_ports {an_ext_port[0]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {an_ext_port[0]}]
-#set_property PACKAGE_PIN U4 [get_ports {an_ext_port[1]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {an_ext_port[1]}]
-#set_property PACKAGE_PIN V4 [get_ports {an_ext_port[2]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {an_ext_port[2]}]
-#set_property PACKAGE_PIN W4 [get_ports {an_ext_port[3]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {an_ext_port[3]}]
+set_property PACKAGE_PIN W7 [get_ports {seg_ext_port[0]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[0]}]
+set_property PACKAGE_PIN W6 [get_ports {seg_ext_port[1]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[1]}]
+set_property PACKAGE_PIN U8 [get_ports {seg_ext_port[2]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[2]}]
+set_property PACKAGE_PIN V8 [get_ports {seg_ext_port[3]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[3]}]
+set_property PACKAGE_PIN U5 [get_ports {seg_ext_port[4]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[4]}]
+set_property PACKAGE_PIN V5 [get_ports {seg_ext_port[5]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[5]}]
+set_property PACKAGE_PIN U7 [get_ports {seg_ext_port[6]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {seg_ext_port[6]}]
 
+set_property PACKAGE_PIN V7 [get_ports dp_ext_port]							
+	set_property IOSTANDARD LVCMOS33 [get_ports dp_ext_port]
+
+set_property PACKAGE_PIN U2 [get_ports {an_ext_port[0]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {an_ext_port[0]}]
+set_property PACKAGE_PIN U4 [get_ports {an_ext_port[1]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {an_ext_port[1]}]
+set_property PACKAGE_PIN V4 [get_ports {an_ext_port[2]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {an_ext_port[2]}]
+set_property PACKAGE_PIN W4 [get_ports {an_ext_port[3]}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {an_ext_port[3]}]
 ##====================================================================
 ## Buttons
 ##====================================================================

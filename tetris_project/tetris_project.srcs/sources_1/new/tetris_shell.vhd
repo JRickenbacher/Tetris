@@ -39,7 +39,10 @@ entity tetris_shell is
            KEY_RIGHT_PORT : in STD_LOGIC;
            color_port : out STD_LOGIC_VECTOR (11 downto 0);
            hsynch_port : out STD_LOGIC;
-           vsynch_port : out STD_LOGIC);
+           vsynch_port : out STD_LOGIC;
+           seg_ext_port	: out std_logic_vector(0 to 6);
+		    dp_ext_port	: out std_logic;
+            an_ext_port	: out std_logic_vector(3 downto 0) );
 end tetris_shell;
 
 architecture Behavioral of tetris_shell is
@@ -258,14 +261,39 @@ component check_lines is
   Port ( clk         : in STD_LOGIC;
          MEM_DATA    : in STD_LOGIC_VECTOR(3 downto 0);
          CHECK_LINES : in STD_LOGIC;
+         NEW_SCORE : in STD_LOGIC_VECTOR(1 downto 0);
          clear_lines_en : in STD_LOGIC;       
          MEM_ADDRESS : out STD_LOGIC_VECTOR(9 downto 0);
          GRID_ADDRESS : out STD_LOGIC_VECTOR(7 downto 0);
          CLEAR_LINES : out STD_LOGIC;
          GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0);
-         check_lines_tc, clear_lines_tc : out STD_LOGIC
+         check_lines_tc, clear_lines_tc : out STD_LOGIC;
+         SCORE : out STD_LOGIC_VECTOR(15 downto 0)
          );
 end component;
+
+component mux7seg is
+    Port ( clk_port 	: in  std_logic;						-- runs on a fast (1 MHz or so) clock
+	       y3_port 		: in  std_logic_vector (3 downto 0);	-- digits
+		   y2_port 		: in  std_logic_vector (3 downto 0);	-- digits
+		   y1_port 		: in  std_logic_vector (3 downto 0);	-- digits
+           y0_port 		: in  std_logic_vector (3 downto 0);	-- digits
+           dp_set_port 	: in  std_logic_vector(3 downto 0);     -- decimal points
+           seg_port 	: out  std_logic_vector(0 to 6);		-- segments (a...g)
+           dp_port 		: out  std_logic;						-- decimal point
+           an_port 		: out  std_logic_vector (3 downto 0) );	-- anodes
+end component;
+
+component bin2bcd is
+    port ( 
+        input:      in   std_logic_vector (15 downto 0);
+        ones:       out  std_logic_vector (3 downto 0);
+        tens:       out  std_logic_vector (3 downto 0);
+        hundreds:   out  std_logic_vector (3 downto 0);
+        thousands:  out  std_logic_vector (3 downto 0)
+    );
+end component;
+
 
 component draw_counter is
   Port ( clk_port : in std_logic;
@@ -366,7 +394,8 @@ signal currently_playing_signal : STD_LOGIC := '0';
 signal CHECK_GAMEOVER_EN_signal : STD_LOGIC := '0';
 signal GAMEOVER_ADDR_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
 signal gameover_signal : std_logic := '0';
-
+signal score_signal : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
+signal ones_signal, tens_signal, hundreds_signal, thousands_signal : STD_LOGIC_VECTOR(3 downto 0);
 begin
 --+++++++++++++++++++++++++++++++++
 --Wire pixel clock generator into the shell:
@@ -419,6 +448,7 @@ game_controller : tetris_game_controller
 check_lines_block : check_lines port map(
          clk         => pixel_clk_signal,
          MEM_DATA    => read_mem_signal,
+         NEW_SCORE => drawing_number_signal,
          CHECK_LINES => check_lines_signal,
          clear_lines_en => clear_lines_en_signal,
          MEM_ADDRESS => check_lines_address_signal,
@@ -426,9 +456,30 @@ check_lines_block : check_lines port map(
          CLEAR_LINES => clear_lines_signal, 
          GAME_GRID_IN => game_grid_input_signal,
          check_lines_tc => check_lines_tc_signal,
-         clear_lines_tc => clear_lines_tc_signal
+         clear_lines_tc => clear_lines_tc_signal,
+         score => score_signal
          );
 
+
+seven_seg: mux7seg port map(
+	clk_port	=> pixel_clk_signal,		--should get the 1 MHz system clk
+	y3_port		=> thousands_signal,		--left most digit
+	y2_port 	=> hundreds_signal,		--center left digit
+	y1_port 	=> tens_signal,		--center right digit
+	y0_port 	=> ones_signal,		--right most digit
+	dp_set_port => "0000",	--you get this one for free too
+	seg_port 	=> seg_ext_port,
+	dp_port 	=> dp_ext_port,
+	an_port 	=> an_ext_port);	
+	
+BINtoBCD : bin2bcd 
+    port map( 
+        input => score_signal,
+        ones => ones_signal,
+        tens => tens_signal,
+        hundreds => hundreds_signal,
+        thousands => thousands_signal
+    );
 
 --+++++++++++++++++++++++++++++++++
 -- Wire UP Button to Input Conditioning

@@ -35,17 +35,20 @@ entity check_lines is
   Port ( clk         : in STD_LOGIC;
          MEM_DATA    : in STD_LOGIC_VECTOR(3 downto 0);
          CHECK_LINES : in STD_LOGIC;
+         NEW_SCORE : in STD_LOGIC_VECTOR(1 downto 0);
          clear_lines_en : in STD_LOGIC;      
          MEM_ADDRESS : out STD_LOGIC_VECTOR(9 downto 0);
          GRID_ADDRESS : out STD_LOGIC_VECTOR(7 downto 0);
          CLEAR_LINES : out STD_LOGIC;
          GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0);
-         check_lines_tc, clear_lines_tc : out STD_LOGIC
+         check_lines_tc, clear_lines_tc : out STD_LOGIC;
+         SCORE : out STD_LOGIC_VECTOR(15 downto 0)
          );
 end check_lines;
 
 architecture Behavioral of check_lines is
 
+signal score_count : unsigned(15 downto 0) := (others => '0');
 -- memory rows and columns
 signal col_count : unsigned(4 downto 0) := "01011"; --11
 signal row_count : unsigned(4 downto 0) := "10110"; --22
@@ -81,7 +84,7 @@ if rising_edge(clk) then
     --Column Count Address for game grid
     if col_count_tc = '1' or CLR_CHECK_CNTS = '1' then
         col_count <= "01011";
-    elsif delayed_clear_line = '1' then
+    elsif delayed_clear_line = '1' and CHECK_LINES = '1' then
         col_count <= col_count - 1;
     elsif (CHECK_LINES = '1' or clear_lines_en = '1') and (delayed_clear_line = '0' and clear_line = '0') then
         col_count <= col_count + 1;
@@ -159,11 +162,17 @@ if rising_edge(clk) then
         clear_lines_signal <= (clear_lines_signal or clear_line);
     end if;
    
+   if NEW_SCORE = "01" then
+         score_count <= "0000000000000000";
+   elsif  clear_line = '1' then
+        score_count <= score_count + 1;
+    end if;
 
 end if;
 
 end process datapath;
 
+SCORE <= STD_LOGIC_VECTOR(score_count);
 --Current Row - 1 is full and 0 is empty
 current_row <= not(is_empty) & shift_reg;
 
