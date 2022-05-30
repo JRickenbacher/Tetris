@@ -95,7 +95,7 @@ output wire [3 : 0] douta;
     .C_LOAD_INIT_FILE(0),
     .C_INIT_FILE_NAME("no_coe_file_loaded"),
     .C_INIT_FILE("blk_mem_gen_1.mem"),
-    .C_USE_DEFAULT_DATA(1),
+    .C_USE_DEFAULT_DATA(0),
     .C_DEFAULT_DATA("0"),
     .C_HAS_RSTA(0),
     .C_RST_PRIORITY_A("CE"),
@@ -105,7 +105,7 @@ output wire [3 : 0] douta;
     .C_HAS_REGCEA(0),
     .C_USE_BYTE_WEA(0),
     .C_WEA_WIDTH(1),
-    .C_WRITE_MODE_A("WRITE_FIRST"),
+    .C_WRITE_MODE_A("NO_CHANGE"),
     .C_WRITE_WIDTH_A(4),
     .C_READ_WIDTH_A(4),
     .C_WRITE_DEPTH_A(256),
@@ -151,7 +151,7 @@ output wire [3 : 0] douta;
     .C_DISABLE_WARN_BHV_RANGE(0),
     .C_COUNT_36K_BRAM("0"),
     .C_COUNT_18K_BRAM("1"),
-    .C_EST_POWER_SUMMARY("Estimated Power for IP     :     2.37365 mW")
+    .C_EST_POWER_SUMMARY("Estimated Power for IP     :     2.221899 mW")
   ) inst (
     .clka(clka),
     .rsta(1'D0),

@@ -42,6 +42,9 @@ Compiling architecture behavioral of entity xil_defaultlib.make_move [make_move_
 Compiling architecture behavioral of entity xil_defaultlib.memory_interface [memory_interface_default]
 Compiling architecture behavioral of entity xil_defaultlib.piece_memory [piece_memory_default]
 Compiling architecture behavioral of entity xil_defaultlib.write_new_piece [write_new_piece_default]
+Compiling architecture behavioral of entity xil_defaultlib.Draw_Counter [draw_counter_default]
+Compiling architecture behavioral of entity xil_defaultlib.Get_Drawing_Color [get_drawing_color_default]
+Compiling architecture behavioral of entity xil_defaultlib.checking_gameover [checking_gameover_default]
 Compiling architecture behavioral of entity xil_defaultlib.tetris_shell [tetris_shell_default]
 Compiling architecture testbench of entity xil_defaultlib.tetris_shell_tb
 Built simulation snapshot tetris_shell_tb_behav

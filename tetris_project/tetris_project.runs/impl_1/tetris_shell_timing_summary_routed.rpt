@@ -1,8 +1,8 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2018.3.1 (win64) Build 2489853 Tue Mar 26 04:20:25 MDT 2019
-| Date         : Sun May 29 19:16:45 2022
-| Host         : mecha-7 running 64-bit major release  (build 9200)
+| Date         : Sun May 29 23:27:35 2022
+| Host         : mecha-8 running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -max_paths 10 -file tetris_shell_timing_summary_routed.rpt -pb tetris_shell_timing_summary_routed.pb -rpx tetris_shell_timing_summary_routed.rpx -warn_on_violation
 | Design       : tetris_shell
 | Device       : 7a35t-cpg236
@@ -52,7 +52,7 @@ Table of Contents
 
 1. checking no_clock
 --------------------
- There are 320 register/latch pins with no clock driven by root clock pin: clocking/pixel_clk_tog_reg/Q (HIGH)
+ There are 332 register/latch pins with no clock driven by root clock pin: clocking/pixel_clk_tog_reg/Q (HIGH)
 
 
 2. checking constant_clock
@@ -67,7 +67,7 @@ Table of Contents
 
 4. checking unconstrained_internal_endpoints
 --------------------------------------------
- There are 586 pins that are not constrained for maximum delay. (HIGH)
+ There are 594 pins that are not constrained for maximum delay. (HIGH)
 
  There are 0 pins that are not constrained for maximum delay due to constant clock.
 

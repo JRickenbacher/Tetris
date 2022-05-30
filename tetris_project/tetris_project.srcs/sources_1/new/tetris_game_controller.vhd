@@ -68,7 +68,7 @@ end tetris_game_controller;
 architecture Behavioral of tetris_game_controller is
 
 type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, CheckLines, ClearLines, MainWait, StoreUp, StoreLeft, StoreRight, 
-                    StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove, InterpretValidMove, 
+                    StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove, InterpretValidMove, WaitLines,
                     StartWait, DrawTetris, WaitTetris, PrepDrawGameBoard, DrawGameBoard, CheckGameOver, DrawGameOver, WaitGameOver);
 signal CS, NS : state_type := StartWait;
 
@@ -92,6 +92,11 @@ signal clear_lines_count_en : std_logic := '0';
 signal clear_lines_count : unsigned(7 downto 0) := "00000000";
 signal clear_lines_tc : std_logic := '0';
 
+
+signal wait_lines_en : std_logic := '0';
+signal wait_lines_count : unsigned(2 downto 0) := "000";
+signal wait_lines_tc : std_logic := '0';
+
 SIGNAL CHECK_GAMEOVER_EN_SIGNAL : STD_LOGIC := '0';
 SIGNAL CHECK_GAMEOVER_COUNT : UNSIGNED(2 DOWNTO 0) := (OTHERS => '0');
 SIGNAL CHECK_GAMEOVER_TC : STD_LOGIC := '0';
@@ -107,7 +112,7 @@ end process state_update;
 
 next_state_logic : process(CS, KEY_UP, KEY_LEFT, KEY_RIGHT, KEY_DOWN, MEMORY_UPDATE, NOT_VALID, DOWN_TC, 
                             CURRENT_ACTION, write_new_piece_tc, valid_move_tc, make_move_tc, 
-                            clear_lines, check_lines_tc, clear_lines_tc,
+                            clear_lines, check_lines_tc, clear_lines_tc, wait_lines_tc,
                             Done_drawing, gameover)
 begin
     
@@ -211,7 +216,8 @@ begin
             if (valid_move_tc = '1') then
                 NS <= InterpretValidMove;
             end if;
-            
+
+
         WHEN InterpretValidMove =>
             if (NOT_VALID = '0') then
                 NS <= MakeMove;
@@ -235,12 +241,17 @@ begin
         WHEN CheckLines => 
             if check_lines_tc = '1' then
                 if clear_lines = '1' then
-                    NS <= ClearLines;
+                    NS <= WaitLines;
                 else
                   NS <= GenNewPiece;
                 end if;
              end if;
-        
+       WHEN WaitLines =>
+            if wait_lines_tc = '1' then
+                NS <= ClearLines;
+            end if;
+                
+                
         WHEN ClearLines => 
             if clear_lines_tc = '1' then
                 NS <= GenNewPiece;
@@ -278,7 +289,7 @@ begin
     drawing_number <= "00";
     currently_playing <= '1';
     CHECK_GAMEOVER_EN_SIGNAL <= '0';
-    
+    wait_lines_en <= '0';
     case(CS) is
     
         WHEN StartWait =>
@@ -370,7 +381,9 @@ begin
             clear_lines_count_en <= '1';
             GAME_GRID_MEM_WRITE_EN <= "0";
             WRITE_EN <= "1";
-            
+        WHEN WaitLines =>
+             wait_lines_en <= '1';
+
         WHEN others =>
             CLR_DOWN_CNT <= '0';
             REQ_MOVE <= '0';
@@ -458,6 +471,26 @@ check_lines_tc <= '1' when (check_lines_count = 210) else '0';
 
 
 
+wait_lines_move : process(pixel_clk)
+begin
+
+    if rising_edge(pixel_clk) then
+        if wait_lines_en = '1' then
+            wait_lines_count <= wait_lines_count + 1;
+        end if;
+        if wait_lines_tc = '1' then 
+            wait_lines_count <= "000";
+        end if;
+    end if;
+
+end process;
+
+
+
+wait_lines_tc <= '1' when (wait_lines_count = "111") else
+                 '0';
+                 
+                 
 count_clear_lines : process(pixel_clk)
 begin
 
