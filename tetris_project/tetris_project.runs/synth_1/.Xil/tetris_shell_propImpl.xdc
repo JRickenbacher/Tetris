@@ -1,4 +1,4 @@
-set_property SRC_FILE_INFO {cfile:O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/constrs_1/new/tetris_constraints.xdc rfile:../../../tetris_project.srcs/constrs_1/new/tetris_constraints.xdc id:1} [current_design]
+set_property SRC_FILE_INFO {cfile:O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/constrs_1/new/tetris_constraints.xdc rfile:../../../tetris_project.srcs/constrs_1/new/tetris_constraints.xdc id:1} [current_design]
 set_property src_info {type:XDC file:1 line:11 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN W5 [get_ports clk_ext_port]
 set_property src_info {type:XDC file:1 line:121 export:INPUT save:INPUT read:READ} [current_design]

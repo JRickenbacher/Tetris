@@ -35,14 +35,17 @@ entity down_counter is
   Port (
         clk : in std_logic;
         down_count_clr, down_count_en, down_pressed : in std_logic;
+        clear_line_port : in std_logic;
+        currently_playing_port : in std_logic;
         down_triggered : out std_logic
   );
 end down_counter;
 
 architecture Behavioral of down_counter is
 
-signal down_count, compare_count : unsigned(5 downto 0) := (others => '0');
-signal down_tc : std_logic := '0';
+signal count_cleared_lines : unsigned(3 downto 0) := (others => '0');
+signal down_count, compare_count, tc_from_cleared_lines : unsigned(5 downto 0) := (others => '0');
+signal down_tc, count_cleared_lines_tc : std_logic := '0';
 
 begin
 
@@ -58,15 +61,30 @@ begin
             down_count <= (others => '0');
         end if;
         
+        if (currently_playing_port = '0') then
+            tc_from_cleared_lines <= "110000";
+            count_cleared_lines <= (others => '0');
+        elsif clear_line_port = '1' then
+            if count_cleared_lines_tc = '1' then
+                if tc_from_cleared_lines > 5 then
+                    tc_from_cleared_lines <= tc_from_cleared_lines - 5;
+                end if;
+                count_cleared_lines <= (others => '0');
+            else
+                count_cleared_lines <= count_cleared_lines + 1;
+            end if;
+        
+        end if;
+        
     end if;
+    
 
 end process;
 
-compare_count <= "110000" when down_pressed = '0' else
-                 "000100";
+compare_count <= tc_from_cleared_lines when (down_pressed = '0' or tc_from_cleared_lines <= "000001") else
+                 "000001";
 
---compare_count <= "000001" when down_pressed = '0' else
---                 "000001";
+count_cleared_lines_tc <= '1' when (count_cleared_lines = 10) else '0';
                  
 down_tc <= '1' when down_count >= compare_count else
            '0';

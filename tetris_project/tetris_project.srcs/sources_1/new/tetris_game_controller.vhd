@@ -320,7 +320,6 @@ begin
         WHEN GenNewPiece =>
             GEN_PIECE <= '1';
             CLR_DOWN_CNT <= '1';
-            currently_playing <= '0';
             
         WHEN CheckGameOver =>
             CHECK_GAMEOVER_EN_SIGNAL <= '1';            

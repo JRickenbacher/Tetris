@@ -176,6 +176,8 @@ component Down_Counter is
     Port (
         clk : in std_logic;
         down_count_clr, down_count_en, down_pressed : in std_logic;
+        clear_line_port : in std_logic;
+        currently_playing_port : in std_logic;
         down_triggered : out std_logic
   );
 end component;
@@ -268,7 +270,8 @@ component check_lines is
          CLEAR_LINES : out STD_LOGIC;
          GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0);
          check_lines_tc, clear_lines_tc : out STD_LOGIC;
-         SCORE : out STD_LOGIC_VECTOR(15 downto 0)
+         SCORE : out STD_LOGIC_VECTOR(15 downto 0);
+         clear_line_port : out std_logic
          );
 end component;
 
@@ -380,6 +383,7 @@ signal game_grid_address_signal : std_logic_vector(7 downto 0) := "00000000";
 signal check_lines_address_signal : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
 signal check_lines_tc_signal : std_logic := '0';
 signal clear_lines_tc_signal : std_logic := '0';
+signal clear_line_signal : std_logic := '0';
 
 --drawing signals
 signal clear_draw_count_signal : STD_LOGIC := '0';
@@ -457,7 +461,8 @@ check_lines_block : check_lines port map(
          GAME_GRID_IN => game_grid_input_signal,
          check_lines_tc => check_lines_tc_signal,
          clear_lines_tc => clear_lines_tc_signal,
-         score => score_signal
+         score => score_signal,
+         clear_line_port => clear_line_signal
          );
 
 
@@ -614,6 +619,8 @@ down_counter_block : down_counter PORT MAP(
         down_count_clr => clr_down_cnt_signal,
         down_count_en => memory_update_signal,
         down_pressed => down_key_signal,
+        clear_line_port => clear_line_signal,
+        currently_playing_port => currently_playing_signal,
         down_triggered => down_tc_signal
   );
 

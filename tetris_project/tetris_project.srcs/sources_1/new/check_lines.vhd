@@ -42,7 +42,8 @@ entity check_lines is
          CLEAR_LINES : out STD_LOGIC;
          GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0);
          check_lines_tc, clear_lines_tc : out STD_LOGIC;
-         SCORE : out STD_LOGIC_VECTOR(15 downto 0)
+         SCORE : out STD_LOGIC_VECTOR(15 downto 0);
+         clear_line_port : out std_logic
          );
 end check_lines;
 
@@ -214,5 +215,7 @@ check_lines_tc <= '1' when (CURR_GRID_ADDRESS = "11010001") else '0'; --209
 
 row_count_tc <= '1' when (row_count = 2) else '0';
 mem_count_tc <= '1' when (row_count_tc = '1') and (col_count_tc = '1') else '0';
+
+clear_line_port <= clear_line;
 
 end Behavioral;
