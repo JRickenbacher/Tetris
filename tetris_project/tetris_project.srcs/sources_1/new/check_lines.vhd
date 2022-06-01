@@ -163,7 +163,7 @@ if rising_edge(clk) then
         clear_lines_signal <= (clear_lines_signal or clear_line);
     end if;
    
-   if NEW_SCORE = "01" then
+   if NEW_SCORE = "00" then
          score_count <= "0000000000000000";
    elsif  clear_line = '1' then
         score_count <= score_count + 1;

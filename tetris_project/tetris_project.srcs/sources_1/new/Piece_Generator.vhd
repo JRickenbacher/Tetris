@@ -35,7 +35,8 @@ entity Piece_Generator is
     Port ( clk_port : in STD_LOGIC;
            Generate_Piece_Port : in STD_LOGIC;
            New_Piece_Port : out STD_LOGIC_VECTOR (3 downto 0);
-           address_1, address_2, address_3, address_4 : out STD_LOGIC_VECTOR(9 downto 0)
+           address_1, address_2, address_3, address_4 : out STD_LOGIC_VECTOR(9 downto 0);
+           gameover : in STD_logic
            );
 end Piece_Generator;
 
@@ -72,7 +73,9 @@ begin
 --    end if;
 
     if rising_edge(clk_port) then
-        if generate_piece_port = '1' then
+        if gameover = '1' then
+            pieces_used <= "000";
+        elsif generate_piece_port = '1' then
             if pieces_used_tc = '1' then
                 pieces_used <= "000";
             else

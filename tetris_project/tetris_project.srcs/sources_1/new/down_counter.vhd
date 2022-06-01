@@ -36,6 +36,7 @@ entity down_counter is
         clk : in std_logic;
         down_count_clr, down_count_en, down_pressed : in std_logic;
         clear_line_port : in std_logic;
+        score : in STD_LOGIC_VECTOR(15 downto 0);
         currently_playing_port : in std_logic;
         down_triggered : out std_logic
   );
@@ -46,7 +47,7 @@ architecture Behavioral of down_counter is
 signal count_cleared_lines : unsigned(3 downto 0) := (others => '0');
 signal down_count, compare_count, tc_from_cleared_lines : unsigned(5 downto 0) := (others => '0');
 signal down_tc, count_cleared_lines_tc : std_logic := '0';
-
+signal score_signal : unsigned(15 downto 0) := (others => '0');
 begin
 
 counter: process(clk)
@@ -65,10 +66,12 @@ begin
             tc_from_cleared_lines <= "110000";
             count_cleared_lines <= (others => '0');
         elsif clear_line_port = '1' then
-            if count_cleared_lines_tc = '1' then
-                if tc_from_cleared_lines > 5 then
-                    tc_from_cleared_lines <= tc_from_cleared_lines - 5;
-                end if;
+            if (count_cleared_lines_tc = '1') and (tc_from_cleared_lines > 0) then
+                    if score_signal >= 90 then
+                        tc_from_cleared_lines <= tc_from_cleared_lines - 2;
+                    else 
+                        tc_from_cleared_lines <= tc_from_cleared_lines - 5;
+                    end if;
                 count_cleared_lines <= (others => '0');
             else
                 count_cleared_lines <= count_cleared_lines + 1;
@@ -88,7 +91,7 @@ count_cleared_lines_tc <= '1' when (count_cleared_lines = 10) else '0';
                  
 down_tc <= '1' when down_count >= compare_count else
            '0';
-           
+score_signal <= unsigned(score);           
 down_triggered <= down_tc;
 
 end Behavioral;

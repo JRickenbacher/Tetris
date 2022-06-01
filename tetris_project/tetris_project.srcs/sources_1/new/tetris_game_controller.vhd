@@ -289,7 +289,7 @@ begin
 --    clear_lines_count_en <= '0';
     GAME_GRID_MEM_WRITE_EN <= "1";
     clear_draw_count <= '1';
-    drawing_number <= "00";
+    drawing_number <= "01";
     currently_playing <= '1';
     CHECK_GAMEOVER_EN_SIGNAL <= '0';
     wait_lines_en <= '0';

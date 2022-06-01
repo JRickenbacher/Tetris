@@ -158,7 +158,9 @@ component Piece_Generator IS
         Port ( clk_port : in STD_LOGIC;
            Generate_Piece_Port : in STD_LOGIC;
            New_Piece_Port : out STD_LOGIC_VECTOR (3 downto 0);
-           address_1, address_2, address_3, address_4 : out STD_LOGIC_VECTOR(9 downto 0) );
+           address_1, address_2, address_3, address_4 : out STD_LOGIC_VECTOR(9 downto 0);
+           gameover : in STD_logic
+           );
 END component;
 
 --+++++++++++++++++++++++++++++++++
@@ -177,6 +179,7 @@ component Down_Counter is
         clk : in std_logic;
         down_count_clr, down_count_en, down_pressed : in std_logic;
         clear_line_port : in std_logic;
+         score : in STD_LOGIC_VECTOR(15 downto 0);
         currently_playing_port : in std_logic;
         down_triggered : out std_logic
   );
@@ -569,7 +572,8 @@ piece_generation: Piece_Generator PORT MAP(
    address_1 => new_addr_1_signal, 
    address_2 => new_addr_2_signal, 
    address_3 => new_addr_3_signal, 
-   address_4  => new_addr_4_signal
+   address_4  => new_addr_4_signal,
+   gameover => gameover_signal
 );
 --+++++++++++++++++++++++++++++++++
 --Wire color decoder
@@ -619,6 +623,7 @@ down_counter_block : down_counter PORT MAP(
         down_count_clr => clr_down_cnt_signal,
         down_count_en => memory_update_signal,
         down_pressed => down_key_signal,
+        score => score_signal,
         clear_line_port => clear_line_signal,
         currently_playing_port => currently_playing_signal,
         down_triggered => down_tc_signal
