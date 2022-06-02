@@ -21,35 +21,35 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+----------------------------------------------------------------------------------
+--  THE CHECK LINES BLOCK CONTAINS THE LOGIC FOR ITERATING THROUGH THE CURRENT 
+--  GAME BOARD AND DETERMINING WHETHER ANY LINES SHOULD BE CLEARED. IF THERE ARE
+--  LINES TO BE CLEARED THE CHECK LINES BLOCK UPDATES THE BOARD ACCORDINGLY.
+----------------------------------------------------------------------------------
 
 entity check_lines is
   Port ( clk         : in STD_LOGIC;
-         MEM_DATA    : in STD_LOGIC_VECTOR(3 downto 0);
-         CHECK_LINES : in STD_LOGIC;
-         NEW_SCORE : in STD_LOGIC_VECTOR(1 downto 0);
-         clear_lines_en : in STD_LOGIC;      
-         MEM_ADDRESS : out STD_LOGIC_VECTOR(9 downto 0);
-         GRID_ADDRESS : out STD_LOGIC_VECTOR(7 downto 0);
-         CLEAR_LINES : out STD_LOGIC;
-         GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0);
-         check_lines_tc, clear_lines_tc : out STD_LOGIC;
-         SCORE : out STD_LOGIC_VECTOR(15 downto 0);
-         clear_line_port : out std_logic
+         MEM_DATA    : in STD_LOGIC_VECTOR(3 downto 0);     -- output of vga memory
+         CHECK_LINES : in STD_LOGIC;                        -- check lines stays high when checking lines
+         NEW_SCORE : in STD_LOGIC_VECTOR(1 downto 0);       -- Signal that equals "00" when new game begins 
+         clear_lines_en : in STD_LOGIC;                     -- clear lines stays high when we need to redraw game board
+         MEM_ADDRESS : out STD_LOGIC_VECTOR(9 downto 0);    -- vga memory address input  
+         GRID_ADDRESS : out STD_LOGIC_VECTOR(7 downto 0);   -- game grid memory address
+         CLEAR_LINES : out STD_LOGIC;                       -- clear lines goes high if there are any lines to clear
+         GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0);   -- input data to game grid memory
+         check_lines_tc, clear_lines_tc : out STD_LOGIC;    -- terminal counts to determine when to end
+         SCORE : out STD_LOGIC_VECTOR(15 downto 0);         -- score count
+         clear_line_port : out std_logic_vector             -- clear port
          );
 end check_lines;
 
 architecture Behavioral of check_lines is
 
+-- number of times a line was cleared
 signal score_count : unsigned(15 downto 0) := (others => '0');
+
 -- memory rows and columns
 signal col_count : unsigned(4 downto 0) := "01011"; --11
 signal row_count : unsigned(4 downto 0) := "10110"; --22
@@ -163,6 +163,7 @@ if rising_edge(clk) then
         clear_lines_signal <= (clear_lines_signal or clear_line);
     end if;
    
+   -- incrementing score everytime clear line goes high
    if NEW_SCORE = "00" then
          score_count <= "0000000000000000";
    elsif  clear_line = '1' then
@@ -208,14 +209,15 @@ CLR_CHECK_CNTS <= ((check_line_reg) and not(check_lines)) or ((clear_lines_en_re
 col_count_tc <= '1' when (col_count = 20) else '0';
 --game grid terminal count
 game_grid_count_tc <= '1' when (game_grid_count = 209) else '0';
-
+-- clear lines terminal count
 clear_lines_tc <= game_grid_count_tc;
-
+--check lines terminal counte
 check_lines_tc <= '1' when (CURR_GRID_ADDRESS = "11010001") else '0'; --209
-
+--row count tc
 row_count_tc <= '1' when (row_count = 2) else '0';
+-- memory count terminal counter
 mem_count_tc <= '1' when (row_count_tc = '1') and (col_count_tc = '1') else '0';
-
+-- clear line signal output
 clear_line_port <= clear_line;
 
 end Behavioral;

@@ -19,37 +19,38 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+----------------------------------------------------------------------------------
+--  THE VGA CONTROLLER ITERATES THROUGH VGA MEMORY IP CORE AND OUTPUT THE NECESSARY
+--  SIGNALS TO THE VGA MONITOR TO DISPLAY OUR 20 PIXEL X 20 PIXEL GRID SET UP IN
+--  VGA MEMORY
+----------------------------------------------------------------------------------
+
 
 entity vga_controller is
     Port ( pixel_clk : in STD_LOGIC;
-           hsync : out STD_LOGIC;
+           hsync : out STD_LOGIC; -- HSYNC AND VSYNC USED FOR VGA CONTROL
            vsync : out STD_LOGIC;
-           vga_read_addr : out STD_LOGIC_VECTOR(9 downto 0);
+           vga_read_addr : out STD_LOGIC_VECTOR(9 downto 0); -- ADDRESS TO READ FROM VGA MEMORY 
            vblank : out STD_LOGIC;
-           hblank : out STD_LOGIC;
-           video_on : out STD_LOGIC;
-           memory_update : out STD_LOGIC;
-           h_count_port : out STD_LOGIC_VECTOR(9 downto 0);
-           v_count_port : out STD_LOGIC_VECTOR(9 downto 0) );
+           hblank : out STD_LOGIC;         
+           video_on : out STD_LOGIC;        -- HIGH WHEN VIDEO IS ON
+           memory_update : out STD_LOGIC;   -- MEMORY UPDATE TO DETERMINE WHEN TO UPDATE
+           h_count_port : out STD_LOGIC_VECTOR(9 downto 0);-- HORIZONTAL PIXEL COUNT
+           v_count_port : out STD_LOGIC_VECTOR(9 downto 0) -- VERTICAL PIXEL COUNT
+           );
 end vga_controller;
 
 architecture Behavioral of vga_controller is
 
-------------SIGNAL DECLARATIONS------------
+------------INTERMEDIATE SIGNAL DECLARATIONS------------
 signal h_count, v_count : unsigned(9 downto 0) := (others => '0');
 signal v_block_enable, h_tc, v_tc, h_video_on, v_video_on, h_block_tc, v_block_tc, col_count_en: STD_LOGIC := '0';
 signal v_block_count, h_block_count, row_count, col_count : unsigned(4 downto 0) := (others => '0');
 signal prev_v_video_on : std_logic := '0';
 signal hsync_direct, vsync_direct, vsync_next, hsync_next : STD_LOGIC := '0';
+
 begin
 
 counters : process(pixel_clk)
@@ -111,8 +112,6 @@ end if;
 
 end process counters;
 
---col_count_en <= '1' when ((h_count < 640) or (h_count >= 798)) else '0';
-
 --LOW during retrace, otherwise HIGH
 hsync_direct <= '1' when ((h_count < 656) or (h_count > 751)) else '0';
 vsync_direct <= '1' when ((v_count < 490) or (v_count > 491)) else '0';
@@ -138,8 +137,10 @@ v_block_enable <= '1' when (h_count = 639 and v_video_on = '1') else '0';
 v_block_tc <= '1' when (v_block_count = 19) else '0';
 h_block_tc <= '1' when (h_block_count = 19) else '0';
 
+-- memory update gives us a signal to determine if we can start changing vga memory/update our board
 memory_update <= '1' when (prev_v_video_on = '1') and (v_video_on = '0') else '0';
 
+-- counts for iterating through pixels
 h_count_port <= STD_LOGIC_VECTOR(h_count);
 v_count_port <= STD_LOGIC_VECTOR(v_count);
            

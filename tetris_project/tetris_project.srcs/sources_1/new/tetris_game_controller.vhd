@@ -21,15 +21,13 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+----------------------------------------------------------------------------------
+--  THE TETRIS GAME CONTROLLER MANAGES OUR CURRENT STATE AND CONTROL SIGNALS USED IN THE GAME LOGIC
+--  IT USES COUNTERS AND INPUT SIGNALS TO DETERMINE HOW MANY CLOCK CYCLES WE WANT TO STAY IN ANY GIVEN
+--  STATE.
+----------------------------------------------------------------------------------
 
 entity tetris_game_controller is
     Port ( PIXEL_CLK : in STD_LOGIC;
@@ -69,11 +67,13 @@ end tetris_game_controller;
 
 architecture Behavioral of tetris_game_controller is
 
-type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, CheckLines, ClearLines, MainWait, StoreUp, StoreLeft, StoreRight, 
-                    StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove, InterpretValidMove, WaitLines,
+type state_type is (GenNewPiece, LoadNewPiece, WriteNewPiece, CheckLines, WaitLines, ClearLines, MainWait, StoreUp, StoreLeft, StoreRight, 
+                    StoreDown, CheckValidMove, WaitValidMove, MakeMove, LoadNewMove, InterpretValidMove,
                     StartWait, DrawTetris, WaitTetris, PrepDrawGameBoard, DrawGameBoard, CheckGameOver, DrawGameOver, WaitGameOver);
 signal CS, NS : state_type := StartWait;
 
+-- THESE COUNTER SIGNALS ARE ALL USED TO MANAGE THE CLOCK CYCLES WE REMAIN IN CERTAIN STATES
+-- SPENDING TOO MUCH OR LITTLE TIME IN A STATE WILL PRODUCE UNEXPECTED RESULTS
 signal count_write_new_piece_en : std_logic := '0';
 signal write_new_piece_count : unsigned(1 downto 0) := "00";
 signal write_new_piece_tc : std_logic := '0';
@@ -86,15 +86,6 @@ signal count_make_move_en : std_logic := '0';
 signal make_move_count : unsigned(2 downto 0) := "000";
 signal make_move_tc : std_logic := '0';
 
---signal check_lines_count_en : std_logic := '0';
---signal check_lines_count : unsigned(7 downto 0) := "00000000";
---signal check_lines_tc : std_logic := '0';
-
---signal clear_lines_count_en : std_logic := '0';
---signal clear_lines_count : unsigned(7 downto 0) := "00000000";
---signal clear_lines_tc : std_logic := '0';
-
-
 signal wait_lines_en : std_logic := '0';
 signal wait_lines_count : unsigned(2 downto 0) := "000";
 signal wait_lines_tc : std_logic := '0';
@@ -104,7 +95,7 @@ SIGNAL CHECK_GAMEOVER_COUNT : UNSIGNED(2 DOWNTO 0) := (OTHERS => '0');
 SIGNAL CHECK_GAMEOVER_TC : STD_LOGIC := '0';
 
 begin
-
+-- UPDATING STATE ON THE RISING EDGE OF THE CLOCK
 state_update : process(PIXEL_CLK)
 begin
     if rising_edge(PIXEL_CLK) then
@@ -112,14 +103,20 @@ begin
     end if;
 end process state_update;
 
+------------------------------------------------------------
+-- NEXT STATE LOGIC BLOCK
+--
+-- SEE THE STATE DIAGRAM FOR AN INTUITIVE VIEW OF THE NEXT STATE LOGIC
+------------------------------------------------------------
+
+
 next_state_logic : process(CS, KEY_UP, KEY_LEFT, KEY_RIGHT, KEY_DOWN, MEMORY_UPDATE, NOT_VALID, DOWN_TC, 
                             CURRENT_ACTION, write_new_piece_tc, valid_move_tc, make_move_tc, 
                             clear_lines, check_lines_tc, wait_lines_tc,
                             Done_drawing, gameover, clear_lines_tc)
 begin
-    
+    -- DEFAULTS
     NS <= CS;
-
     case(CS) is
     
         WHEN StartWait =>
@@ -237,7 +234,6 @@ begin
             end if;
             
         WHEN LoadNewMove =>
---            NS <= CheckLines;
             NS <= MainWait;
         
         WHEN CheckLines => 
@@ -266,9 +262,16 @@ begin
     end case;
 end process next_state_logic;
 
+
+------------------------------------------------------------
+-- OUTPUT LOGIC BLOCK
+--
+-- SEE THE STATE DIAGRAM FOR AN INTUITIVE VIEW OF THE OUTPUT LOGIC
+------------------------------------------------------------
+
 output_logic : process(CS)
 begin
--- defaults
+    -- defaults
     CLR_DOWN_CNT <= '0';
     REQ_MOVE <= '0';
     LOAD_NEXT_MOVE_EN <= '0';
@@ -284,9 +287,7 @@ begin
     count_write_new_piece_en <= '0';
     count_valid_move_en <= '0';
     CHECK_LINES <= '0';
---    check_lines_count_en <= '0';
     CLEAR_LINES_EN <= '0';
---    clear_lines_count_en <= '0';
     GAME_GRID_MEM_WRITE_EN <= "1";
     clear_draw_count <= '1';
     drawing_number <= "01";
@@ -377,11 +378,9 @@ begin
 
         WHEN CheckLines =>
             CHECK_LINES <= '1';
---            check_lines_count_en <= '1';
        
         WHEN ClearLines =>
             CLEAR_LINES_EN <= '1';
---            clear_lines_count_en <= '1';
             GAME_GRID_MEM_WRITE_EN <= "0";
             WRITE_EN <= "1";
             
@@ -390,6 +389,7 @@ begin
              GAME_GRID_MEM_WRITE_EN <= "0";
 
         WHEN others =>
+            -- defaults
             CLR_DOWN_CNT <= '0';
             REQ_MOVE <= '0';
             LOAD_NEXT_MOVE_EN <= '0';
@@ -401,9 +401,27 @@ begin
             NEXT_ACTION <= "00";
             READ_COLLISION <= '0';
             MAKE_MOVE_EN <= '0';
-                
+            count_make_move_en <= '0';
+            count_write_new_piece_en <= '0';
+            count_valid_move_en <= '0';
+            CHECK_LINES <= '0';
+            CLEAR_LINES_EN <= '0';
+            GAME_GRID_MEM_WRITE_EN <= "1";
+            clear_draw_count <= '1';
+            drawing_number <= "01";
+            currently_playing <= '1';
+            CHECK_GAMEOVER_EN_SIGNAL <= '0';
+            wait_lines_en <= '0';
     end case;
 end process output_logic;
+
+
+------------------------------------------------------------
+-- COUNTERS TO DETERMINE CLOCK CYCLES IN A STATE
+--
+-- SEE THE STATE DIAGRAM FOR WHERE THE COUNTERS ARE NEEDED AND FOR HOW MANY CLOCK CYCLES
+------------------------------------------------------------
+
 
 count_write_new_piece : process(pixel_clk)
 begin
@@ -458,21 +476,6 @@ end process;
 make_move_tc <= '1' when (make_move_count = "111") else
                  '0';
 
---count_check_lines : process(pixel_clk)
---begin
-
---    if rising_edge(pixel_clk) then
---        if check_lines_count_en = '1' then
---            check_lines_count <= check_lines_count + 1;
---        end if;
---        if check_lines_tc = '1' then 
---            check_lines_count <= "00000000";
---        end if;
---    end if;
-
---end process;
-
---check_lines_tc <= '1' when (check_lines_count = 210) else '0';
 
 
 
@@ -493,22 +496,7 @@ end process;
 wait_lines_tc <= '1' when (wait_lines_count = "111") else
                  '0';
                  
-                 
---count_clear_lines : process(pixel_clk)
---begin
 
---    if rising_edge(pixel_clk) then
---        if clear_lines_count_en = '1' then
---            clear_lines_count <= clear_lines_count + 1;
---        end if;
---        if clear_lines_tc = '1' then 
---            clear_lines_count <= "00000000";
---        end if;
---    end if;
-
---end process;
-
---clear_lines_tc <= '1' when (clear_lines_count = 211) else '0';
 
 COUNT_CHECK_GAMEOVER : process(pixel_clk)
 begin
