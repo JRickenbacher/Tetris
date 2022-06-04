@@ -17,7 +17,7 @@ proc create_report { reportName command } {
     send_msg_id runtcl-5 warning "$msg"
   }
 }
-set_param xicom.use_bs_reader 1
+set_param synth.incrementalSynthesisCache C:/Users/f005fnt/AppData/Local/Temp/.Xil_f005fnt/Vivado-9460-mecha-4/incrSyn
 set_msg_config -id {Synth 8-256} -limit 10000
 set_msg_config -id {Synth 8-638} -limit 10000
 create_project -in_memory -part xc7a35tcpg236-1
@@ -26,42 +26,42 @@ set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
 set_msg_config -source 4 -id {IP_Flow 19-2162} -severity warning -new_severity info
-set_property webtalk.parent_dir O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.cache/wt [current_project]
-set_property parent.project_path O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.xpr [current_project]
+set_property webtalk.parent_dir O:/ENGS31/Tetris/tetris_project/tetris_project.cache/wt [current_project]
+set_property parent.project_path O:/ENGS31/Tetris/tetris_project/tetris_project.xpr [current_project]
 set_property XPM_LIBRARIES XPM_MEMORY [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
 set_property board_part digilentinc.com:basys3:part0:1.1 [current_project]
-set_property ip_output_repo o:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.cache/ip [current_project]
+set_property ip_output_repo o:/ENGS31/Tetris/tetris_project/tetris_project.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
-add_files O:/ENGS31/Final_Project/Tetris/initialROM.coe
+add_files O:/ENGS31/Tetris/initialROM.coe
 read_vhdl -library xil_defaultlib {
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Binary_to_BCD.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Color_Decoder.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Draw_Counter.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Get_Drawing_Color.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Piece_Generator.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/address_generator.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/check_lines.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/checking_gameover.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/clock_generator.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/collision_detection.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/down_counter.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/input_conditioning.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/make_move.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/memory_interface.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/piece_memory.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/seven_seg_driver.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/tetris_game_controller.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/vga_controller.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/write_new_piece.vhd
-  O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/new/tetris_shell.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Binary_to_BCD.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Color_Decoder.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Draw_Counter.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Get_Drawing_Color.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/Piece_Generator.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/address_generator.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/check_lines.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/checking_gameover.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/clock_generator.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/collision_detection.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/down_counter.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/input_conditioning.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/make_move.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/memory_interface.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/piece_memory.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/seven_seg_driver.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/tetris_game_controller.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/vga_controller.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/write_new_piece.vhd
+  O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/new/tetris_shell.vhd
 }
-read_ip -quiet O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1.xci
-set_property used_in_implementation false [get_files -all o:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_ooc.xdc]
+read_ip -quiet O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1.xci
+set_property used_in_implementation false [get_files -all o:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_ooc.xdc]
 
-read_ip -quiet O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci
-set_property used_in_implementation false [get_files -all o:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0_ooc.xdc]
+read_ip -quiet O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci
+set_property used_in_implementation false [get_files -all o:/ENGS31/Tetris/tetris_project/tetris_project.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0_ooc.xdc]
 
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
@@ -71,8 +71,8 @@ set_property used_in_implementation false [get_files -all o:/ENGS31/Final_Projec
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/constrs_1/new/tetris_constraints.xdc
-set_property used_in_implementation false [get_files O:/ENGS31/Final_Project/Tetris/tetris_project/tetris_project.srcs/constrs_1/new/tetris_constraints.xdc]
+read_xdc O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/constrs_1/new/tetris_constraints.xdc
+set_property used_in_implementation false [get_files O:/ENGS31/Tetris/tetris_project/tetris_project.srcs/constrs_1/new/tetris_constraints.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]

@@ -36,7 +36,7 @@ entity Color_Decoder is
            Color : out STD_LOGIC_VECTOR (11 downto 0));
 end Color_Decoder;
 
-architecture Behavioral of Color_Decoder is
+ architecture Behavioral of Color_Decoder is
 signal power_twenty_grid, power_twenty_text : STD_LOGIC := '0';
 signal h_count, v_count : unsigned(9 downto 0) := (others => '0');
 

@@ -84,7 +84,6 @@ if rising_edge(pixel_clk) then
     if (h_block_tc = '1') then
         h_block_count <= "00000";
     elsif (h_video_on = '1') then
---    elsif (col_count_en = '1') then
         h_block_count <= h_block_count + 1;
     end if;
     

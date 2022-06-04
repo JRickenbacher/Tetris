@@ -41,7 +41,7 @@ entity check_lines is
          GAME_GRID_IN : out STD_LOGIC_VECTOR(3 downto 0);   -- input data to game grid memory
          check_lines_tc, clear_lines_tc : out STD_LOGIC;    -- terminal counts to determine when to end
          SCORE : out STD_LOGIC_VECTOR(15 downto 0);         -- score count
-         clear_line_port : out std_logic_vector             -- clear port
+         clear_line_port : out std_logic             -- clear port
          );
 end check_lines;
 
